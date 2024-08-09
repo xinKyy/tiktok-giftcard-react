@@ -1,0 +1,26 @@
+// src/App.module.scss
+.app {
+  background-color: #f1f1f1;
+  height: 100%;
+}
+
+.container {
+  padding: 20px;
+}
+
+.bookAllButton {
+  display: block;
+  margin: 20px auto;
+  background-color: #533b92;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cardList {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}

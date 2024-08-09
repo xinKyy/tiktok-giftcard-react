@@ -1,0 +1,33 @@
+// src/components/Header/Header.module.scss
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #3a2c6e;
+  padding: 0 20px;
+  color: #fff;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+
+  img {
+    width: 40px;
+    margin-right: 10px;
+  }
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+
+  span {
+    margin-right: 10px;
+  }
+
+  img {
+    width: 40px;
+    border-radius: 50%;
+  }
+}
