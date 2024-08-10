@@ -16,14 +16,20 @@ const LoginForm = () => {
     setLoading(true);
     APILogin({
       email: v.email,
-      password: v.referralCode
-    }).then(r =>{
-      if(r.data){
-        console.log(r, "rrr")
-        setUserInfo({
+      password: v.password,
+      referralCode: v.referralCode,
+    }).then(resp =>{
+      if(resp.data){
+        if(resp.data.user){
+          localStorage.setItem("token", resp.data.user.token)
+          localStorage.setItem("id", resp.data.user.id)
+        }
+        const user = {
           email: v.email,
           referralCode: v.referralCode
-        })
+        }
+        localStorage.setItem("userInfo", JSON.stringify(user))
+        setUserInfo(user)
         setOpenLoginModal(false);
       }
     }).finally(()=>{
@@ -78,12 +84,7 @@ const LoginForm = () => {
 
           <div className={styles.inputGroup}>
             <label>Referral Code</label>
-            <Form.Item rules={[
-              {
-                required:true,
-                message:"Please enter your referral code!"
-              },
-            ]} name={"referralCode"}>
+            <Form.Item name={"referralCode"}>
               <Input placeholder="Please enter referral code!" />
             </Form.Item>
           </div>

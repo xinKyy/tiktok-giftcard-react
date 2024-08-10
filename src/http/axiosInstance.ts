@@ -5,8 +5,8 @@ import {message} from "antd";
 
 // 创建一个 axios 实例
 const axiosInstance = axios.create({
-  baseURL: 'http://8.219.118.16:8089', // API 基础地址，根据需要修改
-  timeout: 10000, // 请求超时时间
+  baseURL: '', // API 基础地址，根据需要修改
+  timeout: 30000, // 请求超时时间
   headers: {
     'Content-Type': 'application/json',
   },
@@ -15,6 +15,8 @@ const axiosInstance = axios.create({
 // 请求拦截器
 axiosInstance.interceptors.request.use(
   config => {
+    config.headers.set("token", localStorage.getItem("token"))
+    config.headers.set("userId", localStorage.getItem("id"))
     return config;
   },
   error => {

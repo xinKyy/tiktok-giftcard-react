@@ -8,13 +8,17 @@ import MessagesModal from "../MessagesModal";
 
 const Header: React.FC = () => {
 
-  const { userInfo, setOpenLoginModal, setUserInfo} = useLogin()
+  const { userInfo, setOpenLoginModal, setUserInfo, setOpenMessagesModal} = useLogin()
 
   const content = (
     <div className={styles.pop_content}>
       <div>Referral Code: {userInfo?.referralCode}</div>
-      <div>Messages</div>
-      <div onClick={()=>setUserInfo(null)}>Logout</div>
+      <div onClick={()=>setOpenMessagesModal(true)}>Messages</div>
+      <div onClick={()=>{
+        localStorage.removeItem("userInfo")
+        localStorage.removeItem("token")
+        setUserInfo(null)
+      }}>Logout</div>
     </div>
   );
 

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, {createContext, useContext, useState, ReactNode, useEffect} from 'react';
 interface UserInfo{
   email:string,
   referralCode:string
@@ -28,6 +28,13 @@ export const LoginProvider: React.FC<LoginProviderProps> = ({ children }) => {
   const [openLoginModal, setOpenLoginModal] = useState<boolean>(false);
   const [openMessagesModal, setOpenMessagesModal] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+
+  useEffect(()=>{
+   const user = localStorage.getItem("userInfo")
+    if(user){
+      setUserInfo(JSON.parse(user))
+    }
+  }, [])
 
   return (
     <LoginContext.Provider value={{ openLoginModal, setOpenLoginModal, userInfo, setUserInfo, openMessagesModal, setOpenMessagesModal }}>
