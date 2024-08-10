@@ -56,7 +56,7 @@ img {
   width: 100%;
   transition: all .3s;
   &:hover{
-    background: rgb(254, 44, 85);
+    background: var(--primary-color);
     color: #fff;
   }
 }

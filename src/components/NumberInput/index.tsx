@@ -13,13 +13,16 @@ const NumberInput = (props: NumberInputProps) => {
     const value = e.target.value;
     if (value && value !== "") {
       if (/^\d*$/.test(value)) {
+        if(parseInt(value) <= 0){
+          return
+        }
         setAmount(parseInt(value))
       }
     }
   }
   return <div className={styles.number_input_wrapper}>
     <div
-      onClick={()=>setAmount(amount - 1)} className={styles.sub_icon}>
+      onClick={()=>setAmount(amount > 1 ? amount - 1 : 1)} className={styles.sub_icon}>
       <div></div>
     </div>
     <Input value={amount} onChange={onChange} className={styles.input_wrapper}></Input>

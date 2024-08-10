@@ -12,6 +12,11 @@ body{
 }
 
 
+:root {
+    --primary-color: rgb(254, 44, 85);
+    --primary-color-80: rgba(254, 44, 85, 0.8);
+}
+
 .ant-layout .ant-layout-sider{
     padding: 0px 8px;
     flex: 0 0 72px;

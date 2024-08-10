@@ -2,9 +2,12 @@
 import React from 'react';
 import styles from './index.module.scss';
 import logo from  "../../assets/images/header/logo.svg"
-import LoginForm from "../LoginModal";
+import {useLogin} from "../../provider/loginContext";
 
 const Header: React.FC = () => {
+
+  const { userInfo, setOpenLoginModal} = useLogin()
+
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
@@ -12,10 +15,10 @@ const Header: React.FC = () => {
         <span>Tik Tok</span>
       </div>
       <div className={styles.userInfo}>
-        <span>Hello, chen xi!</span>
-        <img src={logo} alt="Profile" />
+        {
+          userInfo && <span onClick={()=>setOpenLoginModal(true)}>Hello, {userInfo.email}</span>
+        }
       </div>
-      <LoginForm open={false} cancel={()=>{}}></LoginForm>
     </header>
   );
 };
