@@ -68,3 +68,17 @@ img {
   font-size: 24px;
   color: #fff;
 }
+
+.card_amount{
+  font-size: 14px;
+  span{
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 18px;
+    margin-right: 5px;
+  }
+
+  div:nth-child(2){
+    margin-top: 10px;
+  }
+}

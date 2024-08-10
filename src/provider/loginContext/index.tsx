@@ -10,6 +10,8 @@ interface LoginContextType {
   setUserInfo: React.Dispatch<React.SetStateAction<UserInfo | null>>;
   openLoginModal:boolean;
   setOpenLoginModal: React.Dispatch<React.SetStateAction<boolean>>;
+  openMessagesModal:boolean;
+  setOpenMessagesModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 // 创建一个Context并指定类型
@@ -24,10 +26,11 @@ interface LoginProviderProps {
 // 创建Provider组件
 export const LoginProvider: React.FC<LoginProviderProps> = ({ children }) => {
   const [openLoginModal, setOpenLoginModal] = useState<boolean>(false);
+  const [openMessagesModal, setOpenMessagesModal] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
   return (
-    <LoginContext.Provider value={{ openLoginModal, setOpenLoginModal, userInfo, setUserInfo }}>
+    <LoginContext.Provider value={{ openLoginModal, setOpenLoginModal, userInfo, setUserInfo, openMessagesModal, setOpenMessagesModal }}>
       {children}
     </LoginContext.Provider>
   );

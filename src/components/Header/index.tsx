@@ -3,10 +3,20 @@ import React from 'react';
 import styles from './index.module.scss';
 import logo from  "../../assets/images/header/logo.svg"
 import {useLogin} from "../../provider/loginContext";
+import {Popover} from "antd";
+import MessagesModal from "../MessagesModal";
 
 const Header: React.FC = () => {
 
-  const { userInfo, setOpenLoginModal} = useLogin()
+  const { userInfo, setOpenLoginModal, setUserInfo} = useLogin()
+
+  const content = (
+    <div className={styles.pop_content}>
+      <div>Referral Code: {userInfo?.referralCode}</div>
+      <div>Messages</div>
+      <div onClick={()=>setUserInfo(null)}>Logout</div>
+    </div>
+  );
 
   return (
     <header className={styles.header}>
@@ -16,7 +26,10 @@ const Header: React.FC = () => {
       </div>
       <div className={styles.userInfo}>
         {
-          userInfo && <span onClick={()=>setOpenLoginModal(true)}>Hello, {userInfo.email}</span>
+          userInfo ?
+          <Popover placement={"bottom"} content={content}>
+            <span>Hello, {userInfo.email}</span>
+          </Popover> :   <button onClick={()=>setOpenLoginModal(true)} className={styles.bookAllButton}>登陆</button>
         }
       </div>
     </header>
