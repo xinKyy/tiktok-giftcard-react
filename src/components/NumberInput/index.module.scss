@@ -1,0 +1,66 @@
+.number_input_wrapper{
+  display: flex;
+  height: 48px;
+  width: 170px;
+  border-radius: 8px;
+  border: 1px solid #DEDEDE;
+  align-items: center;
+  padding: 10px;
+  color: #ffffff;
+  .sub_icon{
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(36,31,43,0.05);
+    border-radius: 6px;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: all .3s;
+    &:hover{
+      background: rgba(36,31,43,0.15);
+    }
+    div{
+      background: url("../../assets/images/numberInput/sub_icon.png") no-repeat;
+      width: 14px;
+      height: 14px;
+      background-size: contain;
+      margin: auto;
+    }
+  }
+  .add_icon{
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(36,31,43,0.05);
+    border-radius: 6px;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: all .3s;
+    &:hover{
+      background: rgba(36,31,43,0.15);
+    }
+    div{
+      background: url("../../assets/images/numberInput/add_icon.png") no-repeat;
+      width: 14px;
+      height: 14px;
+      background-size: contain;
+    }
+  }
+
+  .input_wrapper{
+    background: #ffffff00 !important;
+    border: none !important;
+    outline: none !important;
+    font-family: EucSemiBold, sans-serif;
+    font-weight: 600;
+    font-size: 24px;
+    flex: 1;
+    color: #fff;
+    line-height: 29px;
+    text-align: center;
+  }
+}

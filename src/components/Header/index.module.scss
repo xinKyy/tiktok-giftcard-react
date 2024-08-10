@@ -3,18 +3,32 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #3a2c6e;
-  padding: 0 20px;
-  color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 1px;
+  height: 60px;
+  width: calc(100% + 0px);
+  top: 0px;
+  position: fixed;
+  -webkit-box-align: center;
+  align-items: center;
+  background: rgb(255, 255, 255);
+  padding: 0 16px;
+  z-index: 3000;
 }
 
 .logo {
   display: flex;
   align-items: center;
-
   img {
-    width: 40px;
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
     margin-right: 10px;
+    margin-bottom: 0;
+  }
+  span{
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 30px;
   }
 }
 

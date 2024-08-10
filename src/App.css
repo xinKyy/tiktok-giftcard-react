@@ -10,3 +10,14 @@ body{
     margin: 0;
     box-sizing: border-box;
 }
+
+
+.ant-layout .ant-layout-sider{
+    padding: 0px 8px;
+    flex: 0 0 72px;
+    background: #fff;
+}
+
+.ant-menu-light.ant-menu-root.ant-menu-vertical{
+    border: none;
+}
