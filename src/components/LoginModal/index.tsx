@@ -3,20 +3,32 @@ import React, {useState} from 'react';
 import styles from './index.module.scss';
 import {Button, Form, Input, Modal} from "antd";
 import {useLogin} from "../../provider/loginContext";
+import {APILogin} from "../../api";
 
 const LoginForm = () => {
-  const {openLoginModal, setOpenLoginModal, userInfo, setUserInfo} = useLogin()
-  const [isRegis, setIsRegis] = useState(false);
+  const {openLoginModal, setOpenLoginModal, setUserInfo} = useLogin()
+  const [loading, setLoading] = useState(false);
 
   const [form] = Form.useForm();
 
   const onSubmit = () =>{
     const v = form.getFieldsValue();
-    setUserInfo({
+    setLoading(true);
+    APILogin({
       email: v.email,
-      referralCode: v.referralCode
+      password: v.referralCode
+    }).then(r =>{
+      if(r.data){
+        console.log(r, "rrr")
+        setUserInfo({
+          email: v.email,
+          referralCode: v.referralCode
+        })
+        setOpenLoginModal(false);
+      }
+    }).finally(()=>{
+      setLoading(false);
     })
-    setOpenLoginModal(false);
   }
 
   return (
@@ -51,6 +63,19 @@ const LoginForm = () => {
             //   <button type="button" className={styles.captchaButton}>sent</button>
             // </div>
           }
+
+          <div className={styles.inputGroup}>
+            <label>Password   <span className={styles.des}>(First login is considered as registration.)</span></label>
+            <Form.Item rules={[
+              {
+                required:true,
+                message:"Please enter your password!"
+              },
+            ]} name={"password"}>
+              <Input type={"password"} placeholder="Please enter referral code!" />
+            </Form.Item>
+          </div>
+
           <div className={styles.inputGroup}>
             <label>Referral Code</label>
             <Form.Item rules={[
@@ -65,7 +90,7 @@ const LoginForm = () => {
           {/*<div className={styles.forgotPassword}>*/}
           {/*  <a href="/forgot-password">Forgot password</a>*/}
           {/*</div>*/}
-          <Button htmlType={"submit"} className={styles.loginButton}>Log in</Button>
+          <Button loading={loading} htmlType={"submit"} className={styles.loginButton}>Log in</Button>
         </Form>
         {/*<div className={styles.signupLink}>*/}
         {/*  <p>Already have an account? <a onClick={()=>setIsRegis(!isRegis)}>{*/}

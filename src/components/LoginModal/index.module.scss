@@ -31,6 +31,12 @@ p {
     margin-bottom: 5px;
     text-align: left;
     font-weight: bold;
+
+    span{
+      font-size: 12px;
+      font-weight: 400;
+      margin-left: 5px;
+    }
   }
 
   input {
