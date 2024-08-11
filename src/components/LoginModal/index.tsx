@@ -19,10 +19,12 @@ const LoginForm = () => {
       password: v.password,
       referralCode: v.referralCode,
     }).then(resp =>{
-      if(resp.data){
-        if(resp.data.user){
-          localStorage.setItem("token", resp.data.user.token)
-          localStorage.setItem("id", resp.data.user.id)
+      console.log(resp, "loginResp")
+      if(resp.data.data){
+        if(resp.data.data.user){
+          const user = resp.data.data.user
+          localStorage.setItem("token", user.token)
+          localStorage.setItem("id", user.id)
         }
         const user = {
           email: v.email,
@@ -84,7 +86,12 @@ const LoginForm = () => {
 
           <div className={styles.inputGroup}>
             <label>Referral Code</label>
-            <Form.Item name={"referralCode"}>
+            <Form.Item rules={[
+              {
+                required:true,
+                message:"Please enter your password!"
+              },
+            ]} name={"referralCode"}>
               <Input placeholder="Please enter referral code!" />
             </Form.Item>
           </div>
