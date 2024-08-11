@@ -60,6 +60,9 @@ const Home = () =>{
         num:item.amount
       }
     })
+    if(bookingItemList.length >= 0){
+      return message.info("请选择要预约的Gift Card！")
+    }
     setLoading(true)
     APIBooking({
       bookingItemList: bookingItemList,

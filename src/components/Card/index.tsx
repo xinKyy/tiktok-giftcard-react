@@ -60,11 +60,16 @@ const Card: React.FC<CardProps> = ({id,  amount = 0, setAmount = (v) => {},  pri
         !onlyShow ? <>
           <NumberInput amount={amount} setAmount={(v)=>{setAmount(id!, v)}}></NumberInput>
           <Button loading={loading} onClick={submit} className={styles.bookButton}>现在预约</Button>
-          <img onClick={()=>{
+          <div onClick={()=>{
             if(onCheck) onCheck(id!);
-          }} style={{
-            background:check ? "#fff":"#000"
-          }} className={styles.check_wrap} src={checkedIcon}></img>
+          }} >
+            {
+              check ? <img className={styles.check_wrap} src={checkedIcon}></img> :  <div style={{
+                border:"2px solid #fff"
+              }} className={styles.check_wrap}>
+              </div>
+            }
+          </div>
         </> : <>
           <div className={styles.card_amount}>
             <div>您预定了：<span>{cardAmount}</span>张</div>
