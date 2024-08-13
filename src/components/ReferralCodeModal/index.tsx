@@ -5,11 +5,11 @@ import SizeBox from "../SizeBox";
 import {useEffect, useState} from "react";
 
 
-const ReferralCodeModal = ({callback}:{
+const ReferralCodeModal = ({callback, openReferralCodeModal, setOpenReferralCodeModal}:{
   callback:()=>void
+  openReferralCodeModal:boolean
+  setOpenReferralCodeModal:React.Dispatch<React.SetStateAction<boolean>>
 }) =>{
-  const {openReferralCodeModal, setOpenReferralCodeModal} = useLogin()
-
   const [code, setCode] = useState("");
 
   const submit = () =>{

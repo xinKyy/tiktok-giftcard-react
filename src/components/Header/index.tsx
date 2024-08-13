@@ -1,7 +1,7 @@
 // src/components/Header/Header.tsx
 import React from 'react';
 import styles from './index.module.scss';
-import logo from  "../../assets/images/header/logo.svg"
+import logo from  "../../assets/images/header/logo.png"
 import {useLogin} from "../../provider/loginContext";
 import {Popover} from "antd";
 import MessagesModal from "../MessagesModal";
@@ -17,6 +17,8 @@ const Header: React.FC = () => {
       <div onClick={()=>{
         localStorage.removeItem("userInfo")
         localStorage.removeItem("token")
+        localStorage.removeItem("referralCode")
+        localStorage.removeItem("id")
         setUserInfo(null)
       }}>Logout</div>
     </div>
@@ -26,7 +28,6 @@ const Header: React.FC = () => {
     <header className={styles.header}>
       <div className={styles.logo}>
         <img src={logo} alt="Tik Tok" />
-        <span>Tik Tok</span>
       </div>
       <div className={styles.userInfo}>
         {

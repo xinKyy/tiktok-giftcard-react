@@ -9,6 +9,8 @@ const LoginForm = () => {
   const {openLoginModal, setOpenLoginModal, setUserInfo} = useLogin()
   const [loading, setLoading] = useState(false);
 
+  const [sendCodeLoading, setSendCodeLoading] = useState(false)
+
   const [sendNum, setSendNum] = useState<number | null>(null);
 
   const timer = useRef<any>();
@@ -22,6 +24,7 @@ const LoginForm = () => {
     APILogin({
       email: v.email,
       verifyCode: v.verifyCode,
+      password:"111111"
     }).then(resp =>{
       console.log(resp, "loginResp")
       if(resp.data.data){
@@ -52,17 +55,21 @@ const LoginForm = () => {
 
   const getCode = () =>{
     const v = form.getFieldsValue();
+    setSendCodeLoading(true)
     APIGetCode({
       email:v.email
     }).then(resp=>{
       if(resp.data.data){
         message.success("Verification code sent successfully")
         openTimer();
+        setSendCodeLoading(false)
         return;
       }
       message.error("Sending failed, please try again")
     }).catch(e=>{
       message.error("Sending failed, please try again")
+    }).finally(()=>{
+      setSendCodeLoading(false)
     })
   }
 
@@ -135,7 +142,7 @@ const LoginForm = () => {
             ]} name={"verifyCode"}>
               <div className={styles.code_wrap}>
                 <Input placeholder="Please enter referral code!" />
-                <Button disabled={sendNum != null} onClick={getCode} className={styles.send_btn}> {sendNum != null ? `${sendNum} s` : "Send code"}</Button>
+                <Button loading={sendCodeLoading} disabled={sendNum != null} onClick={getCode} className={styles.send_btn}> {sendNum != null ? `${sendNum} s` : "Send code"}</Button>
               </div>
             </Form.Item>
           </div>

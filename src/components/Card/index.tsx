@@ -24,8 +24,8 @@ interface CardProps {
 
 const Card: React.FC<CardProps> = ({id,  amount = 0, setAmount = (v) => {},  price, imgSrc,  onlyShow = false, cardAmount, zoom= 1, check = false, onCheck, createTime}) => {
   const [loading, setLoading] = useState(false);
-
-  const { setOpenLoginModal, userInfo, setOpenReferralCodeModal } = useLogin()
+  const [ openReferralCodeModal, setOpenReferralCodeModal]= useState(false);
+  const { setOpenLoginModal, userInfo } = useLogin()
 
   const submit = () =>{
     if(!userInfo){
@@ -34,11 +34,10 @@ const Card: React.FC<CardProps> = ({id,  amount = 0, setAmount = (v) => {},  pri
     }
 
     let code = localStorage.getItem("referralCode")
-    debugger;
-    if(!code) {
+    if(!code || code === "null") {
       setOpenReferralCodeModal(true)
       return;
-    };
+    }
 
     if(code === "SKIP"){
       code = null
@@ -53,7 +52,13 @@ const Card: React.FC<CardProps> = ({id,  amount = 0, setAmount = (v) => {},  pri
         }
       ],
       referralCode:code
-    }).then(resp=>{
+    }).then((resp:any)=>{
+      setLoading(false)
+      if(resp.code === "47000"){
+        localStorage.removeItem("referralCode")
+        return message.error("Referral Code Error!")
+      }
+
       if(resp.data){
        setLoading(false)
        return message.success("Appointment successful! We will send you an email!")
@@ -76,7 +81,7 @@ const Card: React.FC<CardProps> = ({id,  amount = 0, setAmount = (v) => {},  pri
       {
         !onlyShow ? <>
           <NumberInput amount={amount} setAmount={(v)=>{setAmount(id!, v)}}></NumberInput>
-          <Button loading={loading} onClick={submit} className={styles.bookButton}>现在预约</Button>
+          <Button loading={loading} onClick={submit} className={styles.bookButton}>Subscribe</Button>
           <div onClick={()=>{
             if(onCheck) onCheck(id!);
           }} >
@@ -89,12 +94,12 @@ const Card: React.FC<CardProps> = ({id,  amount = 0, setAmount = (v) => {},  pri
           </div>
         </> : <>
           <div className={styles.card_amount}>
-            <div>您预定了：<span>{cardAmount}</span>张</div>
+            <div>You have made a reservation：<span>{cardAmount}</span></div>
             <div>{createTime}</div>
           </div>
         </>
       }
-      <ReferralCodeModal callback={submit}></ReferralCodeModal>
+      <ReferralCodeModal openReferralCodeModal={openReferralCodeModal} setOpenReferralCodeModal={setOpenReferralCodeModal} callback={submit}></ReferralCodeModal>
     </div>
   );
 };

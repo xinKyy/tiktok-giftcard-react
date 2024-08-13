@@ -1,6 +1,6 @@
 import styles from "./index.module.scss"
 import Card from "../../components/Card";
-import logo from "../../assets/images/header/logo.svg"
+import logo from "../../assets/images/header/logo.png"
 import giftCard from "../../assets/images/home/gifcard.png"
 import React, {useState} from "react";
 import SizeBox from "../../components/SizeBox";
@@ -30,7 +30,8 @@ const Home = () =>{
     },
   ]);
 
-  const { setOpenLoginModal, userInfo, setOpenReferralCodeModal} = useLogin();
+  const [ openReferralCodeModal, setOpenReferralCodeModal]= useState(false);
+  const { userInfo, setOpenLoginModal} = useLogin()
   const [loading, setLoading] = useState(false);
 
   const onCheck = (id:number) =>{
@@ -57,7 +58,7 @@ const Home = () =>{
 
     let code = localStorage.getItem("referralCode")
 
-    if(!code) {
+    if(!code || code === "null") {
       setOpenReferralCodeModal(true)
       return;
     }
@@ -78,9 +79,16 @@ const Home = () =>{
     setLoading(true)
     APIBooking({
       bookingItemList: bookingItemList,
-    }).then(resp=>{
+    }).then((resp:any)=>{
+      setLoading(false)
+      if(resp.code === "47000"){
+        localStorage.removeItem("referralCode")
+        return message.error("Referral Code Error!")
+      }
+
       if(resp.data){
-        return message.success("预约成功！")
+        setLoading(false)
+        return message.success("Appointment successful! We will send you an email!")
       }
       return message.error("Appointment failed, please try again")
     }).finally(()=>{
@@ -100,9 +108,9 @@ const Home = () =>{
           })
         }
       </div>
-      <Button onClick={submit} loading={loading} className={styles.bookAllButton}>一键预约</Button>
+      <Button onClick={submit} loading={loading} className={styles.bookAllButton}>One click appointment</Button>
     </div>
-    <ReferralCodeModal callback={submit}></ReferralCodeModal>
+    <ReferralCodeModal openReferralCodeModal={openReferralCodeModal} setOpenReferralCodeModal={setOpenReferralCodeModal} callback={submit}></ReferralCodeModal>
   </div>
 }
 
