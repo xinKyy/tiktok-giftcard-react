@@ -5,6 +5,7 @@ import AppLayout from "./components/Layout";
 import LoginForm from "./components/LoginModal";
 import {LoginProvider} from "./provider/loginContext";
 import MessagesModal from "./components/MessagesModal";
+import ReferralCodeModal from "./components/ReferralCodeModal";
 
 function App() {
   return (

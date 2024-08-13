@@ -12,6 +12,8 @@ interface LoginContextType {
   setOpenLoginModal: React.Dispatch<React.SetStateAction<boolean>>;
   openMessagesModal:boolean;
   setOpenMessagesModal: React.Dispatch<React.SetStateAction<boolean>>;
+  openReferralCodeModal:boolean;
+  setOpenReferralCodeModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 // 创建一个Context并指定类型
@@ -27,6 +29,7 @@ interface LoginProviderProps {
 export const LoginProvider: React.FC<LoginProviderProps> = ({ children }) => {
   const [openLoginModal, setOpenLoginModal] = useState<boolean>(false);
   const [openMessagesModal, setOpenMessagesModal] = useState<boolean>(false);
+  const [openReferralCodeModal, setOpenReferralCodeModal] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
   useEffect(()=>{
@@ -37,7 +40,15 @@ export const LoginProvider: React.FC<LoginProviderProps> = ({ children }) => {
   }, [])
 
   return (
-    <LoginContext.Provider value={{ openLoginModal, setOpenLoginModal, userInfo, setUserInfo, openMessagesModal, setOpenMessagesModal }}>
+    <LoginContext.Provider value={{
+      openLoginModal,
+      setOpenLoginModal,
+      userInfo, setUserInfo,
+      openMessagesModal,
+      setOpenMessagesModal,
+      openReferralCodeModal,
+      setOpenReferralCodeModal
+    }}>
       {children}
     </LoginContext.Provider>
   );

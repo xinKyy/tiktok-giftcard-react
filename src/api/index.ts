@@ -4,12 +4,16 @@ import axiosInstance from "../http/axiosInstance";
 
 export const APILogin = (params:{
   email:string,
-  password:string
-  referralCode:string
+  verifyCode:string
 }) =>{
   return axiosInstance.post("/any-starr/api/v1/gcUser/login", params)
 }
 
+export const APIGetCode = (params:{
+  email:string,
+}) =>{
+  return axiosInstance.get("/any-starr/api/v1/gcUser/getCode", {params})
+}
 
 export const APIBooking = (params:{
   bookingItemList:{
@@ -17,6 +21,7 @@ export const APIBooking = (params:{
     num:number,
   }[],
   userId?:string | null
+  referralCode?:string | null | undefined
 }) =>{
 
   params.userId = localStorage.getItem("id")
@@ -29,6 +34,7 @@ export class MyBookingParams{
   pageNum:number = 1
   pageSize?:number = 10
   userId?:string | null
+
 
   constructor(pageNum:number, pageSize:number = 10) {
     this.pageNum = pageNum;

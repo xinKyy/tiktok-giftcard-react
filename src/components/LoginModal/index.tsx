@@ -1,13 +1,18 @@
 // src/components/LoginForm/LoginForm.tsx
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import styles from './index.module.scss';
-import {Button, Form, Input, Modal} from "antd";
+import {Button, Form, Input, message, Modal} from "antd";
 import {useLogin} from "../../provider/loginContext";
-import {APILogin} from "../../api";
+import {APIGetCode, APILogin} from "../../api";
 
 const LoginForm = () => {
   const {openLoginModal, setOpenLoginModal, setUserInfo} = useLogin()
   const [loading, setLoading] = useState(false);
+
+  const [sendNum, setSendNum] = useState<number | null>(null);
+
+  const timer = useRef<any>();
+  const currentTimer = useRef(60)
 
   const [form] = Form.useForm();
 
@@ -16,8 +21,7 @@ const LoginForm = () => {
     setLoading(true);
     APILogin({
       email: v.email,
-      password: v.password,
-      referralCode: v.referralCode,
+      verifyCode: v.verifyCode,
     }).then(resp =>{
       console.log(resp, "loginResp")
       if(resp.data.data){
@@ -25,18 +29,55 @@ const LoginForm = () => {
           const user = resp.data.data.user
           localStorage.setItem("token", user.token)
           localStorage.setItem("id", user.id)
+          localStorage.setItem("referralCode", resp.data.data.fullReferralCode)
+          const user1 = {
+            email: v.email,
+            referralCode: resp.data.data.fullReferralCode
+          }
+          localStorage.setItem("userInfo", JSON.stringify(user1))
+          setUserInfo(user1)
+          setOpenLoginModal(false);
+          message.success("Login success!")
+          form.resetFields();
         }
-        const user = {
-          email: v.email,
-          referralCode: v.referralCode
-        }
-        localStorage.setItem("userInfo", JSON.stringify(user))
-        setUserInfo(user)
-        setOpenLoginModal(false);
+      } else{
+        message.error("Login error!")
       }
     }).finally(()=>{
       setLoading(false);
+    }).catch(e=>{
+      message.error("Login error!")
     })
+  }
+
+  const getCode = () =>{
+    const v = form.getFieldsValue();
+    APIGetCode({
+      email:v.email
+    }).then(resp=>{
+      if(resp.data.data){
+        message.success("Verification code sent successfully")
+        openTimer();
+        return;
+      }
+      message.error("Sending failed, please try again")
+    }).catch(e=>{
+      message.error("Sending failed, please try again")
+    })
+  }
+
+  const openTimer = () =>{
+    timer.current = setInterval(()=>{
+      if(currentTimer.current && currentTimer.current >= 1){
+        currentTimer.current = currentTimer.current - 1
+        setSendNum(currentTimer.current)
+      } else {
+        clearInterval(timer.current)
+        timer.current = null
+        setSendNum(null)
+        currentTimer.current = 60
+      }
+    }, 1000)
   }
 
   return (
@@ -72,27 +113,30 @@ const LoginForm = () => {
             // </div>
           }
 
-          <div className={styles.inputGroup}>
-            <label>Password   <span className={styles.des}>(First login is considered as registration.)</span></label>
-            <Form.Item rules={[
-              {
-                required:true,
-                message:"Please enter your password!"
-              },
-            ]} name={"password"}>
-              <Input type={"password"} placeholder="Please enter referral code!" />
-            </Form.Item>
-          </div>
+          {/*<div className={styles.inputGroup}>*/}
+          {/*  <label>Password   <span className={styles.des}>(First login is considered as registration.)</span></label>*/}
+          {/*  <Form.Item rules={[*/}
+          {/*    {*/}
+          {/*      required:true,*/}
+          {/*      message:"Please enter your password!"*/}
+          {/*    },*/}
+          {/*  ]} name={"password"}>*/}
+          {/*    <Input type={"password"} placeholder="Please enter referral code!" />*/}
+          {/*  </Form.Item>*/}
+          {/*</div>*/}
 
           <div className={styles.inputGroup}>
-            <label>Referral Code</label>
+            <label>VerifyCode Code</label>
             <Form.Item rules={[
               {
                 required:true,
                 message:"Please enter your password!"
               },
-            ]} name={"referralCode"}>
-              <Input placeholder="Please enter referral code!" />
+            ]} name={"verifyCode"}>
+              <div className={styles.code_wrap}>
+                <Input placeholder="Please enter referral code!" />
+                <Button disabled={sendNum != null} onClick={getCode} className={styles.send_btn}> {sendNum != null ? `${sendNum} s` : "Send code"}</Button>
+              </div>
             </Form.Item>
           </div>
           {/*<div className={styles.forgotPassword}>*/}

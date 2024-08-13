@@ -39,6 +39,21 @@ p {
     }
   }
 
+  .code_wrap{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .send_btn{
+      width: 130px;
+      height: 50px;
+      margin-left: 10px;
+      color: #ffffff !important;
+      background: var(--primary-color) !important;
+      border: none !important;
+      font-weight: bold;
+    }
+  }
+
   input {
     width: 100%;
     padding: 0 15px;

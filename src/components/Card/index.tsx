@@ -6,6 +6,7 @@ import {useLogin} from "../../provider/loginContext";
 import checkedIcon from "../../assets/images/home/checked-icon.svg"
 import {APIBooking} from "../../api";
 import {Button, message} from "antd";
+import ReferralCodeModal from "../ReferralCodeModal";
 
 interface CardProps {
   id?:number;
@@ -24,13 +25,25 @@ interface CardProps {
 const Card: React.FC<CardProps> = ({id,  amount = 0, setAmount = (v) => {},  price, imgSrc,  onlyShow = false, cardAmount, zoom= 1, check = false, onCheck, createTime}) => {
   const [loading, setLoading] = useState(false);
 
-  const { setOpenLoginModal, userInfo, } = useLogin()
+  const { setOpenLoginModal, userInfo, setOpenReferralCodeModal } = useLogin()
 
   const submit = () =>{
     if(!userInfo){
       setOpenLoginModal(true)
       return;
     }
+
+    let code = localStorage.getItem("referralCode")
+    debugger;
+    if(!code) {
+      setOpenReferralCodeModal(true)
+      return;
+    };
+
+    if(code === "SKIP"){
+      code = null
+    }
+
     setLoading(true)
     APIBooking({
       bookingItemList:[
@@ -39,13 +52,17 @@ const Card: React.FC<CardProps> = ({id,  amount = 0, setAmount = (v) => {},  pri
           num:amount
         }
       ],
+      referralCode:code
     }).then(resp=>{
       if(resp.data){
-       return message.success("预约成功！")
+       setLoading(false)
+       return message.success("Appointment successful! We will send you an email!")
       }
-      return message.info("异常，请重试！")
+      return message.error("Appointment failed, please try again")
     }).finally(()=>{
       setLoading(false)
+    }).catch(e=>{
+      return message.error("Appointment failed, please try again")
     })
   }
 
@@ -77,6 +94,7 @@ const Card: React.FC<CardProps> = ({id,  amount = 0, setAmount = (v) => {},  pri
           </div>
         </>
       }
+      <ReferralCodeModal callback={submit}></ReferralCodeModal>
     </div>
   );
 };
