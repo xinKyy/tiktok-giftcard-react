@@ -11,11 +11,11 @@ function App() {
   return (
     <LoginProvider>
       <AppLayout>
-         <>
+         <div>
            <Home></Home>
            <LoginForm></LoginForm>
            <MessagesModal></MessagesModal>
-         </>
+         </div>
       </AppLayout>
     </LoginProvider>
   );

@@ -16,6 +16,7 @@
 .section_title{
   font-size: 21px;
   font-weight: bold;
+  margin-bottom: 10px;
   top: 0;
 }
 
@@ -24,11 +25,13 @@
   //display: flex;
   //align-items: center;
   //justify-content: space-between;
+  min-height: 300px;
   flex-wrap: wrap;
   display: grid;
   grid-template-columns: repeat(3, 1fr); // 创建三列，列宽相等
   gap: 16px; // 列之间的间距
   padding: 16px; // 容器的内边距
+  padding-top: 0;
 }
 
 .logo img {

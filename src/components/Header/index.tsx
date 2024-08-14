@@ -1,5 +1,5 @@
 // src/components/Header/Header.tsx
-import React from 'react';
+import React, {useEffect} from 'react';
 import styles from './index.module.scss';
 import logo from  "../../assets/images/header/logo.png"
 import {useLogin} from "../../provider/loginContext";
@@ -23,6 +23,7 @@ const Header: React.FC = () => {
       }}>Logout</div>
     </div>
   );
+
 
   return (
     <header className={styles.header}>

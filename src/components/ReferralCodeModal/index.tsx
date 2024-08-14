@@ -1,8 +1,9 @@
-import {Button, Input, Modal} from "antd";
+import {Button, Input, message, Modal} from "antd";
 import styles from './index.module.scss'
 import {useLogin} from "../../provider/loginContext";
 import SizeBox from "../SizeBox";
 import {useEffect, useState} from "react";
+import {APICheckVerificationCode} from "../../api";
 
 
 const ReferralCodeModal = ({callback, openReferralCodeModal, setOpenReferralCodeModal}:{
@@ -11,11 +12,32 @@ const ReferralCodeModal = ({callback, openReferralCodeModal, setOpenReferralCode
   setOpenReferralCodeModal:React.Dispatch<React.SetStateAction<boolean>>
 }) =>{
   const [code, setCode] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { userInfo, setUserInfo } = useLogin()
 
   const submit = () =>{
-    localStorage.setItem("referralCode", code)
-    callback()
-    setOpenReferralCodeModal(false)
+    if(!code) return message.info("The referral code cannot be empty")
+    setLoading(true)
+    APICheckVerificationCode({
+      referralCode:code
+    }).then(resp=>{
+      setLoading(false)
+      if(resp.data.data === "1"){
+        localStorage.setItem("referralCode", code)
+        setUserInfo({
+          email:userInfo?.email!,
+          referralCode:code
+        })
+        callback()
+        setOpenReferralCodeModal(false)
+        return;
+      }
+      return message.error("Referral code error, please check and try again")
+    }).catch(()=>{
+      return message.error("An abnormal situation has occurred, please try again")
+    }).finally(()=>{
+      setLoading(false)
+    })
   }
 
   const skip = () =>{
@@ -36,7 +58,7 @@ const ReferralCodeModal = ({callback, openReferralCodeModal, setOpenReferralCode
       <div className={styles.button_wrap}>
         <Button onClick={skip} type={"default"} className={styles.skip_button}>Skip</Button>
         <SizeBox w={30}></SizeBox>
-        <Button onClick={submit} className={styles.button}>Submit</Button>
+        <Button loading={loading} onClick={submit} className={styles.button}>Submit</Button>
       </div>
     </div>
   </Modal>

@@ -4,11 +4,12 @@ import styles from './index.module.scss';
 import {Button, Form, Input, message, Modal} from "antd";
 import {useLogin} from "../../provider/loginContext";
 import {APIGetCode, APILogin} from "../../api";
+import TipsModal from "../TipsModal";
 
 const LoginForm = () => {
   const {openLoginModal, setOpenLoginModal, setUserInfo} = useLogin()
   const [loading, setLoading] = useState(false);
-
+  const [ openTipsModal, setOpenTipsModal]= useState(false);
   const [sendCodeLoading, setSendCodeLoading] = useState(false)
 
   const [sendNum, setSendNum] = useState<number | null>(null);
@@ -42,6 +43,10 @@ const LoginForm = () => {
           setOpenLoginModal(false);
           message.success("Login success!")
           form.resetFields();
+
+          if(resp.data.data.newUser === "1"){
+            setOpenTipsModal(true)
+          }
         }
       } else{
         message.error("Login error!")
@@ -88,76 +93,81 @@ const LoginForm = () => {
   }
 
   return (
-    <Modal title={null} footer={null} open={openLoginModal} onCancel={()=>setOpenLoginModal(false)}>
-      <div className={styles.loginForm}>
-        <div className={styles.logo}>
+    <>
+      <Modal title={null} footer={null} open={openLoginModal} onCancel={()=>setOpenLoginModal(false)}>
+        <div className={styles.loginForm}>
+          <div className={styles.logo}>
+          </div>
+          <h2>Welcome</h2>
+          <p>Oh, we need some information from you to facilitate sending appointment information</p>
+          <Form autoComplete={"off"} form={form} onFinish={onSubmit}>
+            <div className={styles.inputGroup}>
+              <label>Email</label>
+              <Form.Item rules={[
+                {
+                  required:true,
+                  message:"Please enter your email address!"
+                },
+                {
+                  type: "email",
+                  message: "The input is not a valid email address!",
+                },
+              ]} name={"email"}>
+                <Input type="email" placeholder="Please enter your email" />
+              </Form.Item>
+            </div>
+            {
+              // isRegis && <div className={styles.inputGroupWithButton}>
+              //   <div className={styles.inputGroup}>
+              //     <label>captcha</label>
+              //     <input type="text" placeholder="Please enter your captcha" />
+              //   </div>
+              //   <button type="button" className={styles.captchaButton}>sent</button>
+              // </div>
+            }
+
+            {/*<div className={styles.inputGroup}>*/}
+            {/*  <label>Password   <span className={styles.des}>(First login is considered as registration.)</span></label>*/}
+            {/*  <Form.Item rules={[*/}
+            {/*    {*/}
+            {/*      required:true,*/}
+            {/*      message:"Please enter your password!"*/}
+            {/*    },*/}
+            {/*  ]} name={"password"}>*/}
+            {/*    <Input type={"password"} placeholder="Please enter referral code!" />*/}
+            {/*  </Form.Item>*/}
+            {/*</div>*/}
+
+            <div className={styles.inputGroup}>
+              <label>VerifyCode Code</label>
+              <Form.Item rules={[
+                {
+                  required:true,
+                  message:"Please enter your verify code!"
+                },
+              ]} name={"verifyCode"}>
+                <div className={styles.code_wrap}>
+                  <Input placeholder="Please enter verify code!" />
+                  <Button loading={sendCodeLoading} disabled={sendNum != null} onClick={getCode} className={styles.send_btn}> {sendNum != null ? `${sendNum} s` : "Send code"}</Button>
+                </div>
+              </Form.Item>
+            </div>
+            {/*<div className={styles.forgotPassword}>*/}
+            {/*  <a href="/forgot-password">Forgot password</a>*/}
+            {/*</div>*/}
+            <Button loading={loading} htmlType={"submit"} className={styles.loginButton}>Log in</Button>
+          </Form>
+          {/*<div className={styles.signupLink}>*/}
+          {/*  <p>Already have an account? <a onClick={()=>setIsRegis(!isRegis)}>{*/}
+          {/*    isRegis ? "Sign up" : "Log in"*/}
+          {/*  }</a></p>*/}
+          {/*</div>*/}
         </div>
-        <h2>Welcome</h2>
-        <p>Oh, we need some information from you to facilitate sending appointment information</p>
-        <Form autoComplete={"off"} form={form} onFinish={onSubmit}>
-          <div className={styles.inputGroup}>
-            <label>Email</label>
-            <Form.Item rules={[
-              {
-                required:true,
-                message:"Please enter your email address!"
-              },
-              {
-                type: "email",
-                message: "The input is not a valid email address!",
-              },
-            ]} name={"email"}>
-              <Input type="email" placeholder="Please enter your email" />
-            </Form.Item>
-          </div>
-          {
-            // isRegis && <div className={styles.inputGroupWithButton}>
-            //   <div className={styles.inputGroup}>
-            //     <label>captcha</label>
-            //     <input type="text" placeholder="Please enter your captcha" />
-            //   </div>
-            //   <button type="button" className={styles.captchaButton}>sent</button>
-            // </div>
-          }
-
-          {/*<div className={styles.inputGroup}>*/}
-          {/*  <label>Password   <span className={styles.des}>(First login is considered as registration.)</span></label>*/}
-          {/*  <Form.Item rules={[*/}
-          {/*    {*/}
-          {/*      required:true,*/}
-          {/*      message:"Please enter your password!"*/}
-          {/*    },*/}
-          {/*  ]} name={"password"}>*/}
-          {/*    <Input type={"password"} placeholder="Please enter referral code!" />*/}
-          {/*  </Form.Item>*/}
-          {/*</div>*/}
-
-          <div className={styles.inputGroup}>
-            <label>VerifyCode Code</label>
-            <Form.Item rules={[
-              {
-                required:true,
-                message:"Please enter your password!"
-              },
-            ]} name={"verifyCode"}>
-              <div className={styles.code_wrap}>
-                <Input placeholder="Please enter referral code!" />
-                <Button loading={sendCodeLoading} disabled={sendNum != null} onClick={getCode} className={styles.send_btn}> {sendNum != null ? `${sendNum} s` : "Send code"}</Button>
-              </div>
-            </Form.Item>
-          </div>
-          {/*<div className={styles.forgotPassword}>*/}
-          {/*  <a href="/forgot-password">Forgot password</a>*/}
-          {/*</div>*/}
-          <Button loading={loading} htmlType={"submit"} className={styles.loginButton}>Log in</Button>
-        </Form>
-        {/*<div className={styles.signupLink}>*/}
-        {/*  <p>Already have an account? <a onClick={()=>setIsRegis(!isRegis)}>{*/}
-        {/*    isRegis ? "Sign up" : "Log in"*/}
-        {/*  }</a></p>*/}
-        {/*</div>*/}
-      </div>
-    </Modal>
+      </Modal>
+      <TipsModal open={openTipsModal} cancel={()=>{
+        setOpenTipsModal(false)
+      }}></TipsModal>
+    </>
   );
 };
 

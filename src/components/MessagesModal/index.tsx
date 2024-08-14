@@ -52,7 +52,7 @@ const MessagesModal = () => {
         <div className={styles.section_title}>You have confirmed the following appointment:</div>
         <div className={styles.loginForm}>
           {
-            cardList.length <= 0 && <div>
+            cardList.length <= 0 && !loading && <div>
               It seems like you haven't made an appointment yet.
             </div>
           }

@@ -33,9 +33,18 @@ export const LoginProvider: React.FC<LoginProviderProps> = ({ children }) => {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
   useEffect(()=>{
-   const user = localStorage.getItem("userInfo")
+    const user = localStorage.getItem("userInfo")
     if(user){
-      setUserInfo(JSON.parse(user))
+      const tempUser = JSON.parse(user);
+      const code = localStorage.getItem("referralCode")
+      if(code && code !== "SKIP"){
+        tempUser.referralCode = code
+      }
+      setUserInfo({
+        email:tempUser.email,
+        referralCode:tempUser.referralCode
+      })
+      localStorage.setItem("userInfo", JSON.stringify(tempUser));
     }
   }, [])
 

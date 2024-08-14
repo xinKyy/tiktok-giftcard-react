@@ -23,6 +23,15 @@
     border-radius: 15px;
     border: 2px solid #ffffff;
   }
+
+  .value_wrap{
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    font-size: 13px;
+    color: #fe2c55;
+    font-weight: bold;
+  }
 }
 
 img {
@@ -72,6 +81,11 @@ img {
   &:hover{
     background: var(--primary-color) !important;
     color: #fff !important;
+  }
+
+  &:disabled{
+    background-color: #ffffff;
+    color: #000000 !important;
   }
 }
 

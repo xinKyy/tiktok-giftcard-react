@@ -19,59 +19,15 @@ interface CardProps {
   onCheck?:(id:number)=>void;
   amount?:number,
   createTime?:string,
-  setAmount?:(id:number, amount:number)=>void
+  setAmount?:(id:number, amount:number)=>void,
+  value?:number,
+  submit?:(bookingItemList:{
+    id:number,
+    num:number
+  }[])=>void
 }
 
-const Card: React.FC<CardProps> = ({id,  amount = 0, setAmount = (v) => {},  price, imgSrc,  onlyShow = false, cardAmount, zoom= 1, check = false, onCheck, createTime}) => {
-  const [loading, setLoading] = useState(false);
-  const [ openReferralCodeModal, setOpenReferralCodeModal]= useState(false);
-  const { setOpenLoginModal, userInfo } = useLogin()
-
-  const submit = () =>{
-    if(!userInfo){
-      setOpenLoginModal(true)
-      return;
-    }
-
-    let code = localStorage.getItem("referralCode")
-    if(!code || code === "null") {
-      setOpenReferralCodeModal(true)
-      return;
-    }
-
-    if(code === "SKIP"){
-      code = null
-    }
-
-    setLoading(true)
-    APIBooking({
-      bookingItemList:[
-        {
-          id:id!,
-          num:amount
-        }
-      ],
-      referralCode:code
-    }).then((resp:any)=>{
-      setLoading(false)
-      if(resp.code === "47000"){
-        localStorage.removeItem("referralCode")
-        return message.error("Referral Code Error!")
-      }
-
-      if(resp.data){
-       setLoading(false)
-       return message.success("Appointment successful! We will send you an email!")
-      }
-      return message.error("Appointment failed, please try again")
-    }).finally(()=>{
-      setLoading(false)
-    }).catch(e=>{
-      return message.error("Appointment failed, please try again")
-    })
-  }
-
-
+const Card: React.FC<CardProps> = ({id, value, submit,  amount = 0, setAmount = (v) => {},  price, imgSrc,  onlyShow = false, cardAmount, zoom= 1, check = false, onCheck, createTime}) => {
   return (
     <div style={{
       zoom:zoom
@@ -81,7 +37,17 @@ const Card: React.FC<CardProps> = ({id,  amount = 0, setAmount = (v) => {},  pri
       {
         !onlyShow ? <>
           <NumberInput amount={amount} setAmount={(v)=>{setAmount(id!, v)}}></NumberInput>
-          <Button loading={loading} onClick={submit} className={styles.bookButton}>Subscribe</Button>
+          <Button disabled={!value || value <= 0} onClick={()=>{
+           if(submit) submit([{
+              id:id!,
+              num:amount
+            }])
+          }} className={styles.bookButton}>Subscribe</Button>
+          <div className={styles.value_wrap}>
+            Available today: <span>
+            {value}
+          </span>
+          </div>
           <div onClick={()=>{
             if(onCheck) onCheck(id!);
           }} >
@@ -99,7 +65,6 @@ const Card: React.FC<CardProps> = ({id,  amount = 0, setAmount = (v) => {},  pri
           </div>
         </>
       }
-      <ReferralCodeModal openReferralCodeModal={openReferralCodeModal} setOpenReferralCodeModal={setOpenReferralCodeModal} callback={submit}></ReferralCodeModal>
     </div>
   );
 };

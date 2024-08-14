@@ -48,3 +48,37 @@ export const APIMyBooking = (params:MyBookingParams) =>{
 
   return axiosInstance.get("/any-starr/api/v1/gcUserBooking/mine", {params})
 }
+
+export const APIAfterCheck = () =>{
+  const id = localStorage.getItem("id");
+  return axiosInstance.get("/any-starr/api/v1/gcUserBooking/afterCheck", {
+    params: {
+      id:id
+    }
+  })
+}
+
+export const APICheckVerificationCode = (params:{
+  referralCode:string
+}) =>{
+  // 返回 data 为1:正确。 0：错误
+  return axiosInstance.get("/any-starr/api/v1/gcUserBooking/checkVerificationCode", {params})
+}
+
+export const APIStatistics = () =>{
+  const params = {
+    userId:localStorage.getItem("id")
+  }
+  return axiosInstance.get("/any-starr/api/v1/gcUserBooking/statistics", {params})
+}
+
+export const APIStatisticsItem = (temp:{
+  pageNum:number,
+  pageSize:number
+}) =>{
+  const params = {
+    ...temp,
+    userId:localStorage.getItem("id")
+  }
+  return axiosInstance.get("/any-starr/api/v1/gcUserBooking/statisticsItem", {params})
+}
