@@ -24,6 +24,7 @@ const Home = () =>{
       amount:1
     },
     {
+      id:10000,
       price:10000,
       check:true,
       amount:1
