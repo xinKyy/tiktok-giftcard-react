@@ -1,7 +1,8 @@
 import React, {createContext, useContext, useState, ReactNode, useEffect} from 'react';
 interface UserInfo{
   email:string,
-  referralCode:string
+  referralCode:string,
+  role?:string | null
 }
 
 // 定义共享状态和更新函数的类型
@@ -42,7 +43,8 @@ export const LoginProvider: React.FC<LoginProviderProps> = ({ children }) => {
       }
       setUserInfo({
         email:tempUser.email,
-        referralCode:tempUser.referralCode
+        referralCode:tempUser.referralCode,
+        role:tempUser.role,
       })
       localStorage.setItem("userInfo", JSON.stringify(tempUser));
     }

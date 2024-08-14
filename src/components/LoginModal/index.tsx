@@ -36,6 +36,7 @@ const LoginForm = () => {
           localStorage.setItem("referralCode", resp.data.data.fullReferralCode)
           const user1 = {
             email: v.email,
+            role:resp.data.data.role,
             referralCode: resp.data.data.fullReferralCode
           }
           localStorage.setItem("userInfo", JSON.stringify(user1))
