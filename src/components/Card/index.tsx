@@ -52,7 +52,7 @@ const Card: React.FC<CardProps> = ({id, value, submit,  amount = 0, setAmount = 
             if(onCheck) onCheck(id!);
           }} >
             {
-              check ? <img className={styles.check_wrap} src={checkedIcon}></img> :  <div style={{
+              check && value && value >= 1 ? <img className={styles.check_wrap} src={checkedIcon}></img> :  <div style={{
                 border:"2px solid #fff"
               }} className={styles.check_wrap}>
               </div>

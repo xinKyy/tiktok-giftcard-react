@@ -56,7 +56,11 @@ const Home = () =>{
   const onCheck = (id:number) =>{
     const cardIndex = cardList.findIndex(item=>id === item.id)
     if(cardIndex !== -1){
-      cardList[cardIndex].check = !cardList[cardIndex].check
+      if(cardList[cardIndex].value && cardList[cardIndex].value >= 1){
+        cardList[cardIndex].check = !cardList[cardIndex].check
+      } else {
+        message.info("The reservation limit for this gift card has been used today, please come back tomorrow!")
+      }
     }
     setCardList(cardList.slice());
   }
