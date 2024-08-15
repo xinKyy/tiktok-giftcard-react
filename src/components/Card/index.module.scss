@@ -111,3 +111,72 @@ img {
     margin-top: 10px;
   }
 }
+
+.row_wrap{
+  display: flex;
+  align-items: center;
+}
+
+
+@media screen and (max-width: 640px) {
+  .card{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    width: 100%;
+
+    .check_wrap{
+      position: absolute;
+      top: 7px;
+      right: 7px;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      padding: 0;
+      object-fit: cover;
+      border-radius: 15px;
+      border: 2px solid #ffffff;
+    }
+  }
+
+  img {
+    width: 150px;
+    border-radius: 3px;
+  }
+
+  .row_wrap{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .price {
+    font-size: 19px;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+
+  .bookButton {
+    background-color: #ffffff;
+    color: #000;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    height: 40px;
+    cursor: pointer;
+    margin-top: 15px;
+    font-weight: bold;
+    width: 100%;
+    transition: all .3s;
+    &:hover{
+      background: var(--primary-color) !important;
+      color: #fff !important;
+    }
+
+    &:disabled{
+      background-color: #ffffff;
+      color: #000000 !important;
+    }
+  }
+}

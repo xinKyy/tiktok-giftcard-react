@@ -163,3 +163,169 @@
     }
   }
 }
+
+.buttons_mobile {
+  display: none;
+  justify-content: space-around;
+  margin-top: 20px;
+  .cancelButton,
+  .confirmButton {
+    width: 100%;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    transition: all .3s;
+    font-weight: bold;
+    font-size: 20px;
+    height: 60px;
+    &.cancelButton {
+      background-color: #00000000;
+      border: 1px solid var(--primary-color);
+      color: var(--primary-color);
+
+      &:hover {
+        background-color: var(--primary-color);
+        color: #ffffff;
+      }
+    }
+
+    &.confirmButton {
+      background-color: var(--primary-color) !important;
+      margin-left: 0;
+      margin-top: 20px;
+      &:hover {
+        color: #ffffff !important;
+        background-color: var(--primary-color-80) !important;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .container{
+    padding-right: 20px ;
+    padding-top: 20px;
+  }
+
+  .bookAllButton{
+    width: 100%;
+    margin-top: 30px;
+  }
+
+  .confirmPage {
+    .confirmationBox{
+      margin-left: 0;
+      overflow: hidden;
+      padding:0;
+      border: 1px solid #ffffff;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      background: #000000;
+      .image {
+        width: 100%;
+        height: 100%;
+        flex-shrink: 0;
+        border-radius: 10px;
+        margin: auto;
+        background: #000000;
+        img {
+          max-width: 100%;
+          max-height: 100%;
+          border-radius: 10px;
+        }
+      }
+
+      .details {
+        font-size: 18px;
+        color: #ffffff;
+        margin-bottom: 0;
+        margin-left: 5px;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 100%;
+        padding: 16px;
+        .item {
+          display: flex;
+          align-items: center;
+          margin-bottom: 10px;
+          div{
+            flex: 1;
+            &:nth-child(2){
+              text-align: right;
+            }
+          }
+        }
+
+        .label {
+          font-weight: bold;
+          margin-right: 10px;
+        }
+
+        .value {
+          font-weight: bold;
+          color: var(--primary-color);
+          font-size: 20px;
+        }
+
+        .buttons {
+          display: none;
+          justify-content: space-around;
+          margin-top: 20px;
+          .cancelButton,
+          .confirmButton {
+            width: 130px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            color: white;
+            transition: all .3s;
+            font-weight: bold;
+            font-size: 20px;
+            height: 45px;
+            &.cancelButton {
+              background-color: #00000000;
+              border: 1px solid var(--primary-color);
+              color: var(--primary-color);
+
+              &:hover {
+                background-color: var(--primary-color);
+                color: #ffffff;
+              }
+            }
+
+            &.confirmButton {
+              background-color: var(--primary-color) !important;
+              margin-left: 20px;
+              &:hover {
+                color: #ffffff !important;
+                background-color: var(--primary-color-80) !important;
+              }
+            }
+          }
+        }
+      }
+    }
+
+
+
+    .section_title{
+      font-weight: bold;
+      font-size: 21px;
+      margin-top: 30px;
+      margin-bottom: 20px;
+      margin-left: 0;
+      color: #ffffff;
+    }
+
+
+  }
+
+  .buttons_mobile{
+    display: flex;
+    flex-direction: column;
+  }
+}

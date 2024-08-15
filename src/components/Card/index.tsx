@@ -32,17 +32,21 @@ const Card: React.FC<CardProps> = ({id, value, submit,  amount = 0, setAmount = 
     <div style={{
       zoom:zoom
     }} className={styles.card}>
-      <img src={imgSrc} alt="Product" />
-      <div className={styles.price}>{price}</div>
+      <div>
+        <img src={imgSrc} alt="Product" />
+        <div className={styles.price}>{price}</div>
+      </div>
       {
         !onlyShow ? <>
-          <NumberInput amount={amount} setAmount={(v)=>{setAmount(id!, v)}}></NumberInput>
-          <Button disabled={!value || value <= 0} onClick={()=>{
-           if(submit) submit([{
-              id:id!,
-              num:amount
-            }])
-          }} className={styles.bookButton}>Subscribe</Button>
+          <div className={styles.row_wrap}>
+            <NumberInput amount={amount} setAmount={(v)=>{setAmount(id!, v)}}></NumberInput>
+            <Button disabled={!value || value <= 0} onClick={()=>{
+              if(submit) submit([{
+                id:id!,
+                num:amount
+              }])
+            }} className={styles.bookButton}>Subscribe</Button>
+          </div>
           <div className={styles.value_wrap}>
             Available today: <span>
             {value}

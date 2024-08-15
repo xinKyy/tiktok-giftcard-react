@@ -250,6 +250,12 @@ const ConfirmOrder = ({cancel, bookList, code}:{
       </div>
     </div>
 
+    <div className={styles.buttons_mobile}>
+      <button onClick={cancel} className={styles.cancelButton}>Cancel</button>
+      <Button loading={loading} onClick={confirm} className={styles.confirmButton}>Confirm</Button>
+    </div>
+
+
     <SuccessModal open={openSuccess} cancelHome={cancel} cancel={()=>setOpenSuccess(false)}></SuccessModal>
   </div>
 }
