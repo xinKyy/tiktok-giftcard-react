@@ -169,7 +169,7 @@ const Home = () =>{
     }}></TablePageAll>
   }
 
-  return <div className={styles.app}>
+  return <div className={`animated fadeIn animate__fadeInUp ${styles.app}`}>
     {
       renderPage()
     }
@@ -240,7 +240,7 @@ const ConfirmOrder = ({cancel, bookList, code}:{
         <div>
           <div className={styles.item}>
             <span className={styles.label}>Time:</span>
-            <span style={{color:"#000"}} className={styles.value}>{time}</span>
+            <span style={{color:"#fff"}} className={styles.value}>{time}</span>
           </div>
           <div className={styles.buttons}>
             <button onClick={cancel} className={styles.cancelButton}>Cancel</button>

@@ -10,7 +10,7 @@
   position: fixed;
   -webkit-box-align: center;
   align-items: center;
-  background: rgb(255, 255, 255);
+  background: #010101;
   padding: 0 16px;
   z-index: 1;
 }
@@ -35,6 +35,7 @@
 .userInfo {
   display: flex;
   align-items: center;
+  color: #ffffff;
   span {
     margin-right: 10px;
     font-weight: bold;
