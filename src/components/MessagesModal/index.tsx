@@ -14,7 +14,7 @@ class CardItem{
 }
 
 const MessagesModal = () => {
-  const {openMessagesModal, setOpenMessagesModal} = useLogin()
+  const {openMessagesModal, setOpenMessagesModal, userInfo} = useLogin()
   const [loading, setLoading] = useState(false);
   const [cardList, setCardList] = useState<CardItem[]>([])
 
@@ -45,6 +45,12 @@ const MessagesModal = () => {
       getMyBooking();
     }
   }, [openMessagesModal])
+
+  useEffect(() => {
+    if(!userInfo){
+      setCardList([])
+    }
+  }, [userInfo]);
 
   return (
     <Modal width={700} title={null} footer={null} open={openMessagesModal} onCancel={()=>setOpenMessagesModal(false)}>
