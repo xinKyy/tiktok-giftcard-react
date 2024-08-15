@@ -50,7 +50,7 @@ const Home = () =>{
   const { userInfo, setOpenLoginModal} = useLogin()
   const [loading, setLoading] = useState(false);
 
-  const [inConfirm, setInConfirm] = useState<"home" | "confirm" | "table">("home");
+  const {inConfirm, setInConfirm} = useLogin();
   const codeRef = useRef<string | null>(null);
 
   const onCheck = (id:number) =>{
@@ -150,13 +150,13 @@ const Home = () =>{
       }}>
         <Button onClick={submitBook} loading={loading} className={styles.bookAllButton}>One click appointment</Button>
         {
-          userInfo?.role === "admin" &&
-          <Button onClick={()=>{
-            setInConfirm("table")
-          }} className={styles.bookAllButton} type={"primary"} style={{
-            marginBottom:"10px",
-            marginLeft:"auto"
-          }}>Admin</Button>
+          // userInfo?.role === "admin" &&
+          // <Button onClick={()=>{
+          //   setInConfirm("table")
+          // }} className={styles.bookAllButton} type={"primary"} style={{
+          //   marginBottom:"10px",
+          //   marginLeft:"auto"
+          // }}>Admin</Button>
         }
       </div>
     </div>

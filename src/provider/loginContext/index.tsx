@@ -15,6 +15,8 @@ interface LoginContextType {
   setOpenMessagesModal: React.Dispatch<React.SetStateAction<boolean>>;
   openReferralCodeModal:boolean;
   setOpenReferralCodeModal: React.Dispatch<React.SetStateAction<boolean>>;
+  inConfirm:"home" | "confirm" | "table";
+  setInConfirm: React.Dispatch<React.SetStateAction<"home" | "confirm" | "table">>;
 }
 
 // 创建一个Context并指定类型
@@ -32,6 +34,8 @@ export const LoginProvider: React.FC<LoginProviderProps> = ({ children }) => {
   const [openMessagesModal, setOpenMessagesModal] = useState<boolean>(false);
   const [openReferralCodeModal, setOpenReferralCodeModal] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+
+  const [inConfirm, setInConfirm] = useState<"home" | "confirm" | "table">("home");
 
   useEffect(()=>{
     const user = localStorage.getItem("userInfo")
@@ -58,7 +62,9 @@ export const LoginProvider: React.FC<LoginProviderProps> = ({ children }) => {
       openMessagesModal,
       setOpenMessagesModal,
       openReferralCodeModal,
-      setOpenReferralCodeModal
+      setOpenReferralCodeModal,
+      inConfirm,
+      setInConfirm
     }}>
       {children}
     </LoginContext.Provider>

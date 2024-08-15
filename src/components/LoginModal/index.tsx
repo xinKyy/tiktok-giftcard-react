@@ -94,8 +94,8 @@ const LoginForm = () => {
   }
 
   return (
-    <>
-      <Modal title={null} footer={null} open={openLoginModal} onCancel={()=>setOpenLoginModal(false)}>
+    <div className={styles.login_page}>
+      <Modal rootClassName={"login_page"} className={"login_page"} title={null} footer={null} open={openLoginModal} onCancel={()=>setOpenLoginModal(false)}>
         <div className={styles.loginForm}>
           <div className={styles.logo}>
           </div>
@@ -168,7 +168,7 @@ const LoginForm = () => {
       <TipsModal open={openTipsModal} cancel={()=>{
         setOpenTipsModal(false)
       }}></TipsModal>
-    </>
+    </div>
   );
 };
 

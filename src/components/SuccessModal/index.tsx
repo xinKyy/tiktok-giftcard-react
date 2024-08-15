@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import styles from './index.module.scss';
-import tikTokIcon from '../../assets/images/header/logo.png';
+import tikTokIcon from '../../assets/images/header/logo-black.png';
 import {Modal} from "antd"; // Assuming you have an SVG of the TikTok icon
 
 
