@@ -43,6 +43,8 @@ const MessagesModal = () => {
   useEffect(() =>{
     if(openMessagesModal){
       getMyBooking();
+    } else {
+      setCardList([])
     }
   }, [openMessagesModal])
 
