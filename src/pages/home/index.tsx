@@ -91,7 +91,7 @@ const Home = () =>{
     codeRef.current = code
 
     if(code === "SKIP"){
-      code = null
+      codeRef.current = null
     }
 
     toConfirm(bookingItemList)
