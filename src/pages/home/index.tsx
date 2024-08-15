@@ -7,7 +7,7 @@ import React, {useEffect, useRef, useState} from "react";
 import SizeBox from "../../components/SizeBox";
 import {APIAfterCheck, APIBooking, APIStatistics, APIStatisticsItem} from "../../api";
 import {useLogin} from "../../provider/loginContext";
-import {Button, message, Table} from "antd";
+import {Button, message, Table, Tag} from "antd";
 import ReferralCodeModal from "../../components/ReferralCodeModal";
 import TipsModal from "../../components/TipsModal";
 import SuccessModal from "../../components/SuccessModal";
@@ -160,9 +160,9 @@ const Home = () =>{
       setInConfirm("home")
     }} bookList={confirmList}></ConfirmOrder>
 
-    if(inConfirm === "table") return <TablePage cancel={()=>{
+    if(inConfirm === "table") return <TablePageAll cancel={()=>{
       setInConfirm("home")
-    }}></TablePage>
+    }}></TablePageAll>
   }
 
   return <div className={styles.app}>
@@ -262,6 +262,9 @@ const columns = [
     title: '礼品卡种类及数量',
     dataIndex: 'type',
     key: 'type',
+    render:(_:string, r:DataItem)=>{
+      return  <Tag color={getColor(r.id)}>{_}</Tag>
+    }
   },
   {
     title: '时间',
@@ -275,33 +278,106 @@ const columns = [
   },
 ];
 
+const colorMap = {
+  "2500":"success",
+  "5000":"warning",
+  "10000":"red",
+}
+
+const getColor = (key:string): "success" | "warning" | "red" =>{
+  // @ts-ignore
+  return colorMap[key]
+}
+
+
+const AllColumns = (toDetails:(user:string)=>void)=>{
+  return [
+    {
+      title: '邮箱',
+      dataIndex: 'email',
+      key: 'email',
+    },
+    {
+      title: '礼品卡种类及数量',
+      dataIndex: 'statistics',
+      key: 'statistics',
+      render:(_:StatisticsItem[], r:any)=>{
+        return <div>
+          {
+            _.map(item=>{
+              return <Tag color={getColor(item.key)}>{item.key}x{item.value}</Tag>
+            })
+          }
+        </div>
+      }
+    },
+    {
+      title: '时间',
+      dataIndex: 'time',
+      key: 'time',
+    },
+    {
+      title: '操作',
+      dataIndex: 'userId',
+      key: 'userId',
+      render:(_:string, re:any)=>{
+        return <div style={{
+          color:"var(--primary-color)",
+          cursor:"pointer"
+        }} onClick={()=>toDetails(_)}>查看详情</div>
+      }
+    },
+  ]
+};
+
 
 class DataItem{
   email:string = ""
   type:string=""
   time:string = ""
   referralCode:string = ""
+  id:string = ""
+}
+
+class AllDataItem{
+  email:string = ""
+  statistics:StatisticsItem[] = []
+  time:string = ""
+  userId:string = ""
+}
+
+class StatisticsItem{
+  key:string = ""
+  value:string = ""
 }
 
 const TablePageAll = ({cancel}:{
   cancel:()=>void
 }) =>{
-  const [dataSource, setDataSource] = useState<DataItem[]>([]);
+  const [dataSource, setDataSource] = useState<AllDataItem[]>([]);
   const [total, setTotal] = useState(0)
+  const [details, setDetails] = useState(false)
+  const userIdRef = useRef<string | null>(null)
   const [loading, setLoading] = useState(false)
 
-  const getData = (pageNum:number) =>{
+  const getData = () =>{
     setLoading(true)
     APIStatistics().then(resp=>{
-      if(resp.data.data.records && resp.data.data.records.length >= 1){
-        const list = resp.data.data.records;
+      if(resp.data.data){
+        const list = resp.data.data;
         const tmp = list.map((item:any)=>{
+          const result = Object.entries(item.statistics).map(([key, value]) => {
+            return {
+              key:key,
+              value:value
+            } as StatisticsItem
+          });
           return {
             email:item.email,
-            type:`${item.skuId} x ${item.num}`,
+            statistics:result,
             time:item.time,
-            referralCode:item.referralCode
-          } as DataItem
+            userId:item.userId
+          } as AllDataItem
         })
         setDataSource(tmp)
         setTotal(resp.data.data.total)
@@ -312,36 +388,42 @@ const TablePageAll = ({cancel}:{
   }
 
   useEffect(()=>{
-    getData(1)
+    getData()
   }, [])
 
-  return <div className={styles.confirmPage}>
-    <div onClick={cancel} className={styles.back}>
-      <img src={backIcon}></img> Back
-    </div>
-    <div className={styles.section_title}>预约名单</div>
-    <Table loading={loading} pagination={{
-      total:total,
-      pageSize:10,
-      onChange:(pageNum, pageSize)=>{
-        getData(pageNum)
-      }
-    }} dataSource={dataSource} columns={columns} />
-  </div>;
+  const toDetails = (user:string) =>{
+    userIdRef.current = user
+    setDetails(true)
+  }
+
+  return <>
+    {
+      !details ? <div className={styles.confirmPage}>
+        <div onClick={cancel} className={styles.back}>
+          <img src={backIcon}></img> Back
+        </div>
+        <div className={styles.section_title}>预约名单</div>
+        <Table loading={loading} dataSource={dataSource} columns={AllColumns(toDetails)} />
+      </div> : <TablePage cancel={()=>{setDetails(false)}} userId={userIdRef.current}></TablePage>
+    }
+  </>;
 }
 
-const TablePage = ({cancel}:{
-  cancel:()=>void
+const TablePage = ({cancel, userId}:{
+  cancel:()=>void,
+  userId:string | null
 }) =>{
   const [dataSource, setDataSource] = useState<DataItem[]>([]);
   const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(false)
 
   const getData = (pageNum:number) =>{
+    if(userId === null) return;
     setLoading(true)
     APIStatisticsItem({
+      pageNum:pageNum,
       pageSize:10,
-      pageNum:pageNum
+      userId:userId
     }).then(resp=>{
       if(resp.data.data.records && resp.data.data.records.length >= 1){
         const list = resp.data.data.records;
@@ -349,6 +431,7 @@ const TablePage = ({cancel}:{
           return {
             email:item.email,
             type:`${item.skuId} x ${item.num}`,
+            id:item.skuId,
             time:item.time,
             referralCode:item.referralCode
           } as DataItem

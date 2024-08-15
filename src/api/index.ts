@@ -72,13 +72,10 @@ export const APIStatistics = () =>{
   return axiosInstance.get("/any-starr/api/v1/gcUserBooking/statistics", {params})
 }
 
-export const APIStatisticsItem = (temp:{
+export const APIStatisticsItem = (params:{
   pageNum:number,
-  pageSize:number
+  pageSize:number,
+  userId:string
 }) =>{
-  const params = {
-    ...temp,
-    userId:localStorage.getItem("id")
-  }
   return axiosInstance.get("/any-starr/api/v1/gcUserBooking/statisticsItem", {params})
 }
