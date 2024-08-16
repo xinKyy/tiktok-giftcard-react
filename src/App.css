@@ -5,6 +5,15 @@
     box-sizing: border-box;
 }
 
+* {
+    scrollbar-width: none; /* 针对 Firefox */
+    -ms-overflow-style: none; /* 针对 IE 和 Edge */
+}
+
+*::-webkit-scrollbar {
+    display: none; /* 针对 WebKit 浏览器（如 Chrome, Safari） */
+}
+
 body{
     padding: 0;
     margin: 0;
