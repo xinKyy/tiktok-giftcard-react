@@ -148,7 +148,7 @@ const Home = () =>{
         display:"flex",
         alignItems:"center"
       }}>
-        <Button onClick={submitBook} loading={loading} className={styles.bookAllButton}>One click appointment</Button>
+        <Button onClick={submitBook} loading={loading} className={styles.bookAllButton}>Add to cart</Button>
         {
           // userInfo?.role === "admin" &&
           // <Button onClick={()=>{
@@ -196,7 +196,7 @@ const ConfirmOrder = ({cancel, bookList, code}:{
       referralCode:code
     }).then((resp:any)=>{
       setLoading(false)
-      if(resp.data){
+      if(resp.code === "1" && resp.data){
         setLoading(false)
         setOpenSuccess(true)
         return ;
@@ -243,7 +243,7 @@ const ConfirmOrder = ({cancel, bookList, code}:{
             <span style={{color:"#fff"}} className={styles.value}>{time}</span>
           </div>
           <div className={styles.buttons}>
-            <button onClick={cancel} className={styles.cancelButton}>Cancel</button>
+            <button onClick={cancel} className={styles.cancelButton}>Edit</button>
             <Button loading={loading} onClick={confirm} className={styles.confirmButton}>Confirm</Button>
           </div>
         </div>
@@ -251,7 +251,7 @@ const ConfirmOrder = ({cancel, bookList, code}:{
     </div>
 
     <div className={styles.buttons_mobile}>
-      <button onClick={cancel} className={styles.cancelButton}>Cancel</button>
+      <button onClick={cancel} className={styles.cancelButton}>Edit</button>
       <Button loading={loading} onClick={confirm} className={styles.confirmButton}>Confirm</Button>
     </div>
 

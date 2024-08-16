@@ -45,12 +45,12 @@ const Card: React.FC<CardProps> = ({id, value, submit,  amount = 0, setAmount = 
                 id:id!,
                 num:amount
               }])
-            }} className={styles.bookButton}>Subscribe</Button>
+            }} className={styles.bookButton}>Add to cart</Button>
           </div>
           <div className={styles.value_wrap}>
-            Available today: <span>
+            <span>
             {value}
-          </span>
+            </span>
           </div>
           <div onClick={()=>{
             if(onCheck) onCheck(id!);

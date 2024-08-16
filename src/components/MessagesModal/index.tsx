@@ -6,17 +6,37 @@ import {useLogin} from "../../provider/loginContext";
 import Card from "../Card";
 import giftCard from "../../assets/images/home/gifcard.png"
 import {APIMyBooking, MyBookingParams} from "../../api";
+import MessageCard from "../MessageCard";
 
 class CardItem{
-  price:number = 0
-  cardAmount:number = 0
+  price:string = ""
   createTime:string = ""
 }
+
+interface Booking {
+  id: number;
+  userId: number;
+  skuId: number;
+  bookingNum: number;
+  createTime: string;
+  updateTime: string;
+  isDeleted: number;
+  referralCode: string;
+  bookingGroup: string;
+}
+
+interface Result {
+  price: string;
+  createTime: string;
+}
+
 
 const MessagesModal = () => {
   const {openMessagesModal, setOpenMessagesModal, userInfo} = useLogin()
   const [loading, setLoading] = useState(false);
   const [cardList, setCardList] = useState<CardItem[]>([])
+
+
 
   const getMyBooking = () =>{
     setLoading(true)
@@ -24,14 +44,32 @@ const MessagesModal = () => {
     APIMyBooking(params).then(resp=>{
       console.log(resp, "Resp")
       if(resp.data.data.records && resp.data.data.records.length >= 1){
-        const list = resp.data.data.records.map((item:any)=>{
-          return {
-            price:item.skuId,
-            cardAmount:item.bookingNum,
-            createTime:item.createTime
-          } as CardItem
-        })
-        setCardList(list);
+        const data = resp.data.data.records
+        const grouped: { [key: string]: Result } = data.reduce((acc:any, item:Booking) => {
+          const { bookingGroup, skuId, bookingNum, createTime } = item;
+          if (!acc[bookingGroup]) {
+            acc[bookingGroup] = {
+              price: `${skuId}x${bookingNum}`,
+              createTime
+            };
+          } else {
+            acc[bookingGroup].price += `,  ${skuId}x${bookingNum}`;
+            acc[bookingGroup].createTime = acc[bookingGroup].createTime < createTime
+              ? acc[bookingGroup].createTime
+              : createTime;
+          }
+          return acc;
+        }, {} as { [key: string]: Result });
+
+        const result = Object.values(grouped);
+
+        // const list = resp.data.data.records.map((item:any)=>{
+        //   return {
+        //     price:item.skuId,
+        //     createTime:item.createTime
+        //   } as CardItem
+        // })
+        setCardList(result);
       }
     }).finally(()=>{
       setLoading(false)
@@ -68,7 +106,11 @@ const MessagesModal = () => {
             <div className={styles.card_wrap}>
               {
                 cardList.map(item=>{
-                  return <Card price={item.price} createTime={item.createTime} imgSrc={giftCard} onlyShow={true} cardAmount={item.cardAmount} zoom={0.8}></Card>
+                  return <MessageCard
+                    price={item.price}
+                    createTime={item.createTime}
+                    imgSrc={giftCard}
+                    zoom={0.8}></MessageCard>
                 })
               }
             </div>
