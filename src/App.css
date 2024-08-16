@@ -53,19 +53,7 @@ body{
     animation-name: fadeInUp
 }
 
-.login_page{
 
-}
-
-.login_page .ant-modal .ant-modal-content{
-    background-color: #000 !important;
-    box-shadow:none !important;
-    height: 95vh;
-}
-
-.login_page .ant-modal{
-    top: 0;
-}
 
 .login_page .ant-modal .ant-modal-close{
     color: #ffffff;
@@ -102,5 +90,19 @@ body{
 @media screen and (max-width: 640px) {
     .mobile_none{
         display: none;
+    }
+
+    .login_page{
+
+    }
+
+    .login_page .ant-modal .ant-modal-content{
+        background-color: #000 !important;
+        box-shadow:none !important;
+        height: 95vh;
+    }
+
+    .login_page .ant-modal{
+        top: 0;
     }
 }
