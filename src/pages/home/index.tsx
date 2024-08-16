@@ -37,6 +37,14 @@ const Home = () =>{
     },
   ]);
 
+  const resetCardList = () =>{
+    cardList.forEach(item=>{
+      item.check = false;
+      item.amount = 1;
+    })
+    setCardList(cardList.slice())
+  }
+
   const [ openReferralCodeModal, setOpenReferralCodeModal]= useState(false);
   const [ isAdmin, setIsAdmin]= useState(false);
 
@@ -59,7 +67,7 @@ const Home = () =>{
       if(cardList[cardIndex].value && cardList[cardIndex].value >= 1){
         cardList[cardIndex].check = !cardList[cardIndex].check
       } else {
-        message.info("The reservation limit for this gift card has been used today, please come back tomorrow!")
+        message.info(`You have used up your ${cardList[cardIndex].id} gift card reservation today, please reserve another gift card!`)
       }
     }
     setCardList(cardList.slice());
@@ -160,7 +168,10 @@ const Home = () =>{
         }
       </div>
     </div>
-    if(inConfirm === "confirm") return <ConfirmOrder code={codeRef.current} cancel={()=>{
+    if(inConfirm === "confirm") return <ConfirmOrder onSuccess={()=>{
+      resetCardList()
+      setInConfirm("home")
+    }} code={codeRef.current} cancel={()=>{
       setInConfirm("home")
     }} bookList={confirmList}></ConfirmOrder>
 
@@ -177,13 +188,14 @@ const Home = () =>{
   </div>
 }
 
-const ConfirmOrder = ({cancel, bookList, code}:{
+const ConfirmOrder = ({cancel, bookList, code, onSuccess}:{
   cancel:()=>void,
   bookList:{
     id:number,
     num:number,
   }[],
-  code:string | null | undefined
+  code:string | null | undefined,
+  onSuccess:()=>void
 }) =>{
   const [time, setTime] = useState(new Date().toLocaleString())
   const [loading, setLoading] = useState(false);
@@ -256,7 +268,7 @@ const ConfirmOrder = ({cancel, bookList, code}:{
     </div>
 
 
-    <SuccessModal open={openSuccess} cancelHome={cancel} cancel={()=>setOpenSuccess(false)}></SuccessModal>
+    <SuccessModal open={openSuccess} cancelHome={onSuccess} cancel={()=>setOpenSuccess(false)}></SuccessModal>
   </div>
 }
 

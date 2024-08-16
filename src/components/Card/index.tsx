@@ -47,11 +47,11 @@ const Card: React.FC<CardProps> = ({id, value, submit,  amount = 0, setAmount = 
               }])
             }} className={styles.bookButton}>Add to cart</Button>
           </div>
-          <div className={styles.value_wrap}>
-            <span>
-            {value}
-            </span>
-          </div>
+          {/*<div className={styles.value_wrap}>*/}
+          {/*  <span>*/}
+          {/*  {value}*/}
+          {/*  </span>*/}
+          {/*</div>*/}
           <div onClick={()=>{
             if(onCheck) onCheck(id!);
           }} >
