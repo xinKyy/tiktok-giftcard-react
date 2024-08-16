@@ -109,8 +109,7 @@ const MessagesModal = () => {
                   return <MessageCard
                     price={item.price}
                     createTime={item.createTime}
-                    imgSrc={giftCard}
-                    zoom={0.8}></MessageCard>
+                    imgSrc={giftCard}></MessageCard>
                 })
               }
             </div>

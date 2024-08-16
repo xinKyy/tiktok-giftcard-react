@@ -17,9 +17,7 @@ interface CardProps {
 
 const MessageCard: React.FC<CardProps> = ({price, imgSrc, zoom= 1, createTime}) => {
   return (
-    <div style={{
-      zoom:zoom
-    }} className={styles.card}>
+    <div className={styles.card}>
       <div>
         <img src={imgSrc} alt="Product" />
         <div className={styles.price}>{price}</div>

@@ -28,9 +28,9 @@
   min-height: 300px;
   flex-wrap: wrap;
   display: grid;
-  grid-template-columns: repeat(3, 1fr); // 创建三列，列宽相等
-  gap: 16px; // 列之间的间距
-  padding: 16px; // 容器的内边距
+  grid-template-columns: repeat(2, 1fr); // 创建三列，列宽相等
+  gap: 8px; // 列之间的间距
+  padding: 8px; // 容器的内边距
   padding-top: 0;
 }
 

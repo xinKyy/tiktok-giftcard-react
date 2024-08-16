@@ -12,6 +12,7 @@
   color: #fff;
   margin-bottom: 20px;
   border: 2px solid #ffffff;
+  zoom: 0.8;
   .check_wrap{
     position: absolute;
     top: 5px;
@@ -122,11 +123,10 @@ img {
 @media screen and (max-width: 640px) {
   .card{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: flex-end;
     justify-content: space-between;
     width: 100%;
-
     .check_wrap{
       position: absolute;
       top: 7px;
