@@ -45,7 +45,7 @@ const Card: React.FC<CardProps> = ({id, value, submit,  amount = 0, setAmount = 
                 id:id!,
                 num:amount
               }])
-            }} className={styles.bookButton}>Add to cart</Button>
+            }} className={styles.bookButton}>カートに追加</Button>
           </div>
           {/*<div className={styles.value_wrap}>*/}
           {/*  <span>*/}

@@ -95,7 +95,7 @@ const MessagesModal = () => {
   return (
     <Modal width={700} title={null} footer={null} open={openMessagesModal} onCancel={()=>setOpenMessagesModal(false)}>
       <div>
-        <div className={styles.section_title}>You have confirmed the following appointment:</div>
+        <div className={styles.section_title}>以下の予約が確認されました:</div>
         <div className={styles.loginForm}>
           {
             cardList.length <= 0 && !loading && <div>

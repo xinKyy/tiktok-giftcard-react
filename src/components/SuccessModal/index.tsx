@@ -22,10 +22,10 @@ const SuccessModal = (props:Props) => {
           <img src={tikTokIcon} className={styles.icon} />
         </div>
         <div className={styles.content}>
-          You have successfully booked an appointment!
+            予約が正常に完了しました。
           <br />
           <span style={{fontWeight:"bold"}}>
-          Thank you for your support!
+          ありがとうございます！
           </span>
         </div>
         <button onClick={()=>{

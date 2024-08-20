@@ -99,15 +99,15 @@ const LoginForm = () => {
         <div className={styles.loginForm}>
           <div className={styles.logo}>
           </div>
-          <h2>Welcome</h2>
-          <p>Oh, we need some information from you to facilitate sending appointment information</p>
+          <h2>ようこそ！</h2>
+          <p>予約情報を送信するためにいくつかの情報が必要です</p>
           <Form autoComplete={"off"} form={form} onFinish={onSubmit}>
             <div className={styles.inputGroup}>
-              <label>Email</label>
+              <label>メール</label>
               <Form.Item rules={[
                 {
                   required:true,
-                  message:"Please enter your email address!"
+                  message:"メールアドレスを入力してください"
                 },
                 {
                   type: "email",
@@ -140,7 +140,7 @@ const LoginForm = () => {
             {/*</div>*/}
 
             <div className={styles.inputGroup}>
-              <label>VerifyCode Code</label>
+              <label>認証コード</label>
               <Form.Item rules={[
                 {
                   required:true,
@@ -148,15 +148,15 @@ const LoginForm = () => {
                 },
               ]} name={"verifyCode"}>
                 <div className={styles.code_wrap}>
-                  <Input placeholder="Please enter verify code!" />
-                  <Button loading={sendCodeLoading} disabled={sendNum != null} onClick={getCode} className={styles.send_btn}> {sendNum != null ? `${sendNum} s` : "Send code"}</Button>
+                  <Input placeholder="認証コードを入力してください" />
+                  <Button loading={sendCodeLoading} disabled={sendNum != null} onClick={getCode} className={styles.send_btn}> {sendNum != null ? `${sendNum} s` : "コードを送信"}</Button>
                 </div>
               </Form.Item>
             </div>
             {/*<div className={styles.forgotPassword}>*/}
             {/*  <a href="/forgot-password">Forgot password</a>*/}
             {/*</div>*/}
-            <Button loading={loading} htmlType={"submit"} className={styles.loginButton}>Log in</Button>
+            <Button loading={loading} htmlType={"submit"} className={styles.loginButton}>ログイン</Button>
           </Form>
           {/*<div className={styles.signupLink}>*/}
           {/*  <p>Already have an account? <a onClick={()=>setIsRegis(!isRegis)}>{*/}

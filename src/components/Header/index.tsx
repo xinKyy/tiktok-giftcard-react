@@ -12,12 +12,12 @@ const Header: React.FC = () => {
 
   const content = (
     <div className={styles.pop_content}>
-      <div>Referral Code: {userInfo?.referralCode}</div>
-      <div onClick={()=>setOpenMessagesModal(true)}>Messages</div>
+      <div>紹介コード: {userInfo?.referralCode}</div>
+      <div onClick={()=>setOpenMessagesModal(true)}>メッセージ</div>
       {
         userInfo?.role === "admin" && <div onClick={()=>{
         setInConfirm("table")
-      }}>Admin</div>
+      }}>管理者</div>
       }
       <div onClick={()=>{
         localStorage.removeItem("userInfo")
@@ -25,7 +25,7 @@ const Header: React.FC = () => {
         localStorage.removeItem("referralCode")
         localStorage.removeItem("id")
         setUserInfo(null)
-      }}>Logout</div>
+      }}>ログアウト</div>
     </div>
   );
 

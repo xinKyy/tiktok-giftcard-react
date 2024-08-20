@@ -67,7 +67,7 @@ const Home = () =>{
       if(cardList[cardIndex].value && cardList[cardIndex].value >= 1){
         cardList[cardIndex].check = !cardList[cardIndex].check
       } else {
-        message.info(`You have used up your ${cardList[cardIndex].id} gift card reservation today, please reserve another gift card!`)
+        message.info(`本日の${cardList[cardIndex].id}枚のギフトカード予約が終了しました。別のギフトカードを予約してください。`)
       }
     }
     setCardList(cardList.slice());
@@ -90,7 +90,7 @@ const Home = () =>{
       return;
     }
     if(bookingItemList.length <= 0){
-      return message.info("Please select the Gift Card you want to book!")
+      return message.info("予約したいギフトカードを選択してください！")
     }
 
     let code = localStorage.getItem("referralCode")
@@ -223,10 +223,10 @@ const ConfirmOrder = ({cancel, bookList, code, onSuccess}:{
 
   return  <div className={styles.confirmPage}>
     <div onClick={cancel} className={styles.back}>
-      <img src={backIcon}></img> Back
+      <img src={backIcon}></img> 戻る
     </div>
 
-    <div className={styles.section_title}>Please Confirm:</div>
+    <div className={styles.section_title}>確認してください</div>
 
     <div className={styles.confirmationBox}>
       <div className={styles.image}>
@@ -238,11 +238,11 @@ const ConfirmOrder = ({cancel, bookList, code, onSuccess}:{
             bookList.map(item=>{
               return <div className={styles.item}>
                 <div>
-                  <span className={styles.label}>Type:</span>
+                  <span className={styles.label}>タイプ:</span>
                   <span className={styles.value}>{item.id}</span>
                 </div>
                 <div>
-                  <span className={styles.label}>Quantities:</span>
+                  <span className={styles.label}>数量:</span>
                   <span className={styles.value}>{item.num}</span>
                 </div>
               </div>
@@ -251,12 +251,12 @@ const ConfirmOrder = ({cancel, bookList, code, onSuccess}:{
         </div>
         <div>
           <div className={styles.item}>
-            <span className={styles.label}>Time:</span>
+            <span className={styles.label}>時間:</span>
             <span style={{color:"#fff"}} className={styles.value}>{time}</span>
           </div>
           <div className={styles.buttons}>
-            <button onClick={cancel} className={styles.cancelButton}>Edit</button>
-            <Button loading={loading} onClick={confirm} className={styles.confirmButton}>Confirm</Button>
+            <button onClick={cancel} className={styles.cancelButton}>編集</button>
+            <Button loading={loading} onClick={confirm} className={styles.confirmButton}>確認</Button>
           </div>
         </div>
       </div>
@@ -422,7 +422,7 @@ const TablePageAll = ({cancel}:{
     {
       !details ? <div className={styles.confirmPage}>
         <div onClick={cancel} className={styles.back}>
-          <img src={backIcon}></img> Back
+          <img src={backIcon}></img> 戻る
         </div>
         <div className={styles.section_title}>预约名单</div>
         <Table loading={loading} dataSource={dataSource} columns={AllColumns(toDetails)} />
@@ -472,7 +472,7 @@ const TablePage = ({cancel, userId}:{
 
   return <div className={styles.confirmPage}>
     <div onClick={cancel} className={styles.back}>
-      <img src={backIcon}></img> Back
+      <img src={backIcon}></img> 戻る
     </div>
 
     <Table loading={loading} pagination={{

@@ -51,14 +51,14 @@ const ReferralCodeModal = ({callback, openReferralCodeModal, setOpenReferralCode
     setCode("")
   }}>
     <div className={styles.referralCodeForm}>
-      <label htmlFor="referralCode" className={styles.label}>Please enter your referral code:</label>
+      <label htmlFor="referralCode" className={styles.label}>紹介コードを入力してください:</label>
       <Input value={code} onChange={(e)=>{
         setCode(e.target.value)
-      }} type="text" id="referralCode" className={styles.input} placeholder="Please input referral code" />
+      }} type="text" id="referralCode" className={styles.input} placeholder="紹介コードを入力" />
       <div className={styles.button_wrap}>
-        <Button onClick={skip} type={"default"} className={styles.skip_button}>Skip</Button>
+        <Button onClick={skip} type={"default"} className={styles.skip_button}>スキップ</Button>
         <SizeBox w={30}></SizeBox>
-        <Button loading={loading} onClick={submit} className={styles.button}>Submit</Button>
+        <Button loading={loading} onClick={submit} className={styles.button}>送信</Button>
       </div>
     </div>
   </Modal>

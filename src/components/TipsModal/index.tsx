@@ -17,16 +17,17 @@ const TipsModal = (props:Props) => {
         <div className={styles.header}>
           <img src={tikTokIcon} className={styles.icon} />
           <div>
-            Welcome to tiktokgiftcard!
+              tiktokギフトカードへようこそ！
           </div>
         </div>
         <div className={styles.content}>
-          There are three types of gift cards for you to choose from, you can select the type of gift card and the number of cards according to your preference.
+            3種類のギフトカードからお選びいただけます。お好みに合わせてギフトカードの種類と枚数を選択してください。
           <br />
-          If you want to choose more than one gift card, please tick the desired gift cards (in the upper right corner) and click on Booking. You can view your booking by selecting "Messages" in your account.
+            複数のギフトカードを選択したい場合は、希望するギフトカード（右上隅）にチェックを入れて、予約をクリックしてください。
           <br /><br />
           <span style={{fontWeight:"bold"}}>
-             We wish you a pleasant booking experience!
+             アカウントの「メッセージ」を選択すると、予約内容を確認できます。
+予約の方、お待ちしております。
           </span>
         </div>
         <button onClick={cancel} className={styles.button}>OK</button>
