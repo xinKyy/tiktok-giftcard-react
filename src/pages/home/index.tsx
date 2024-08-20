@@ -156,7 +156,7 @@ const Home = () =>{
         display:"flex",
         alignItems:"center"
       }}>
-        <Button onClick={submitBook} loading={loading} className={styles.bookAllButton}>Add to cart</Button>
+        <Button onClick={submitBook} loading={loading} className={styles.bookAllButton}>カートに追加</Button>
         {
           // userInfo?.role === "admin" &&
           // <Button onClick={()=>{
@@ -263,8 +263,8 @@ const ConfirmOrder = ({cancel, bookList, code, onSuccess}:{
     </div>
 
     <div className={styles.buttons_mobile}>
-      <button onClick={cancel} className={styles.cancelButton}>Edit</button>
-      <Button loading={loading} onClick={confirm} className={styles.confirmButton}>Confirm</Button>
+      <button onClick={cancel} className={styles.cancelButton}>編集</button>
+      <Button loading={loading} onClick={confirm} className={styles.confirmButton}>確認</Button>
     </div>
 
 

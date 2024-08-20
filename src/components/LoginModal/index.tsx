@@ -114,7 +114,7 @@ const LoginForm = () => {
                   message: "The input is not a valid email address!",
                 },
               ]} name={"email"}>
-                <Input type="email" placeholder="Please enter your email" />
+                <Input type="email" placeholder="メールアドレスを入力してください" />
               </Form.Item>
             </div>
             {
