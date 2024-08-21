@@ -99,7 +99,7 @@ const MessagesModal = () => {
         <div className={styles.loginForm}>
           {
             cardList.length <= 0 && !loading && <div>
-              It seems like you haven't made an appointment yet.
+              まだ予約を入れていないようですね。
             </div>
           }
           <Spin spinning={loading}>
