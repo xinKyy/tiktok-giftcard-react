@@ -40,7 +40,7 @@ const Header: React.FC = () => {
           userInfo ?
           <Popover placement={"bottom"} content={content}>
             <span>{userInfo.email}</span>
-          </Popover> :   <button onClick={()=>setOpenLoginModal(true)} className={styles.bookAllButton}>Login</button>
+          </Popover> :   <button onClick={()=>setOpenLoginModal(true)} className={styles.bookAllButton}>ログイン</button>
         }
       </div>
     </header>

@@ -42,7 +42,7 @@ const LoginForm = () => {
           localStorage.setItem("userInfo", JSON.stringify(user1))
           setUserInfo(user1)
           setOpenLoginModal(false);
-          message.success("Login success!")
+          message.success("ログイン成功")
           form.resetFields();
 
           if(resp.data.data.newUser === "1"){
@@ -50,12 +50,12 @@ const LoginForm = () => {
           }
         }
       } else{
-        message.error("Login error!")
+        message.error("ログインエラー")
       }
     }).finally(()=>{
       setLoading(false);
     }).catch(e=>{
-      message.error("Login error!")
+      message.error("ログインエラー")
     })
   }
 
@@ -66,14 +66,14 @@ const LoginForm = () => {
       email:v.email
     }).then(resp=>{
       if(resp.data.data){
-        message.success("Verification code sent successfully")
+        message.success("認証コードの送信に成功")
         openTimer();
         setSendCodeLoading(false)
         return;
       }
-      message.error("Sending failed, please try again")
+      message.error("送信に失敗しました。再試行してください")
     }).catch(e=>{
-      message.error("Sending failed, please try again")
+      message.error("送信に失敗しました。再試行してください")
     }).finally(()=>{
       setSendCodeLoading(false)
     })
@@ -144,7 +144,7 @@ const LoginForm = () => {
               <Form.Item rules={[
                 {
                   required:true,
-                  message:"Please enter your verify code!"
+                  message:"認証コードを入力してください"
                 },
               ]} name={"verifyCode"}>
                 <div className={styles.code_wrap}>

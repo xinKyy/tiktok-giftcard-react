@@ -32,9 +32,9 @@ const ReferralCodeModal = ({callback, openReferralCodeModal, setOpenReferralCode
         setOpenReferralCodeModal(false)
         return;
       }
-      return message.error("Referral code error, please check and try again")
+      return message.error("推奨コードエラー、チェックして再試行してください")
     }).catch(()=>{
-      return message.error("An abnormal situation has occurred, please try again")
+      return message.error("異常が発生しました。再試行してください")
     }).finally(()=>{
       setLoading(false)
     })
