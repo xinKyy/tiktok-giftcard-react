@@ -34,7 +34,7 @@ const Header: React.FC = () => {
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
-        <img src={logo} alt="Tik Tok" />
+        <img src={"https://tiktokmaill.s3.ap-southeast-1.amazonaws.com/logo_tk.png"} alt="Tik Tok" />
       </div>
       <div className={styles.userInfo}>
         {
