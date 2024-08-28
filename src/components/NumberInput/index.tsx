@@ -13,9 +13,6 @@ const NumberInput = (props: NumberInputProps) => {
     const value = e.target.value;
     if (value && value !== "") {
       if (/^\d*$/.test(value)) {
-        if(parseInt(value) <= 0 ){
-          return
-        }
         const v = parseInt(value)
         if(v > 99){
             return message.info("選択した数量がオプションの数を超えています。")
@@ -26,7 +23,7 @@ const NumberInput = (props: NumberInputProps) => {
   }
 
   const sub = () =>{
-      setAmount(amount > 1 ? amount - 1 : 1)
+      setAmount(amount > 0 ? amount - 1 : 0)
   }
 
   const add = () =>{

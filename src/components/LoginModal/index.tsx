@@ -45,8 +45,11 @@ const LoginForm = () => {
           message.success("ログイン成功")
           form.resetFields();
 
-          if(resp.data.data.newUser === "1"){
+          const localLogin = localStorage.getItem("localLogin")
+
+          if(resp.data.data.newUser === "1" || localLogin !== "1"){
             setOpenTipsModal(true)
+            localStorage.setItem("localLogin", "1")
           }
         }
       } else{

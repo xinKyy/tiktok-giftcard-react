@@ -18,21 +18,21 @@ const Home = () =>{
       id:2500,
       price:2500,
       check:false,
-      amount:1,
+      amount:0,
       value:5,
     },
     {
       id:5000,
       price:5000,
       check:false,
-      amount:1,
+      amount:0,
       value:5,
     },
     {
       id:10000,
       price:10000,
       check:false,
-      amount:1,
+      amount:0,
       value:5,
     },
   ]);
@@ -134,7 +134,7 @@ const Home = () =>{
   }, [inConfirm])
 
   const submitBook = () =>{
-    const bookList = cardList.filter(item=>item.check).map(item=>{
+    const bookList = cardList.filter(item=>item.amount >= 1).map(item=>{
       return {
         id:item.id,
         num:item.amount

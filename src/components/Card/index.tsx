@@ -7,6 +7,7 @@ import checkedIcon from "../../assets/images/home/checked-icon.svg"
 import {APIBooking} from "../../api";
 import {Button, message} from "antd";
 import ReferralCodeModal from "../ReferralCodeModal";
+import SizeBox from "../SizeBox";
 
 interface CardProps {
   id?:number;
@@ -40,28 +41,31 @@ const Card: React.FC<CardProps> = ({id, value, submit,  amount = 0, setAmount = 
         !onlyShow ? <>
           <div className={styles.row_wrap}>
             <NumberInput amount={amount} setAmount={(v)=>{setAmount(id!, v)}}></NumberInput>
-            <Button disabled={!value || value <= 0} onClick={()=>{
-              if(submit) submit([{
-                id:id!,
-                num:amount
-              }])
-            }} className={styles.bookButton}>カートに追加</Button>
+            {/*<Button disabled={!value || value <= 0} onClick={()=>{*/}
+            {/*  if(submit) submit([{*/}
+            {/*    id:id!,*/}
+            {/*    num:amount*/}
+            {/*  }])*/}
+            {/*}} className={styles.bookButton}>カートに追加</Button>*/}
+              <SizeBox h={20}></SizeBox>
           </div>
           {/*<div className={styles.value_wrap}>*/}
           {/*  <span>*/}
           {/*  {value}*/}
           {/*  </span>*/}
           {/*</div>*/}
-          <div onClick={()=>{
-            if(onCheck) onCheck(id!);
-          }} >
-            {
-              check && value && value >= 1 ? <img className={styles.check_wrap} src={checkedIcon}></img> :  <div style={{
-                border:"2px solid #fff"
-              }} className={styles.check_wrap}>
-              </div>
-            }
-          </div>
+
+            {/*<div onClick={()=>{*/}
+            {/*    if(onCheck) onCheck(id!);*/}
+            {/*}} >*/}
+            {/*    {*/}
+            {/*        check && value && value >= 1 ? <img className={styles.check_wrap} src={checkedIcon}></img> :  <div style={{*/}
+            {/*            border:"2px solid #fff"*/}
+            {/*        }} className={styles.check_wrap}>*/}
+            {/*        </div>*/}
+            {/*    }*/}
+            {/*</div>*/}
+
         </> : <>
           <div className={styles.card_amount}>
             <div>You have made a reservation：<span>{cardAmount}</span></div>
