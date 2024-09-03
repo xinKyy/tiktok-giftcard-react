@@ -1,18 +1,20 @@
 // src/components/Header/Header.tsx
 import React, {useEffect} from 'react';
 import styles from './index.module.scss';
-import logo from  "../../assets/images/header/logo.png"
 import {useLogin} from "../../provider/loginContext";
 import {Popover} from "antd";
-import MessagesModal from "../MessagesModal";
+import {useNavigate} from "react-router-dom";
 
 const Header: React.FC = () => {
 
   const { userInfo, setOpenLoginModal, setUserInfo, setOpenMessagesModal, setInConfirm} = useLogin()
 
+  const toReferCode = () => {
+      window.location.href = "/referCode"
+  }
   const content = (
     <div className={styles.pop_content}>
-      <div>紹介コード: {userInfo?.referralCode}</div>
+      <div onClick={toReferCode}>紹介コード</div>
       <div onClick={()=>setOpenMessagesModal(true)}>メッセージ</div>
       {
         userInfo?.role === "admin" && <div onClick={()=>{

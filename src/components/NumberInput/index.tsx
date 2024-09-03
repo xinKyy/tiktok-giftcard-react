@@ -1,20 +1,21 @@
 import {Input, message} from "antd";
 import {ChangeEvent} from "react";
 import styles from "./index.module.scss"
-interface NumberInputProps {
-  amount: number,
-  setAmount: (amount: number) => void
+class NumberInputProps {
+  amount: number = 1;
+  max?:number = 99;
+  setAmount: (amount: number) => void = () =>{}
 }
 
 const NumberInput = (props: NumberInputProps) => {
-  const {amount, setAmount} = props;
+  const {amount, setAmount, max} = props;
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     if (value && value !== "") {
       if (/^\d*$/.test(value)) {
         const v = parseInt(value)
-        if(v > 99){
+        if(v > max!){
             return message.info("選択した数量がオプションの数を超えています。")
         }
         setAmount(v)

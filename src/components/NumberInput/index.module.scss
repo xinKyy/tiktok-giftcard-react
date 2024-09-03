@@ -62,6 +62,10 @@
     color: #fff;
     line-height: 29px;
     text-align: center;
+    &:focus{
+      outline: none !important;
+      border: none !important;
+    }
   }
 }
 

@@ -6,13 +6,20 @@ import LoginForm from "./components/LoginModal";
 import {LoginProvider} from "./provider/loginContext";
 import MessagesModal from "./components/MessagesModal";
 import ReferralCodeModal from "./components/ReferralCodeModal";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import ReferCodePage from "./pages/referCodePage";
 
 function App() {
   return (
     <LoginProvider>
       <AppLayout>
          <div>
-           <Home></Home>
+             <Router>
+                 <Routes>
+                     <Route path="/" element={<Home />} />
+                     <Route path="/referCode" element={<ReferCodePage />} />
+                 </Routes>
+             </Router>
            <LoginForm></LoginForm>
            <MessagesModal></MessagesModal>
          </div>
