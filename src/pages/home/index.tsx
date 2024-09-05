@@ -11,6 +11,8 @@ import {Button, message, Table, Tag} from "antd";
 import ReferralCodeModal from "../../components/ReferralCodeModal";
 import TipsModal from "../../components/TipsModal";
 import SuccessModal from "../../components/SuccessModal";
+import AppLayout from "../../components/Layout";
+import {useNavigate} from "react-router-dom";
 
 const Home = () =>{
   const [cardList, setCardList] = useState([
@@ -174,18 +176,16 @@ const Home = () =>{
     }} code={codeRef.current} cancel={()=>{
       setInConfirm("home")
     }} bookList={confirmList}></ConfirmOrder>
-
-    if(inConfirm === "table") return <TablePageAll cancel={()=>{
-      setInConfirm("home")
-    }}></TablePageAll>
   }
 
-  return <div className={`animated fadeIn animate__fadeInUp ${styles.app}`}>
-    {
-      renderPage()
-    }
-    <ReferralCodeModal openReferralCodeModal={openReferralCodeModal} setOpenReferralCodeModal={setOpenReferralCodeModal} callback={submitBook}></ReferralCodeModal>
-  </div>
+    return  <AppLayout>
+        <div className={`animated fadeIn animate__fadeInUp ${styles.app}`}>
+            {
+                renderPage()
+            }
+            <ReferralCodeModal openReferralCodeModal={openReferralCodeModal} setOpenReferralCodeModal={setOpenReferralCodeModal} callback={submitBook}></ReferralCodeModal>
+        </div>
+    </AppLayout>
 }
 
 const ConfirmOrder = ({cancel, bookList, code, onSuccess}:{
@@ -373,14 +373,13 @@ class StatisticsItem{
   value:string = ""
 }
 
-const TablePageAll = ({cancel}:{
-  cancel:()=>void
-}) =>{
+export const TablePageAll = () =>{
   const [dataSource, setDataSource] = useState<AllDataItem[]>([]);
   const [total, setTotal] = useState(0)
   const [details, setDetails] = useState(false)
   const userIdRef = useRef<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const navigate = useNavigate();
 
   const getData = () =>{
     setLoading(true)
@@ -418,17 +417,17 @@ const TablePageAll = ({cancel}:{
     setDetails(true)
   }
 
-  return <>
+  return <AppLayout>
     {
       !details ? <div className={styles.confirmPage}>
-        <div onClick={cancel} className={styles.back}>
+        <div onClick={()=>navigate("/")} className={styles.back}>
           <img src={backIcon}></img> 戻る
         </div>
         <div className={styles.section_title}>预约名单</div>
         <Table loading={loading} dataSource={dataSource} columns={AllColumns(toDetails)} />
       </div> : <TablePage cancel={()=>{setDetails(false)}} userId={userIdRef.current}></TablePage>
     }
-  </>;
+  </AppLayout>;
 }
 
 const TablePage = ({cancel, userId}:{

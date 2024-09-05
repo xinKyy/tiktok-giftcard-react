@@ -8,9 +8,10 @@ import {useNavigate} from "react-router-dom";
 const Header: React.FC = () => {
 
   const { userInfo, setOpenLoginModal, setUserInfo, setOpenMessagesModal, setInConfirm} = useLogin()
-
+  const navigate = useNavigate()
   const toReferCode = () => {
       window.location.href = "/referCode"
+      navigate('/referCode');
   }
   const content = (
     <div className={styles.pop_content}>
@@ -18,7 +19,7 @@ const Header: React.FC = () => {
       <div onClick={()=>setOpenMessagesModal(true)}>メッセージ</div>
       {
         userInfo?.role === "admin" && <div onClick={()=>{
-        setInConfirm("table")
+        navigate("/admin")
       }}>管理者</div>
       }
       <div onClick={()=>{

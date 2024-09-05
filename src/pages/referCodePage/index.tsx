@@ -8,19 +8,22 @@ import CommonBtn from "../../components/CommonBtn";
 import NumberInput from "../../components/NumberInput";
 import {APIGenerateCode} from "../../api";
 import copy from 'copy-to-clipboard';
+import AppLayout from "../../components/Layout";
 const ReferCodePage = () =>{
     const navigate = useNavigate()
     const cancel = () =>{
         navigate('/');
     }
 
-    return <div className={styles.confirmPage}>
-        <div onClick={cancel} className={styles.back}>
-            <img src={backIcon}></img> 戻る
+    return <AppLayout>
+        <div className={styles.confirmPage}>
+            <div onClick={cancel} className={styles.back}>
+                <img src={backIcon}></img> 戻る
+            </div>
+            <SizeBox h={20}></SizeBox>
+            <FirstUserReferCodeWrap></FirstUserReferCodeWrap>
         </div>
-        <SizeBox h={20}></SizeBox>
-        <FirstUserReferCodeWrap></FirstUserReferCodeWrap>
-    </div>
+    </AppLayout>
 }
 
 const FirstUserReferCodeWrap = () =>{
@@ -71,7 +74,7 @@ const FirstUserReferCodeWrap = () =>{
                 输入你自定义邀请码(多个使用逗号分隔)
             </div>
             <div className={styles.flex_wrap}>
-                <Input value={referCodeValue} onChange={(e)=>{setReferCodeValue(e.target.value)}} className={styles.refer_input_wrap}></Input>
+                <Input placeholder={"输入邀请码"} value={referCodeValue} onChange={(e)=>{setReferCodeValue(e.target.value)}} className={styles.refer_input_wrap}></Input>
                 {
                     referCodeValue && <CommonBtn loading={diyLoading} onClick={generateCodeByDiy} className={styles.btn}>生成</CommonBtn>
                 }
@@ -86,7 +89,7 @@ const FirstUserReferCodeWrap = () =>{
                       })
                   }
                   {
-                      diyCodeList && diyCodeList.length > 0 && <CommonBtn onClick={()=>onCopy(diyCodeList.join(","))}  style={{
+                      diyCodeList && diyCodeList.length > 1 && <CommonBtn onClick={()=>onCopy(diyCodeList.join(","))}  style={{
                           height:"45px",
                           lineHeight:"25px",
                       }} >复制全部</CommonBtn>
@@ -113,7 +116,7 @@ const FirstUserReferCodeWrap = () =>{
                     })
                 }
                 {
-                    numCodeList && numCodeList.length > 0 && <CommonBtn onClick={()=>onCopy(numCodeList.join(","))}  style={{
+                    numCodeList && numCodeList.length > 1 && <CommonBtn onClick={()=>onCopy(numCodeList.join(","))}  style={{
                         height:"45px",
                     lineHeight:"25px",
                     }} >复制全部</CommonBtn>

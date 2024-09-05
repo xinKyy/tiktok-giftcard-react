@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import Home from "./pages/home";
+import Home, {TablePageAll} from "./pages/home";
 import AppLayout from "./components/Layout";
 import LoginForm from "./components/LoginModal";
 import {LoginProvider} from "./provider/loginContext";
@@ -12,18 +12,17 @@ import ReferCodePage from "./pages/referCodePage";
 function App() {
   return (
     <LoginProvider>
-      <AppLayout>
-         <div>
-             <Router>
-                 <Routes>
-                     <Route path="/" element={<Home />} />
-                     <Route path="/referCode" element={<ReferCodePage />} />
-                 </Routes>
-             </Router>
-           <LoginForm></LoginForm>
-           <MessagesModal></MessagesModal>
-         </div>
-      </AppLayout>
+        <div>
+            <Router>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/referCode" element={<ReferCodePage />} />
+                    <Route path="/admin" element={<TablePageAll />} />
+                </Routes>
+            </Router>
+            <LoginForm></LoginForm>
+            <MessagesModal></MessagesModal>
+        </div>
     </LoginProvider>
   );
 }

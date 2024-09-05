@@ -88,3 +88,64 @@ export const APIGenerateCode = (params:{
     params.userId = localStorage.getItem("id")
     return axiosInstance.get("/any-starr/api/v1/gcCode/create", {params})
 }
+
+// 绑定邀请码
+export const APIBindReferCode = (params:{
+    userId?:string | null,
+    code:string
+}) =>{
+    params.userId = localStorage.getItem("id")
+    return axiosInstance.get("/any-starr/api/v1/gcBind/create", {params})
+}
+
+// 一级用户查看
+export const APIStaticsDetail = (params:{
+    userId?:string | null,
+    code?:string,
+    start:string,
+    end:string
+}) =>{
+    params.userId = localStorage.getItem("id")
+    return axiosInstance.get("/any-starr/api/v1/gcUserBooking/statisticsDetail", {params})
+}
+
+// 一级用户下载
+export const APIStaticsDetailDownload = (params:{
+    userId?:string | null,
+}) =>{
+    params.userId = localStorage.getItem("id")
+    return axiosInstance.get("/any-starr/api/v1/gcUserBooking/download", {params})
+}
+
+
+// 二级用户查看
+export const APIStaticsDetailByUid = (params:{
+    userId?:string | null,
+}) =>{
+    params.userId = localStorage.getItem("id")
+    return axiosInstance.get("/any-starr/api/v1/gcUserBooking/statistics/detailByUid", {params})
+}
+
+// 二级用户下载
+export const APIStaticsDownloadByUid = (params:{
+    userId?:string | null,
+}) =>{
+    params.userId = localStorage.getItem("id")
+    return axiosInstance.get("/any-starr/api/v1/gcUserBooking/downloadByUid", {params})
+}
+
+// 普通用户查询
+export const APIDetailBySku = (params:{
+    userId?:string | null
+}) =>{
+    params.userId = localStorage.getItem("id")
+    return axiosInstance.get("/any-starr/api/v1/gcUserBooking/statistics/detailBySku", {params})
+}
+
+// 普通用户下载
+export const APIDetailBySkuDownloadUserDetail = (params:{
+    userId?:string | null
+}) =>{
+    params.userId = localStorage.getItem("id")
+    return axiosInstance.get("/any-starr/api/v1/gcUserBooking/downloadUserDetail", {params})
+}
