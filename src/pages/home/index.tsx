@@ -3,16 +3,18 @@ import Card from "../../components/Card";
 
 import backIcon from "../../assets/images/home/back-icon.svg"
 import giftCard from "../../assets/images/home/gifcard.png"
+import downloadIcon from "../../assets/images/home/downloadIcon.svg"
 import React, {useEffect, useRef, useState} from "react";
 import SizeBox from "../../components/SizeBox";
-import {APIAfterCheck, APIBooking, APIStatistics, APIStatisticsItem} from "../../api";
+import {APIAfterCheck, APIBooking, APIStaticsDetail, APIStatistics, APIStatisticsItem} from "../../api";
 import {useLogin} from "../../provider/loginContext";
-import {Button, message, Table, Tag} from "antd";
+import {Button, DatePicker, message, Table, Tag} from "antd";
 import ReferralCodeModal from "../../components/ReferralCodeModal";
-import TipsModal from "../../components/TipsModal";
 import SuccessModal from "../../components/SuccessModal";
 import AppLayout from "../../components/Layout";
 import {useNavigate} from "react-router-dom";
+import UserSubDetailModal from "./componments/UserSubDetailModal";
+import axiosInstance, {baseHost} from "../../http/axiosInstance";
 
 const Home = () =>{
   const [cardList, setCardList] = useState([
@@ -274,31 +276,33 @@ const ConfirmOrder = ({cancel, bookList, code, onSuccess}:{
 
 
 
-const columns = [
-  {
-    title: '邮箱',
-    dataIndex: 'email',
-    key: 'email',
-  },
-  {
-    title: '礼品卡种类及数量',
-    dataIndex: 'type',
-    key: 'type',
-    render:(_:string, r:DataItem)=>{
-      return  <Tag color={getColor(r.id)}>{_}</Tag>
-    }
-  },
-  {
-    title: '时间',
-    dataIndex: 'time',
-    key: 'time',
-  },
-  {
-    title: '邀请码',
-    dataIndex: 'referralCode',
-    key: 'referralCode',
-  },
-];
+const getSubColumn = (getDetailModal:(userId:string)=>void ) =>{
+    return [
+        {
+            title: '邮箱',
+            dataIndex: 'email',
+            key: 'email',
+        },
+        {
+            title: '礼品卡种类及数量',
+            dataIndex: 'type',
+            key: 'type',
+            render:(_:string, r:DataItem)=>{
+                return  <Tag onClick={()=>getDetailModal(r.email)} color={getColor(r.id)}>{_}</Tag>
+            }
+        },
+        {
+            title: '时间',
+            dataIndex: 'time',
+            key: 'time',
+        },
+        {
+            title: '邀请码',
+            dataIndex: 'referralCode',
+            key: 'referralCode',
+        },
+    ];
+}
 
 const colorMap = {
   "2500":"success",
@@ -312,7 +316,7 @@ const getColor = (key:string): "success" | "warning" | "red" =>{
 }
 
 
-const AllColumns = (toDetails:(user:string)=>void)=>{
+const AllColumns = (toDetails:(code:string)=>void)=>{
   return [
     {
       title: '邮箱',
@@ -334,14 +338,24 @@ const AllColumns = (toDetails:(user:string)=>void)=>{
       }
     },
     {
+      title: '邀请码',
+      dataIndex: 'referCode',
+      key: 'referCode',
+    },
+    {
+      title: '邀请数量',
+      dataIndex: 'referCount',
+      key: 'referCode',
+    },
+    {
       title: '时间',
       dataIndex: 'time',
       key: 'time',
     },
     {
       title: '操作',
-      dataIndex: 'userId',
-      key: 'userId',
+      dataIndex: 'referCode',
+      key: 'referCode',
       render:(_:string, re:any)=>{
         return <div style={{
           color:"var(--primary-color)",
@@ -351,6 +365,43 @@ const AllColumns = (toDetails:(user:string)=>void)=>{
     },
   ]
 };
+
+const NoActionColumns = [
+    {
+        title: '邮箱',
+        dataIndex: 'email',
+        key: 'email',
+    },
+    {
+        title: '礼品卡种类及数量',
+        dataIndex: 'statistics',
+        key: 'statistics',
+        render:(_:StatisticsItem[], r:any)=>{
+            return <div>
+                {
+                    _.map(item=>{
+                        return <Tag color={getColor(item.key)}>{item.key}x{item.value}</Tag>
+                    })
+                }
+            </div>
+        }
+    },
+    {
+        title: '邀请码',
+        dataIndex: 'referCode',
+        key: 'referCode',
+    },
+    {
+        title: '邀请数量',
+        dataIndex: 'referCount',
+        key: 'referCode',
+    },
+    {
+        title: '时间',
+        dataIndex: 'time',
+        key: 'time',
+    },
+]
 
 
 class DataItem{
@@ -366,6 +417,7 @@ class AllDataItem{
   statistics:StatisticsItem[] = []
   time:string = ""
   userId:string = ""
+  referCode:string = ""
 }
 
 class StatisticsItem{
@@ -377,13 +429,17 @@ export const TablePageAll = () =>{
   const [dataSource, setDataSource] = useState<AllDataItem[]>([]);
   const [total, setTotal] = useState(0)
   const [details, setDetails] = useState(false)
-  const userIdRef = useRef<string | null>(null)
+  const referCode = useRef<string | null>(null)
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
+  const time1Ref = useRef<[string, string] | null>(null);
 
-  const getData = () =>{
+  const getData = (startTime?:string, endTime?:string) =>{
     setLoading(true)
-    APIStatistics().then(resp=>{
+      APIStaticsDetail({
+          start:startTime,
+          end:endTime
+      }).then(resp=>{
       if(resp.data.data){
         const list = resp.data.data;
         const tmp = list.map((item:any)=>{
@@ -412,9 +468,27 @@ export const TablePageAll = () =>{
     getData()
   }, [])
 
-  const toDetails = (user:string) =>{
-    userIdRef.current = user
-    setDetails(true)
+  const toDetails = (code:string) =>{
+      referCode.current = code
+      setDetails(true)
+  }
+
+  const downloadTop = () =>{
+      const userId = localStorage.getItem("id");
+      const a = document.createElement("a");
+      if(time1Ref.current){
+          a.href = `${baseHost}/any-starr/api/v1/gcUserBooking/download?userId=${userId}&start=${time1Ref.current[0]}&end=${time1Ref.current[1]}`;
+      } else {
+          a.href = `${baseHost}/any-starr/api/v1/gcUserBooking/download?userId=${userId}`;
+      }
+      a.click();
+  }
+
+  const downloadBottom = () =>{
+      const userId = localStorage.getItem("id");
+      const a = document.createElement("a");
+      a.href = `${baseHost}/any-starr/api/v1/gcUserBooking/download?userId=${userId}`;
+      a.click();
   }
 
   return <AppLayout>
@@ -424,28 +498,59 @@ export const TablePageAll = () =>{
           <img src={backIcon}></img> 戻る
         </div>
         <div className={styles.section_title}>预约名单</div>
+        <div className={styles.end_wrap}>
+            <DatePicker.RangePicker onChange={(dates:any)=>{
+                if (dates) {
+                    const startDate = dates[0].format('YYYY-MM-DD HH:mm:ss');
+                    const endDate = dates[1].format('YYYY-MM-DD HH:mm:ss');
+                    time1Ref.current = [startDate, endDate]
+                    getData(startDate, endDate)
+                } else {
+                    time1Ref.current = null
+                    console.log("No date selected");
+                }
+           }}></DatePicker.RangePicker>
+            <img onClick={downloadTop} src={downloadIcon}/>
+        </div>
+        <SizeBox h={10}></SizeBox>
         <Table loading={loading} dataSource={dataSource} columns={AllColumns(toDetails)} />
-      </div> : <TablePage cancel={()=>{setDetails(false)}} userId={userIdRef.current}></TablePage>
+        <SizeBox h={50}></SizeBox>
+        <div className={styles.end_wrap}>
+            <DatePicker.RangePicker onChange={(dates:any)=>{
+                if (dates) {
+                    const startDate = dates[0].format('YYYY-MM-DD HH:mm:ss');
+                    const endDate = dates[1].format('YYYY-MM-DD HH:mm:ss');
+                    getData(startDate, endDate)
+                } else {
+                    console.log("No date selected");
+                }
+            }}></DatePicker.RangePicker>
+            <img onClick={downloadBottom}  src={downloadIcon}/>
+        </div>
+        <SizeBox h={10}></SizeBox>
+        <Table loading={loading} dataSource={dataSource} columns={NoActionColumns} />
+      </div> : <TablePage cancel={()=>{setDetails(false)}} code={referCode.current}></TablePage>
     }
   </AppLayout>;
 }
 
-const TablePage = ({cancel, userId}:{
+const TablePage = ({cancel, code}:{
   cancel:()=>void,
-  userId:string | null
+  code:string | null
 }) =>{
   const [dataSource, setDataSource] = useState<DataItem[]>([]);
   const [total, setTotal] = useState(0)
-  const [loading, setLoading] = useState(false)
-
-  const getData = (pageNum:number) =>{
-    if(userId === null) return;
+  const [loading, setLoading] = useState(false);
+  const [showDetailModal, setShowDetailModal] = useState(false);
+  const time1Ref = useRef<[string, string] | null>(null);
+  const getData = (startTime?:string, endTime?:string) =>{
+    if(code === null) return;
     setLoading(true)
-    APIStatisticsItem({
-      pageNum:pageNum,
-      pageSize:10,
-      userId:userId
-    }).then(resp=>{
+      APIStaticsDetail({
+          code:code,
+          start:startTime,
+          end:endTime
+      }).then(resp=>{
       if(resp.data.data.records && resp.data.data.records.length >= 1){
         const list = resp.data.data.records;
         const tmp = list.map((item:any)=>{
@@ -466,21 +571,51 @@ const TablePage = ({cancel, userId}:{
   }
 
   useEffect(()=>{
-    getData(1)
+    getData()
   }, [])
+
+  const getDetailModal = (userId:string) =>{
+      setShowDetailModal(true)
+  }
+
+  const downloadTop = () =>{
+        const userId = localStorage.getItem("id");
+        const a = document.createElement("a");
+        if(time1Ref.current){
+            a.href = `${baseHost}/any-starr/api/v1/gcUserBooking/download?userId=${userId}`;
+        } else {
+            a.href = `${baseHost}/any-starr/api/v1/gcUserBooking/download?userId=${userId}`;
+        }
+        a.click();
+  }
 
   return <div className={styles.confirmPage}>
     <div onClick={cancel} className={styles.back}>
       <img src={backIcon}></img> 戻る
     </div>
-
+      <div className={styles.end_wrap}>
+          <DatePicker.RangePicker onChange={(dates:any)=>{
+              if (dates) {
+                  const startDate = dates[0].format('YYYY-MM-DD HH:mm:ss');
+                  const endDate = dates[1].format('YYYY-MM-DD HH:mm:ss');
+                  time1Ref.current = [startDate, endDate]
+                  getData(startDate, endDate)
+              } else {
+                  time1Ref.current = null
+                  console.log("No date selected");
+              }
+          }}></DatePicker.RangePicker>
+          <img onClick={downloadTop} src={downloadIcon}/>
+      </div>
+      <SizeBox h={10}></SizeBox>
     <Table loading={loading} pagination={{
       total:total,
       pageSize:10,
-      onChange:(pageNum, pageSize)=>{
-        getData(pageNum)
-      }
-    }} dataSource={dataSource} columns={columns} />
+      // onChange:(pageNum, pageSize)=>{
+      //   getData(pageNum)
+      // }
+    }} dataSource={dataSource} columns={getSubColumn(getDetailModal)} />
+      <UserSubDetailModal open={showDetailModal} setOpen={setShowDetailModal}></UserSubDetailModal>
   </div>;
 }
 

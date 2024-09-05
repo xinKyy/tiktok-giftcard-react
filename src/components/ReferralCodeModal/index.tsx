@@ -3,7 +3,7 @@ import styles from './index.module.scss'
 import {useLogin} from "../../provider/loginContext";
 import SizeBox from "../SizeBox";
 import {useEffect, useState} from "react";
-import {APICheckVerificationCode} from "../../api";
+import {APIBindReferCode, APICheckVerificationCode} from "../../api";
 
 
 const ReferralCodeModal = ({callback, openReferralCodeModal, setOpenReferralCodeModal}:{
@@ -13,16 +13,16 @@ const ReferralCodeModal = ({callback, openReferralCodeModal, setOpenReferralCode
 }) =>{
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
-  const { userInfo, setUserInfo } = useLogin()
+  const { userInfo, setUserInfo, getUserInfo} = useLogin()
 
   const submit = () =>{
     if(!code) return message.info("The referral code cannot be empty")
     setLoading(true)
-    APICheckVerificationCode({
-      referralCode:code
+    APIBindReferCode({
+      code:code
     }).then(resp=>{
       setLoading(false)
-      if(resp.data.data === "1"){
+      if(resp.data.data){
         localStorage.setItem("referralCode", code)
         setUserInfo({
           email:userInfo?.email!,
@@ -56,8 +56,8 @@ const ReferralCodeModal = ({callback, openReferralCodeModal, setOpenReferralCode
         setCode(e.target.value)
       }} type="text" id="referralCode" className={styles.input} placeholder="紹介コードを入力" />
       <div className={styles.button_wrap}>
-        <Button onClick={skip} type={"default"} className={styles.skip_button}>スキップ</Button>
-        <SizeBox w={30}></SizeBox>
+        {/*<Button onClick={skip} type={"default"} className={styles.skip_button}>スキップ</Button>*/}
+        {/*<SizeBox w={30}></SizeBox>*/}
         <Button loading={loading} onClick={submit} className={styles.button}>送信</Button>
       </div>
     </div>

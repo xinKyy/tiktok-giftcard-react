@@ -42,6 +42,7 @@
   padding: 20px;
   font-family: Arial, sans-serif;
   padding-bottom: 30px;
+  padding-right: 50px;
 
   .back {
     display: flex;
@@ -70,6 +71,22 @@
     margin-bottom: 20px;
     margin-left: 20px;
     color: #ffffff;
+  }
+
+  .end_wrap{
+    display: flex;
+    justify-content: flex-end;
+
+    img{
+      width: 30px;
+      height: 30px;
+      margin-left: 10px;
+      cursor: pointer;
+      transition: all .3s;
+      &:hover{
+        scale: 1.1;
+      }
+    }
   }
 
   .confirmationBox {

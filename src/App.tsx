@@ -8,6 +8,7 @@ import MessagesModal from "./components/MessagesModal";
 import ReferralCodeModal from "./components/ReferralCodeModal";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ReferCodePage from "./pages/referCodePage";
+import SecondUserTablePageAll from "./pages/home/secondeUserAdmin";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/referCode" element={<ReferCodePage />} />
                     <Route path="/admin" element={<TablePageAll />} />
+                    <Route path="/subAdmin" element={<SecondUserTablePageAll />} />
                 </Routes>
             </Router>
             <LoginForm></LoginForm>

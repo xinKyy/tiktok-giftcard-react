@@ -3,6 +3,8 @@
 import axios from 'axios';
 import {message} from "antd";
 
+export const baseHost = "https://ttgiftcard.com"
+
 // 创建一个 axios 实例
 const axiosInstance = axios.create({
   baseURL: 'https://ttgiftcard.com', // API 基础地址，根据需要修改

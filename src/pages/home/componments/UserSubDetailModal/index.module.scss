@@ -1,0 +1,140 @@
+// src/components/LoginForm/LoginForm.module.scss
+.loginForm {
+  background-color: #fff;
+  padding: 20px 0px;
+  max-width: 700px;
+  margin: 0 auto;
+  min-height: 300px;
+  max-height: 600px;
+  overflow: scroll;
+  position: relative;
+  &::-webkit-scrollbar{
+    display: none;
+  }
+}
+
+.section_title{
+  font-size: 21px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  top: 0;
+}
+
+.card_wrap{
+  width: 100%;
+  //display: flex;
+  //align-items: center;
+  //justify-content: space-between;
+  min-height: 300px;
+  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); // 创建三列，列宽相等
+  gap: 8px; // 列之间的间距
+  padding: 8px; // 容器的内边距
+  padding-top: 0;
+}
+
+.logo img {
+  width: 30px;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.inputGroup {
+  margin-bottom: 15px;
+
+  label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    text-align: left;
+    font-weight: bold;
+  }
+
+  input {
+    width: 100%;
+    padding: 0 15px;
+    height: 50px;
+    border: 1px solid #ccc!important;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+}
+
+.inputGroupWithButton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+
+  .inputGroup {
+    flex: 1;
+    margin-right: 10px;
+  }
+}
+
+.captchaButton {
+  padding: 10px 15px;
+  background-color: #533b92;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 11px;
+}
+
+.forgotPassword {
+  text-align: right;
+  margin-bottom: 20px;
+
+  a {
+    font-size: 14px;
+    color:var(--primary-color);
+    text-decoration: none;
+  }
+}
+
+.loginButton {
+  width: 100%;
+  padding: 10px;
+  background-color: var(--primary-color);
+  font-weight: bold;
+  color: #fff;
+  border: none;
+  height: 50px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+  transition: all .3s;
+  &:hover{
+    font-size: 20px;
+    color: #ffffff !important;
+    background-color: var(--primary-color-80)!important;
+  }
+}
+
+.signupLink {
+  margin-top: 20px;
+
+  p {
+    font-size: 14px;
+    color: #555;
+
+    a {
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+  }
+}

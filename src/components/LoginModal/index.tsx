@@ -37,7 +37,8 @@ const LoginForm = () => {
           const user1 = {
             email: v.email,
             role:resp.data.data.role,
-            referralCode: resp.data.data.fullReferralCode
+            referralCode: resp.data.data.fullReferralCode,
+            userGrade:resp.data.data.userGrade
           }
           localStorage.setItem("userInfo", JSON.stringify(user1))
           setUserInfo(user1)

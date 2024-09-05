@@ -7,28 +7,52 @@ import {useNavigate} from "react-router-dom";
 
 const Header: React.FC = () => {
 
-  const { userInfo, setOpenLoginModal, setUserInfo, setOpenMessagesModal, setInConfirm} = useLogin()
+  const { userInfo, setOpenLoginModal, setUserInfo, setOpenMessagesModal} = useLogin()
   const navigate = useNavigate()
   const toReferCode = () => {
-      window.location.href = "/referCode"
       navigate('/referCode');
   }
+
+  const buildLevelContent = () =>{
+     if(userInfo?.userGrade === 1 || userInfo?.userGrade === 2){
+         return <div onClick={toReferCode}>紹介コード</div>
+     }
+  }
+
+  const buildAdminContent = () =>{
+      if(userInfo?.role === "admin"){
+          return  <div onClick={()=>{
+              navigate("/admin")
+          }}>管理者</div>
+      }
+      if(userInfo?.userGrade === 2){
+          return  <div onClick={()=>{
+              navigate("/subAdmin")
+          }}>管理者</div>
+      }
+      if(userInfo?.userGrade === 1){
+          return  <div onClick={()=>{
+              navigate("/admin")
+          }}>管理者</div>
+      }
+  }
+
   const content = (
     <div className={styles.pop_content}>
-      <div onClick={toReferCode}>紹介コード</div>
+        {
+            buildLevelContent()
+        }
       <div onClick={()=>setOpenMessagesModal(true)}>メッセージ</div>
-      {
-        userInfo?.role === "admin" && <div onClick={()=>{
-        navigate("/admin")
-      }}>管理者</div>
-      }
+        {
+            buildAdminContent()
+        }
       <div onClick={()=>{
         localStorage.removeItem("userInfo")
         localStorage.removeItem("token")
         localStorage.removeItem("referralCode")
         localStorage.removeItem("id")
         setUserInfo(null)
-        window.location.href = "/"
+        navigate("/")
       }}>ログアウト</div>
     </div>
   );
