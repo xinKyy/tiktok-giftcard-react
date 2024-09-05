@@ -215,7 +215,6 @@ const ConfirmOrder = ({cancel, bookList, code, onSuccess}:{
         setOpenSuccess(true)
         return ;
       }
-      return message.error("Appointment failed, please try again")
     }).finally(()=>{
       setLoading(false)
     }).catch(e=>{

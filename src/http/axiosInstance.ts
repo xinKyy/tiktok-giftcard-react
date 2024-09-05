@@ -31,7 +31,9 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   response => {
     // 对响应数据做点什么
-    console.log('Response:', response);
+      if(response.data.code !== "1" && response.data.message){
+          message.warning(response.data.message)
+      }
     return response.data;
   },
   error => {
