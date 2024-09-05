@@ -83,6 +83,8 @@ export const APIStatisticsItem = (params:{
 export const APIGenerateCode = (params:{
     num?:number,
     codes?:string,
+    userId?:string | null
 }) =>{
+    params.userId = localStorage.getItem("id")
     return axiosInstance.get("/any-starr/api/v1/gcCode/create", {params})
 }
