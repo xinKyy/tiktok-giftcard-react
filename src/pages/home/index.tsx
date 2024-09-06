@@ -286,12 +286,12 @@ const ConfirmOrder = ({cancel, bookList, code, onSuccess}:{
 const getSubColumn = (getDetailModal:(userId:string)=>void ) =>{
     return [
         {
-            title: '邮箱',
+            title: '受信箱',
             dataIndex: 'email',
             key: 'email',
         },
         {
-            title: '礼品卡种类及数量',
+            title: 'ギフトカードの種類と枚数',
             dataIndex: 'statistics',
             key: 'statistics',
             render:(_:StatisticsItem[], r:any)=>{
@@ -305,7 +305,7 @@ const getSubColumn = (getDetailModal:(userId:string)=>void ) =>{
             }
         },
         {
-            title: '时间',
+            title: '時間',
             dataIndex: 'time',
             key: 'time',
         },
@@ -327,12 +327,12 @@ const getColor = (key:string): "success" | "warning" | "red" =>{
 const AllColumns = (toDetails:(code:string)=>void, openDetails:(userId:string)=>void)=>{
   return [
     {
-      title: '邮箱',
+      title: '受信箱',
       dataIndex: 'email',
       key: 'email',
     },
     {
-      title: '礼品卡种类及数量',
+      title: 'ギフトカードの種類と枚数',
       dataIndex: 'statistics',
       key: 'statistics',
       render:(_:StatisticsItem[], r:any)=>{
@@ -346,29 +346,29 @@ const AllColumns = (toDetails:(code:string)=>void, openDetails:(userId:string)=>
       }
     },
     {
-      title: '邀请码',
+      title: '招待コード',
       dataIndex: 'referCode',
       key: 'referCode',
     },
     {
-      title: '邀请数量',
+      title: '招待数',
       dataIndex: 'referCount',
       key: 'referCode',
     },
     {
-      title: '时间',
+      title: '時間',
       dataIndex: 'time',
       key: 'time',
     },
     {
-      title: '操作',
+      title: 'リグ',
       dataIndex: 'userId',
       key: 'userId',
       render:(_:string, re:any)=>{
         return <div style={{
           color:"var(--primary-color)",
           cursor:"pointer"
-        }} onClick={()=>toDetails(_)}>查看详情</div>
+        }} onClick={()=>toDetails(_)}>詳細を見る</div>
       }
     },
   ]
@@ -376,12 +376,12 @@ const AllColumns = (toDetails:(code:string)=>void, openDetails:(userId:string)=>
 
 const NoActionColumns = [
     {
-        title: '邮箱',
+        title: '受信箱',
         dataIndex: 'email',
         key: 'email',
     },
     {
-        title: '礼品卡种类及数量',
+        title: 'ギフトカードの種類と枚数',
         dataIndex: 'statistics',
         key: 'statistics',
         render:(_:StatisticsItem[], r:any)=>{
@@ -395,17 +395,17 @@ const NoActionColumns = [
         }
     },
     {
-        title: '邀请码',
+        title: '招待コード',
         dataIndex: 'referCode',
         key: 'referCode',
     },
     {
-        title: '邀请数量',
+        title: '招待数',
         dataIndex: 'referCount',
         key: 'referCode',
     },
     {
-        title: '时间',
+        title: '時間',
         dataIndex: 'time',
         key: 'time',
     },
@@ -541,7 +541,7 @@ export const TablePageAll = () =>{
         <div onClick={()=>navigate("/")} className={styles.back}>
           <img src={backIcon}></img> 戻る
         </div>
-        <div className={styles.section_title}>预约名单</div>
+        <div className={styles.section_title}>予約リスト</div>
         <div className={styles.end_wrap}>
             <DatePicker.RangePicker onChange={(dates:any)=>{
                 if (dates) {

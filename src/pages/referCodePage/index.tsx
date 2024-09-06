@@ -87,7 +87,7 @@ const FirstUserReferCodeWrap = () =>{
 
     const onCopy = (item:string) =>{
         copy(item);
-        message.success("Copy success")
+        message.success("コピー成功")
     }
 
     const getInvietCode = async () =>{
@@ -114,10 +114,10 @@ const FirstUserReferCodeWrap = () =>{
     return <div>
         <div>
             <div className={styles.refer_code_title_wrap}>
-                输入你自定义邀请码(多个使用逗号分隔)
+                カスタム招待コードを入力してください。
             </div>
             <div className={styles.flex_wrap}>
-                <Input placeholder={"输入邀请码"}  value={referCodeValue} onChange={(e)=>{setReferCodeValue(e.target.value)}} className={styles.refer_input_wrap}></Input>
+                <Input placeholder={"招待コードを入力"}  value={referCodeValue} onChange={(e)=>{setReferCodeValue(e.target.value)}} className={styles.refer_input_wrap}></Input>
                 {
                     referCodeValue && <CommonBtn loading={diyLoading} onClick={generateCodeByDiy} className={styles.btn}>生成</CommonBtn>
                 }
@@ -143,12 +143,12 @@ const FirstUserReferCodeWrap = () =>{
         <SizeBox h={50}></SizeBox>
         <div>
             <div className={styles.refer_code_title_wrap}>
-                <span></span>输入你要生成的个数
+                <span></span>生成したい個数を入力
             </div>
             <div className={styles.flex_wrap}>
                 <NumberInput max={100} amount={amount} setAmount={(number)=>setAmount(number)}></NumberInput>
                 {
-                    amount && <CommonBtn loading={loading} onClick={generateCodeByNum}  className={styles.btn}>开始生成</CommonBtn>
+                    amount && <CommonBtn loading={loading} onClick={generateCodeByNum}  className={styles.btn}>生成開始</CommonBtn>
                 }
             </div>
 
@@ -168,7 +168,7 @@ const FirstUserReferCodeWrap = () =>{
 
 
             <div className={styles.refer_code_title_wrap}>
-                <span></span>已生成的邀请码
+                <span></span>生成された招待コード
             </div>
 
             <div className={styles.code_wrap}>
@@ -181,7 +181,7 @@ const FirstUserReferCodeWrap = () =>{
                     generateCode && generateCode.length > 1 && <CommonBtn onClick={()=>onCopy(generateCode.filter(item=>!item.use).map(item => item.code).join(","))}  style={{
                         height:"45px",
                         lineHeight:"25px",
-                    }} >复制未使用的</CommonBtn>
+                    }} >コピー未使用</CommonBtn>
                 }
             </div>
         </div>
@@ -238,14 +238,14 @@ const SecondUserReferCodeWrap = () =>{
     const onCopy = () =>{
         if(generateCode){
             copy(generateCode!)
-            message.success("Copy success!")
+            message.success("コピー成功")
         }
     }
 
     return <div>
         <div>
             <div className={styles.refer_code_title_wrap}>
-                <span>*</span>您绑定的邀请码
+                <span>*</span>招待コード
             </div>
             <div className={styles.flex_wrap}>
                 <Input value={referCodeValue} disabled={getDisabled()} onChange={(e)=>{setReferCodeValue(e.target.value)}} className={styles.refer_input_wrap}></Input>
@@ -257,7 +257,7 @@ const SecondUserReferCodeWrap = () =>{
         <SizeBox h={50}></SizeBox>
         <div>
             <div className={styles.refer_code_title_wrap}>
-                您的专属邀请码
+                専用招待コードを生成してください
             </div>
             <div className={styles.refresh_wrap}>
                 <div onClick={onCopy} className={`${styles.refer_input_wrap} ${styles.hover_text}`}> { generateCode} </div>
