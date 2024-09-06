@@ -52,7 +52,7 @@ const Header: React.FC = () => {
         localStorage.removeItem("referralCode")
         localStorage.removeItem("id")
         setUserInfo(null)
-        navigate("/")
+        window.location.href = "/"
       }}>ログアウト</div>
     </div>
   );
