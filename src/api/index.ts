@@ -7,13 +7,13 @@ export const APILogin = (params:{
   verifyCode:string
   password:string
 }) =>{
-  return axiosInstance.post("/any-starr/api/v1/gcUser/login", params)
+  return axiosInstance.post("/api/v1/gcUser/login", params)
 }
 
 export const APIGetCode = (params:{
   email:string,
 }) =>{
-  return axiosInstance.get("/any-starr/api/v1/gcUser/getCode", {params})
+  return axiosInstance.get("/api/v1/gcUser/getCode", {params})
 }
 
 export const APIBooking = (params:{
@@ -27,7 +27,7 @@ export const APIBooking = (params:{
 
   params.userId = localStorage.getItem("id")
 
-  return axiosInstance.post("/any-starr/api/v1/gcUserBooking/booking", params)
+  return axiosInstance.post("/api/v1/gcUserBooking/booking", params)
 }
 
 
@@ -46,12 +46,12 @@ export class MyBookingParams{
 
 export const APIMyBooking = (params:MyBookingParams) =>{
 
-  return axiosInstance.get("/any-starr/api/v1/gcUserBooking/mine", {params})
+  return axiosInstance.get("/api/v1/gcUserBooking/mine", {params})
 }
 
 export const APIAfterCheck = () =>{
   const id = localStorage.getItem("id");
-  return axiosInstance.get("/any-starr/api/v1/gcUserBooking/afterCheck", {
+  return axiosInstance.get("/api/v1/gcUserBooking/afterCheck", {
     params: {
       id:id
     }
@@ -62,14 +62,14 @@ export const APICheckVerificationCode = (params:{
   referralCode:string
 }) =>{
   // 返回 data 为1:正确。 0：错误
-  return axiosInstance.get("/any-starr/api/v1/gcUserBooking/checkVerificationCode", {params})
+  return axiosInstance.get("/api/v1/gcUserBooking/checkVerificationCode", {params})
 }
 
 export const APIStatistics = () =>{
   const params = {
     userId:localStorage.getItem("id")
   }
-  return axiosInstance.get("/any-starr/api/v1/gcUserBooking/statistics", {params})
+  return axiosInstance.get("/api/v1/gcUserBooking/statistics", {params})
 }
 
 export const APIStatisticsItem = (params:{
@@ -77,7 +77,7 @@ export const APIStatisticsItem = (params:{
   pageSize:number,
   userId:string
 }) =>{
-  return axiosInstance.get("/any-starr/api/v1/gcUserBooking/statisticsItem", {params})
+  return axiosInstance.get("/api/v1/gcUserBooking/statisticsItem", {params})
 }
 
 export const APIGenerateCode = (params:{
@@ -86,7 +86,7 @@ export const APIGenerateCode = (params:{
     userId?:string | null
 }) =>{
     params.userId = localStorage.getItem("id")
-    return axiosInstance.get("/any-starr/api/v1/gcCode/create", {params})
+    return axiosInstance.get("/api/v1/gcCode/create", {params})
 }
 
 // 绑定邀请码
@@ -95,7 +95,7 @@ export const APIBindReferCode = (params:{
     code:string
 }) =>{
     params.userId = localStorage.getItem("id")
-    return axiosInstance.get("/any-starr/api/v1/gcBind/create", {params})
+    return axiosInstance.get("/api/v1/gcBind/create", {params})
 }
 
 // 一级用户查看
@@ -108,7 +108,7 @@ export const APIStaticsDetail = (params:{
     if(!params.userId){
         params.userId = localStorage.getItem("id")
     }
-    return axiosInstance.get("/any-starr/api/v1/gcUserBooking/statisticsDetail", {params})
+    return axiosInstance.get("/api/v1/gcUserBooking/statisticsDetail", {params})
 }
 
 // 一级用户下载
@@ -116,7 +116,7 @@ export const APIStaticsDetailDownload = (params:{
     userId?:string | null,
 }) =>{
     params.userId = localStorage.getItem("id")
-    return axiosInstance.get("/any-starr/api/v1/gcUserBooking/download", {params})
+    return axiosInstance.get("/api/v1/gcUserBooking/download", {params})
 }
 
 
@@ -129,7 +129,7 @@ export const APIStaticsDetailByUid = (params:{
     if(!params.userId){
         params.userId = localStorage.getItem("id")
     }
-    return axiosInstance.get("/any-starr/api/v1/gcUserBooking/statistics/detailByUid", {params})
+    return axiosInstance.get("/api/v1/gcUserBooking/statistics/detailByUid", {params})
 }
 
 // 二级用户下载
@@ -137,7 +137,7 @@ export const APIStaticsDownloadByUid = (params:{
     userId?:string | null,
 }) =>{
     params.userId = localStorage.getItem("id")
-    return axiosInstance.get("/any-starr/api/v1/gcUserBooking/downloadByUid", {params})
+    return axiosInstance.get("/api/v1/gcUserBooking/downloadByUid", {params})
 }
 
 // 普通用户查询
@@ -145,7 +145,7 @@ export const APIDetailBySku = (params:{
     userId?:string | null
 }) =>{
     params.userId = localStorage.getItem("id")
-    return axiosInstance.get("/any-starr/api/v1/gcUserBooking/statistics/detailBySku", {params})
+    return axiosInstance.get("/api/v1/gcUserBooking/statistics/detailBySku", {params})
 }
 
 // 普通用户下载
@@ -153,7 +153,7 @@ export const APIDetailBySkuDownloadUserDetail = (params:{
     userId?:string | null
 }) =>{
     params.userId = localStorage.getItem("id")
-    return axiosInstance.get("/any-starr/api/v1/gcUserBooking/downloadUserDetail", {params})
+    return axiosInstance.get("/api/v1/gcUserBooking/downloadUserDetail", {params})
 }
 
 
@@ -161,5 +161,5 @@ export const APIGetUserInfo = (params:{
     userId?:string | null
 }) =>{
     params.userId = localStorage.getItem("id")
-    return axiosInstance.get("/any-starr/api/v1/gcUser/getUserInfo", {params})
+    return axiosInstance.get("/api/v1/gcUser/getUserInfo", {params})
 }

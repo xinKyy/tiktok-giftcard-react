@@ -200,9 +200,9 @@ const SecondUserTablePageAll = () =>{
         const userId = localStorage.getItem("id");
         const a = document.createElement("a");
         if(time1Ref.current){
-            a.href = `${baseHost}/any-starr/api/v1/gcUserBooking/downloadByUid?userId=${userId}&start=${time1Ref.current[0]}&end=${time1Ref.current[1]}`;
+            a.href = `${baseHost}/api/v1/gcUserBooking/downloadByUid?userId=${userId}&start=${time1Ref.current[0]}&end=${time1Ref.current[1]}`;
         } else {
-            a.href = `${baseHost}/any-starr/api/v1/gcUserBooking/downloadByUid?userId=${userId}`;
+            a.href = `${baseHost}/api/v1/gcUserBooking/downloadByUid?userId=${userId}`;
         }
         a.click();
     }
@@ -210,7 +210,7 @@ const SecondUserTablePageAll = () =>{
     const downloadBottom = () =>{
         const userId = localStorage.getItem("id");
         const a = document.createElement("a");
-        a.href = `${baseHost}/any-starr/api/v1/gcUserBooking/download?userId=${userId}`;
+        a.href = `${baseHost}/api/v1/gcUserBooking/download?userId=${userId}`;
         a.click();
     }
 
