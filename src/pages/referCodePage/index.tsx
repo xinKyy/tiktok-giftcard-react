@@ -73,7 +73,7 @@ const FirstUserReferCodeWrap = () =>{
     const generateCodeByDiy = async () =>{
         setDiyLoading(true);
         try{
-            const resp = await APIGenerateCode({codes:referCodeValue});
+            const resp = await APIGenerateCode({codes:referCodeValue?.trim()});
             if(resp.data.data){
                 const data = resp.data.data
                 setDiyCodeList(data)
@@ -117,7 +117,7 @@ const FirstUserReferCodeWrap = () =>{
                 カスタム招待コードを入力してください。
             </div>
             <div className={styles.flex_wrap}>
-                <Input placeholder={"招待コードを入力"}  value={referCodeValue} onChange={(e)=>{setReferCodeValue(e.target.value)}} className={styles.refer_input_wrap}></Input>
+                <Input placeholder={"招待コードを入力"}  value={referCodeValue} onChange={(e)=>{setReferCodeValue(e.target.value.trim())}} className={styles.refer_input_wrap}></Input>
                 {
                     referCodeValue && <CommonBtn loading={diyLoading} onClick={generateCodeByDiy} className={styles.btn}>生成</CommonBtn>
                 }
