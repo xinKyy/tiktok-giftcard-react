@@ -56,8 +56,8 @@ export const LoginProvider: React.FC<LoginProviderProps> = ({ children }) => {
         userGrade:tempUser.userGrade
       })
       localStorage.setItem("userInfo", JSON.stringify(tempUser));
+      getUserInfo()
     }
-    getUserInfo()
   }, [])
 
   const getUserInfo = () =>{
