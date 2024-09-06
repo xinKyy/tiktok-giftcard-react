@@ -53,8 +53,6 @@ const LoginForm = () => {
             localStorage.setItem("localLogin", "1")
           }
         }
-      } else{
-        message.error("ログインエラー")
       }
     }).finally(()=>{
       setLoading(false);

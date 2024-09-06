@@ -6,7 +6,15 @@ import giftCard from "../../assets/images/home/gifcard.png"
 import downloadIcon from "../../assets/images/home/downloadIcon.svg"
 import React, {useEffect, useRef, useState} from "react";
 import SizeBox from "../../components/SizeBox";
-import {APIAfterCheck, APIBooking, APIStaticsDetail, APIStatistics, APIStatisticsItem} from "../../api";
+import {
+    APIAfterCheck,
+    APIBooking,
+    APIDetailBySku,
+    APIStaticsDetail,
+    APIStaticsDetailByUid,
+    APIStatistics,
+    APIStatisticsItem
+} from "../../api";
 import {useLogin} from "../../provider/loginContext";
 import {Button, DatePicker, message, Table, Tag} from "antd";
 import ReferralCodeModal from "../../components/ReferralCodeModal";
@@ -284,21 +292,22 @@ const getSubColumn = (getDetailModal:(userId:string)=>void ) =>{
         },
         {
             title: '礼品卡种类及数量',
-            dataIndex: 'type',
-            key: 'type',
-            render:(_:string, r:DataItem)=>{
-                return  <Tag onClick={()=>getDetailModal(r.email)} color={getColor(r.id)}>{_}</Tag>
+            dataIndex: 'statistics',
+            key: 'statistics',
+            render:(_:StatisticsItem[], r:any)=>{
+                return <div>
+                    {
+                        _.map(item=>{
+                            return <Tag color={getColor(item.key)}>{item.key}x{item.value}</Tag>
+                        })
+                    }
+                </div>
             }
         },
         {
             title: '时间',
             dataIndex: 'time',
             key: 'time',
-        },
-        {
-            title: '邀请码',
-            dataIndex: 'referralCode',
-            key: 'referralCode',
         },
     ];
 }
@@ -353,8 +362,8 @@ const AllColumns = (toDetails:(code:string)=>void)=>{
     },
     {
       title: '操作',
-      dataIndex: 'referCode',
-      key: 'referCode',
+      dataIndex: 'userId',
+      key: 'userId',
       render:(_:string, re:any)=>{
         return <div style={{
           color:"var(--primary-color)",
@@ -417,6 +426,7 @@ class AllDataItem{
   time:string = ""
   userId:string = ""
   referCode:string = ""
+  referCount:number = 0
 }
 
 class StatisticsItem{
@@ -426,10 +436,12 @@ class StatisticsItem{
 
 export const TablePageAll = () =>{
   const [dataSource, setDataSource] = useState<AllDataItem[]>([]);
+  const [normalDataSource, setNormalDataSource] = useState<AllDataItem[]>([]);
   const [total, setTotal] = useState(0)
   const [details, setDetails] = useState(false)
   const referCode = useRef<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const [normalLoading, setNormalLoading] = useState(false)
   const navigate = useNavigate();
   const time1Ref = useRef<[string, string] | null>(null);
 
@@ -452,7 +464,9 @@ export const TablePageAll = () =>{
             email:item.email,
             statistics:result,
             time:item.time,
-            userId:item.userId
+            userId:item.userId,
+              referCode:item.code,
+              referCount:item.num
           } as AllDataItem
         })
         setDataSource(tmp)
@@ -463,8 +477,38 @@ export const TablePageAll = () =>{
     })
   }
 
+  const getNormalData = (startTime?:string, endTime?:string) =>{
+      setNormalLoading(true)
+      APIDetailBySku({}).then(resp=>{
+            if(resp.data.data){
+                const list = resp.data.data;
+                const tmp = list.map((item:any)=>{
+                    const result = Object.entries(item.statistics).map(([key, value]) => {
+                        return {
+                            key:key,
+                            value:value
+                        } as StatisticsItem
+                    });
+                    return {
+                        email:item.email,
+                        statistics:result,
+                        time:item.time,
+                        userId:item.userId,
+                        referCode:item.code,
+                        referCount:item.num
+                    } as AllDataItem
+                })
+                setNormalDataSource(tmp)
+                setTotal(resp.data.data.total)
+            }
+        }).finally(()=>{
+            setNormalLoading(false)
+        })
+    }
+
   useEffect(()=>{
     getData()
+      // getNormalData()
   }, [])
 
   const toDetails = (code:string) =>{
@@ -514,20 +558,20 @@ export const TablePageAll = () =>{
         <SizeBox h={10}></SizeBox>
         <Table loading={loading} dataSource={dataSource} columns={AllColumns(toDetails)} />
         <SizeBox h={50}></SizeBox>
-        <div className={styles.end_wrap}>
-            <DatePicker.RangePicker onChange={(dates:any)=>{
-                if (dates) {
-                    const startDate = dates[0].format('YYYY-MM-DD HH:mm:ss');
-                    const endDate = dates[1].format('YYYY-MM-DD HH:mm:ss');
-                    getData(startDate, endDate)
-                } else {
-                    console.log("No date selected");
-                }
-            }}></DatePicker.RangePicker>
-            <img onClick={downloadBottom}  src={downloadIcon}/>
-        </div>
-        <SizeBox h={10}></SizeBox>
-        <Table loading={loading} dataSource={dataSource} columns={NoActionColumns} />
+        {/*<div className={styles.end_wrap}>*/}
+        {/*    <DatePicker.RangePicker onChange={(dates:any)=>{*/}
+        {/*        if (dates) {*/}
+        {/*            const startDate = dates[0].format('YYYY-MM-DD HH:mm:ss');*/}
+        {/*            const endDate = dates[1].format('YYYY-MM-DD HH:mm:ss');*/}
+        {/*            getData(startDate, endDate)*/}
+        {/*        } else {*/}
+        {/*            console.log("No date selected");*/}
+        {/*        }*/}
+        {/*    }}></DatePicker.RangePicker>*/}
+        {/*    <img onClick={downloadBottom}  src={downloadIcon}/>*/}
+        {/*</div>*/}
+        {/*<SizeBox h={10}></SizeBox>*/}
+        {/*<Table loading={loading} dataSource={normalDataSource} columns={NoActionColumns} />*/}
       </div> : <TablePage cancel={()=>{setDetails(false)}} code={referCode.current}></TablePage>
     }
   </AppLayout>;
@@ -545,23 +589,30 @@ const TablePage = ({cancel, code}:{
   const getData = (startTime?:string, endTime?:string) =>{
     if(code === null) return;
     setLoading(true)
-      APIStaticsDetail({
-          code:code,
+      APIStaticsDetailByUid({
+          userId:code,
           start:startTime,
           end:endTime
       }).then(resp=>{
-      if(resp.data.data.records && resp.data.data.records.length >= 1){
-        const list = resp.data.data.records;
-        const tmp = list.map((item:any)=>{
-          return {
-            email:item.email,
-            type:`${item.skuId} x ${item.num}`,
-            id:item.skuId,
-            time:item.time,
-            referralCode:item.referralCode
-          } as DataItem
-        })
-        setDataSource(tmp)
+      if(resp.data.data && resp.data.data.length >= 1){
+          const list = resp.data.data;
+          const tmp = list.map((item:any)=>{
+              const result = Object.entries(item.statistics).map(([key, value]) => {
+                  return {
+                      key:key,
+                      value:value
+                  } as StatisticsItem
+              });
+              return {
+                  email:item.email,
+                  statistics:result,
+                  time:item.time,
+                  userId:item.userId,
+                  referCode:item.code,
+                  referCount:item.num
+              } as AllDataItem
+          })
+          setDataSource(tmp)
         setTotal(resp.data.data.total)
       }
     }).finally(()=>{
@@ -578,12 +629,11 @@ const TablePage = ({cancel, code}:{
   }
 
   const downloadTop = () =>{
-        const userId = localStorage.getItem("id");
         const a = document.createElement("a");
         if(time1Ref.current){
-            a.href = `${baseHost}/any-starr/api/v1/gcUserBooking/download?userId=${userId}`;
+            a.href = `${baseHost}/any-starr/api/v1/gcUserBooking/downloadByUid?userId=${code}`;
         } else {
-            a.href = `${baseHost}/any-starr/api/v1/gcUserBooking/download?userId=${userId}`;
+            a.href = `${baseHost}/any-starr/api/v1/gcUserBooking/downloadByUid?userId=${code}`;
         }
         a.click();
   }

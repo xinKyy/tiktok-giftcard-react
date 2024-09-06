@@ -105,7 +105,9 @@ export const APIStaticsDetail = (params:{
     start?:string,
     end?:string
 }) =>{
-    params.userId = localStorage.getItem("id")
+    if(!params.userId){
+        params.userId = localStorage.getItem("id")
+    }
     return axiosInstance.get("/any-starr/api/v1/gcUserBooking/statisticsDetail", {params})
 }
 
@@ -124,7 +126,9 @@ export const APIStaticsDetailByUid = (params:{
     start?:string,
     end?:string
 }) =>{
-    params.userId = localStorage.getItem("id")
+    if(!params.userId){
+        params.userId = localStorage.getItem("id")
+    }
     return axiosInstance.get("/any-starr/api/v1/gcUserBooking/statistics/detailByUid", {params})
 }
 

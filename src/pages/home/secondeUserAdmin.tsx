@@ -73,16 +73,6 @@ const AllColumns = (toDetails:(code:string)=>void)=>{
             }
         },
         {
-            title: '邀请码',
-            dataIndex: 'referCode',
-            key: 'referCode',
-        },
-        {
-            title: '邀请数量',
-            dataIndex: 'referCount',
-            key: 'referCode',
-        },
-        {
             title: '时间',
             dataIndex: 'time',
             key: 'time',
@@ -142,6 +132,7 @@ class AllDataItem{
     time:string = ""
     userId:string = ""
     referCode:string = ""
+    referCount:number = 0
 }
 
 class StatisticsItem{
@@ -177,7 +168,9 @@ const SecondUserTablePageAll = () =>{
                         email:item.email,
                         statistics:result,
                         time:item.time,
-                        userId:item.userId
+                        userId:item.userId,
+                        referCode:item.code,
+                        referCount:item.num
                     } as AllDataItem
                 })
                 setDataSource(tmp)
@@ -238,20 +231,20 @@ const SecondUserTablePageAll = () =>{
             <SizeBox h={10}></SizeBox>
             <Table loading={loading} dataSource={dataSource} columns={AllColumns(toDetails)} />
             <SizeBox h={50}></SizeBox>
-            <div className={styles.end_wrap}>
-                <DatePicker.RangePicker onChange={(dates:any)=>{
-                    if (dates) {
-                        const startDate = dates[0].format('YYYY-MM-DD HH:mm:ss');
-                        const endDate = dates[1].format('YYYY-MM-DD HH:mm:ss');
-                        getData(startDate, endDate)
-                    } else {
-                        console.log("No date selected");
-                    }
-                }}></DatePicker.RangePicker>
-                <img onClick={downloadBottom}  src={downloadIcon}/>
-            </div>
-            <SizeBox h={10}></SizeBox>
-            <Table loading={loading} dataSource={dataSource} columns={NoActionColumns} />
+            {/*<div className={styles.end_wrap}>*/}
+            {/*    <DatePicker.RangePicker onChange={(dates:any)=>{*/}
+            {/*        if (dates) {*/}
+            {/*            const startDate = dates[0].format('YYYY-MM-DD HH:mm:ss');*/}
+            {/*            const endDate = dates[1].format('YYYY-MM-DD HH:mm:ss');*/}
+            {/*            getData(startDate, endDate)*/}
+            {/*        } else {*/}
+            {/*            console.log("No date selected");*/}
+            {/*        }*/}
+            {/*    }}></DatePicker.RangePicker>*/}
+            {/*    <img onClick={downloadBottom}  src={downloadIcon}/>*/}
+            {/*</div>*/}
+            {/*<SizeBox h={10}></SizeBox>*/}
+            {/*<Table loading={loading} dataSource={dataSource} columns={NoActionColumns} />*/}
         </div>
     </AppLayout>;
 }
