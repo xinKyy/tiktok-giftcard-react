@@ -63,6 +63,8 @@ const LoginForm = () => {
 
   const getCode = () =>{
     const v = form.getFieldsValue();
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if(!emailRegex.test(v.email)) return;
     setSendCodeLoading(true)
     APIGetCode({
       email:v.email
@@ -113,7 +115,7 @@ const LoginForm = () => {
                 },
                 {
                   type: "email",
-                  message: "The input is not a valid email address!",
+                  message: "入力されたメールアドレスは有効ではありません",
                 },
               ]} name={"email"}>
                 <Input type="email" placeholder="メールアドレスを入力してください" />
