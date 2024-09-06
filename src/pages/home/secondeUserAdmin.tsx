@@ -51,7 +51,7 @@ const getColor = (key:string): "success" | "warning" | "red" =>{
 }
 
 
-const AllColumns = (toDetails:(code:string)=>void)=>{
+const AllColumns = (toDetails:(code:string)=>void, openDetails:(userId:string)=>void)=>{
     return [
         {
             title: '邮箱',
@@ -63,13 +63,13 @@ const AllColumns = (toDetails:(code:string)=>void)=>{
             dataIndex: 'statistics',
             key: 'statistics',
             render:(_:StatisticsItem[], r:any)=>{
-                return <div onClick={()=>toDetails(r.id)}>
-                        {
-                            _.map(item=>{
-                                return <Tag color={getColor(item.key)}>{item.key}x{item.value}</Tag>
-                            })
-                        }
-                    </div>
+                return <div onClick={()=>openDetails(r.userId)}>
+                    {
+                        _.map(item=>{
+                            return <Tag color={getColor(item.key)}>{item.key}x{item.value}</Tag>
+                        })
+                    }
+                </div>
             }
         },
         {
@@ -148,7 +148,8 @@ const SecondUserTablePageAll = () =>{
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate();
     const time1Ref = useRef<[string, string] | null>(null);
-
+    const [openDetailsModal, setOpenDetailsModal] = useState(false)
+    const userIdRef = useRef<string>();
     const getData = (startTime?:string, endTime?:string) =>{
         setLoading(true)
         APIStaticsDetailByUid({
@@ -179,6 +180,11 @@ const SecondUserTablePageAll = () =>{
         }).finally(()=>{
             setLoading(false)
         })
+    }
+
+    const openDetails = (userId:string) =>{
+        setOpenDetailsModal(true)
+        userIdRef.current = userId
     }
 
     useEffect(()=>{
@@ -229,7 +235,8 @@ const SecondUserTablePageAll = () =>{
                 <img onClick={downloadTop} src={downloadIcon}/>
             </div>
             <SizeBox h={10}></SizeBox>
-            <Table loading={loading} dataSource={dataSource} columns={AllColumns(toDetails)} />
+            <Table loading={loading} dataSource={dataSource} columns={AllColumns(toDetails, openDetails)} />
+            <UserSubDetailModal userId={userIdRef.current!} open={openDetailsModal} setOpen={setOpenDetailsModal}></UserSubDetailModal>
             <SizeBox h={50}></SizeBox>
             {/*<div className={styles.end_wrap}>*/}
             {/*    <DatePicker.RangePicker onChange={(dates:any)=>{*/}
