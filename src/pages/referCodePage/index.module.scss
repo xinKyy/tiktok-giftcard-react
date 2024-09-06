@@ -129,9 +129,19 @@
     height: 55px;
     outline: none !important;
     font-weight: bold;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 55px;
+    cursor: pointer;
     &::placeholder{
       color: #dededed1;
       font-size: 16px;
+    }
+  }
+
+  .hover_text{
+    &:hover{
+      color: var(--primary-color);
     }
   }
 

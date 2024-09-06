@@ -235,6 +235,13 @@ const SecondUserReferCodeWrap = () =>{
         setLoading(false);
     }
 
+    const onCopy = () =>{
+        if(generateCode){
+            copy(generateCode!)
+            message.success("Copy success!")
+        }
+    }
+
     return <div>
         <div>
             <div className={styles.refer_code_title_wrap}>
@@ -253,9 +260,9 @@ const SecondUserReferCodeWrap = () =>{
                 您的专属邀请码
             </div>
             <div className={styles.refresh_wrap}>
-                <Input value={generateCode} disabled className={styles.refer_input_wrap}></Input>
+                <div onClick={onCopy} className={`${styles.refer_input_wrap} ${styles.hover_text}`}> { generateCode} </div>
                 {
-                    <img className={loading ? styles.rotate_x : styles.rotate_x_stop} onClick={generateCodeByNum} src={refreshIcon}></img>
+                   !generateCode &&  <img className={loading ? styles.rotate_x : styles.rotate_x_stop} onClick={generateCodeByNum} src={refreshIcon}></img>
                 }
             </div>
         </div>
