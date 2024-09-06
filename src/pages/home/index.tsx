@@ -295,7 +295,7 @@ const getSubColumn = (getDetailModal:(userId:string)=>void ) =>{
             dataIndex: 'statistics',
             key: 'statistics',
             render:(_:StatisticsItem[], r:any)=>{
-                return <div>
+                return <div onClick={()=>getDetailModal(r.userId)}>
                     {
                         _.map(item=>{
                             return <Tag color={getColor(item.key)}>{item.key}x{item.value}</Tag>
@@ -324,7 +324,7 @@ const getColor = (key:string): "success" | "warning" | "red" =>{
 }
 
 
-const AllColumns = (toDetails:(code:string)=>void)=>{
+const AllColumns = (toDetails:(code:string)=>void, openDetails:(userId:string)=>void)=>{
   return [
     {
       title: '邮箱',
@@ -336,7 +336,7 @@ const AllColumns = (toDetails:(code:string)=>void)=>{
       dataIndex: 'statistics',
       key: 'statistics',
       render:(_:StatisticsItem[], r:any)=>{
-        return <div>
+        return <div onClick={()=>openDetails(r.userId)}>
           {
             _.map(item=>{
               return <Tag color={getColor(item.key)}>{item.key}x{item.value}</Tag>
@@ -439,12 +439,13 @@ export const TablePageAll = () =>{
   const [normalDataSource, setNormalDataSource] = useState<AllDataItem[]>([]);
   const [total, setTotal] = useState(0)
   const [details, setDetails] = useState(false)
+  const [openDetailsModal, setOpenDetailsModal] = useState(false)
   const referCode = useRef<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [normalLoading, setNormalLoading] = useState(false)
   const navigate = useNavigate();
   const time1Ref = useRef<[string, string] | null>(null);
-
+    const userIdRef = useRef<string>();
   const getData = (startTime?:string, endTime?:string) =>{
     setLoading(true)
       APIStaticsDetail({
@@ -483,15 +484,10 @@ export const TablePageAll = () =>{
             if(resp.data.data){
                 const list = resp.data.data;
                 const tmp = list.map((item:any)=>{
-                    const result = Object.entries(item.statistics).map(([key, value]) => {
-                        return {
-                            key:key,
-                            value:value
-                        } as StatisticsItem
-                    });
+                    const bookingGroup = item.bookingGroup.split(", ");
                     return {
                         email:item.email,
-                        statistics:result,
+                        statistics:[],
                         time:item.time,
                         userId:item.userId,
                         referCode:item.code,
@@ -515,6 +511,11 @@ export const TablePageAll = () =>{
       referCode.current = code
       setDetails(true)
   }
+
+    const openDetails = (userId:string) =>{
+        setOpenDetailsModal(true)
+        userIdRef.current = userId
+    }
 
   const downloadTop = () =>{
       const userId = localStorage.getItem("id");
@@ -556,7 +557,8 @@ export const TablePageAll = () =>{
             <img onClick={downloadTop} src={downloadIcon}/>
         </div>
         <SizeBox h={10}></SizeBox>
-        <Table loading={loading} dataSource={dataSource} columns={AllColumns(toDetails)} />
+        <Table loading={loading} dataSource={dataSource} columns={AllColumns(toDetails, openDetails)} />
+          <UserSubDetailModal userId={userIdRef.current!} open={openDetailsModal} setOpen={setOpenDetailsModal}></UserSubDetailModal>
         <SizeBox h={50}></SizeBox>
         {/*<div className={styles.end_wrap}>*/}
         {/*    <DatePicker.RangePicker onChange={(dates:any)=>{*/}
@@ -586,6 +588,7 @@ const TablePage = ({cancel, code}:{
   const [loading, setLoading] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const time1Ref = useRef<[string, string] | null>(null);
+  const userId = useRef<string>();
   const getData = (startTime?:string, endTime?:string) =>{
     if(code === null) return;
     setLoading(true)
@@ -624,7 +627,8 @@ const TablePage = ({cancel, code}:{
     getData()
   }, [])
 
-  const getDetailModal = (userId:string) =>{
+  const getDetailModal = (id:string) =>{
+      userId.current = id
       setShowDetailModal(true)
   }
 
@@ -664,7 +668,7 @@ const TablePage = ({cancel, code}:{
       //   getData(pageNum)
       // }
     }} dataSource={dataSource} columns={getSubColumn(getDetailModal)} />
-      <UserSubDetailModal open={showDetailModal} setOpen={setShowDetailModal}></UserSubDetailModal>
+      <UserSubDetailModal userId={userId.current!} open={showDetailModal} setOpen={setShowDetailModal}></UserSubDetailModal>
   </div>;
 }
 

@@ -28,12 +28,20 @@ interface Result {
 }
 
 
-const UserSubDetailModal = ({open, setOpen}:{open:boolean, setOpen:(open:boolean)=>void}) => {
+const UserSubDetailModal = ({open, setOpen, userId}:{open:boolean, setOpen:(open:boolean)=>void, userId:string}) => {
   const [loading, setLoading] = useState(false);
   const [cardList, setCardList] = useState<CardItem[]>([])
   const getMyBooking = () =>{
+      console.log(userId, "userId")
+    if(!userId) return;
+
     setLoading(true)
-    const params = new MyBookingParams(1, 1000)
+    // const params = new MyBookingParams(1, 1000)
+    const params = {
+        pageNum:1,
+        pageSize:1000,
+        userId:userId
+    } as MyBookingParams
     APIMyBooking(params).then(resp=>{
       console.log(resp, "Resp")
       if(resp.data.data.records && resp.data.data.records.length >= 1){
