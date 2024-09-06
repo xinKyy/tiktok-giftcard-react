@@ -374,42 +374,39 @@ const AllColumns = (toDetails:(code:string)=>void, openDetails:(userId:string)=>
   ]
 };
 
-const NoActionColumns = [
-    {
-        title: '受信箱',
-        dataIndex: 'email',
-        key: 'email',
-    },
-    {
-        title: 'ギフトカードの種類と枚数',
-        dataIndex: 'statistics',
-        key: 'statistics',
-        render:(_:StatisticsItem[], r:any)=>{
-            return <div>
-                {
-                    _.map(item=>{
-                        return <Tag color={getColor(item.key)}>{item.key}x{item.value}</Tag>
-                    })
-                }
-            </div>
-        }
-    },
-    {
-        title: '招待コード',
-        dataIndex: 'referCode',
-        key: 'referCode',
-    },
-    {
-        title: '招待数',
-        dataIndex: 'referCount',
-        key: 'referCode',
-    },
-    {
-        title: '時間',
-        dataIndex: 'time',
-        key: 'time',
-    },
-]
+const NoActionColumns = (openDetails:(userId:string)=>void)=>{
+    return [
+        {
+            title: '受信箱',
+            dataIndex: 'email',
+            key: 'email',
+        },
+        {
+            title: 'ギフトカードの種類と枚数',
+            dataIndex: 'statistics',
+            key: 'statistics',
+            render:(_:StatisticsItem[], r:any)=>{
+                return <div>
+                    {
+                        _.map(item=>{
+                            return <Tag color={getColor(item.key)}>{item.key}x{item.value}</Tag>
+                        })
+                    }
+                </div>
+            }
+        },
+        {
+            title: '招待コード',
+            dataIndex: 'referCode',
+            key: 'referCode',
+        },
+        {
+            title: '時間',
+            dataIndex: 'time',
+            key: 'time',
+        },
+    ]
+};
 
 
 class DataItem{
@@ -484,10 +481,15 @@ export const TablePageAll = () =>{
             if(resp.data.data){
                 const list = resp.data.data;
                 const tmp = list.map((item:any)=>{
-                    const bookingGroup = item.bookingGroup.split(", ");
+                    const result = Object.entries(item.statistics).map(([key, value]) => {
+                        return {
+                            key:key,
+                            value:value
+                        } as StatisticsItem
+                    });
                     return {
                         email:item.email,
-                        statistics:[],
+                        statistics:result,
                         time:item.time,
                         userId:item.userId,
                         referCode:item.code,
@@ -504,7 +506,7 @@ export const TablePageAll = () =>{
 
   useEffect(()=>{
     getData()
-      // getNormalData()
+      getNormalData()
   }, [])
 
   const toDetails = (code:string) =>{
@@ -560,20 +562,20 @@ export const TablePageAll = () =>{
         <Table loading={loading} dataSource={dataSource} columns={AllColumns(toDetails, openDetails)} />
           <UserSubDetailModal userId={userIdRef.current!} open={openDetailsModal} setOpen={setOpenDetailsModal}></UserSubDetailModal>
         <SizeBox h={50}></SizeBox>
-        {/*<div className={styles.end_wrap}>*/}
-        {/*    <DatePicker.RangePicker onChange={(dates:any)=>{*/}
-        {/*        if (dates) {*/}
-        {/*            const startDate = dates[0].format('YYYY-MM-DD HH:mm:ss');*/}
-        {/*            const endDate = dates[1].format('YYYY-MM-DD HH:mm:ss');*/}
-        {/*            getData(startDate, endDate)*/}
-        {/*        } else {*/}
-        {/*            console.log("No date selected");*/}
-        {/*        }*/}
-        {/*    }}></DatePicker.RangePicker>*/}
-        {/*    <img onClick={downloadBottom}  src={downloadIcon}/>*/}
-        {/*</div>*/}
-        {/*<SizeBox h={10}></SizeBox>*/}
-        {/*<Table loading={loading} dataSource={normalDataSource} columns={NoActionColumns} />*/}
+        <div className={styles.end_wrap}>
+            <DatePicker.RangePicker onChange={(dates:any)=>{
+                if (dates) {
+                    const startDate = dates[0].format('YYYY-MM-DD HH:mm:ss');
+                    const endDate = dates[1].format('YYYY-MM-DD HH:mm:ss');
+                    getData(startDate, endDate)
+                } else {
+                    console.log("No date selected");
+                }
+            }}></DatePicker.RangePicker>
+            <img onClick={downloadBottom}  src={downloadIcon}/>
+        </div>
+        <SizeBox h={10}></SizeBox>
+        <Table loading={loading} dataSource={normalDataSource} columns={NoActionColumns(openDetails)} />
       </div> : <TablePage cancel={()=>{setDetails(false)}} code={referCode.current}></TablePage>
     }
   </AppLayout>;
