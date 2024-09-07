@@ -225,7 +225,8 @@ const SecondUserTablePageAll = () =>{
                 <DatePicker.RangePicker locale={locale.DatePicker} onChange={(dates:any)=>{
                     if (dates) {
                         const startDate = dates[0].format('YYYY-MM-DD HH:mm:ss');
-                        const endDate = dates[1].format('YYYY-MM-DD HH:mm:ss');
+                        let endDate = dates[1].format('YYYY-MM-DD HH:mm:ss');
+                        endDate = endDate.split(" ")[0] + " 23:59:59"
                         time1Ref.current = [startDate, endDate]
                         getData(startDate, endDate)
                     } else {
