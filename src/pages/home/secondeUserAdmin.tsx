@@ -236,9 +236,7 @@ const SecondUserTablePageAll = () =>{
                 <img onClick={downloadTop} src={downloadIcon}/>
             </div>
             <SizeBox h={10}></SizeBox>
-            <Table locale={{
-                emptyText:"一時データ"
-            }} loading={loading} dataSource={dataSource} columns={AllColumns(toDetails, openDetails)} />
+            <Table locale={locale.Table} loading={loading} dataSource={dataSource} columns={AllColumns(toDetails, openDetails)} />
             <UserSubDetailModal userId={userIdRef.current!} open={openDetailsModal} setOpen={setOpenDetailsModal}></UserSubDetailModal>
             <SizeBox h={50}></SizeBox>
             {/*<div className={styles.end_wrap}>*/}

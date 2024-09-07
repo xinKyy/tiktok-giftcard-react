@@ -654,7 +654,7 @@ const TablePage = ({cancel, code}:{
       <img src={backIcon}></img> 戻る
     </div>
       <div className={styles.end_wrap}>
-          <DatePicker.RangePicker onChange={(dates:any)=>{
+          <DatePicker.RangePicker locale={locale.DatePicker} onChange={(dates:any)=>{
               if (dates) {
                   const startDate = dates[0].format('YYYY-MM-DD HH:mm:ss');
                   const endDate = dates[1].format('YYYY-MM-DD HH:mm:ss');
@@ -668,7 +668,7 @@ const TablePage = ({cancel, code}:{
           <img onClick={downloadTop} src={downloadIcon}/>
       </div>
       <SizeBox h={10}></SizeBox>
-    <Table loading={loading} pagination={{
+    <Table locale={locale.Table}  loading={loading} pagination={{
       total:total,
       pageSize:10,
       // onChange:(pageNum, pageSize)=>{
