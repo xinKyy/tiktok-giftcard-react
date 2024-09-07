@@ -1,6 +1,6 @@
 import styles from "./index.module.scss"
 import Card from "../../components/Card";
-
+import locale from 'antd/locale/ja_JP'
 import backIcon from "../../assets/images/home/back-icon.svg"
 import giftCard from "../../assets/images/home/gifcard.png"
 import downloadIcon from "../../assets/images/home/downloadIcon.svg"
@@ -537,6 +537,7 @@ export const TablePageAll = () =>{
       a.click();
   }
 
+
   return <AppLayout>
     {
       !details ? <div className={styles.confirmPage}>
@@ -545,7 +546,7 @@ export const TablePageAll = () =>{
         </div>
         <div className={styles.section_title}>予約リスト</div>
         <div className={styles.end_wrap}>
-            <DatePicker.RangePicker onChange={(dates:any)=>{
+            <DatePicker.RangePicker locale={locale.DatePicker} onChange={(dates:any)=>{
                 if (dates) {
                     const startDate = dates[0].format('YYYY-MM-DD HH:mm:ss');
                     const endDate = dates[1].format('YYYY-MM-DD HH:mm:ss');
@@ -559,11 +560,13 @@ export const TablePageAll = () =>{
             <img onClick={downloadTop} src={downloadIcon}/>
         </div>
         <SizeBox h={10}></SizeBox>
-        <Table loading={loading} dataSource={dataSource} columns={AllColumns(toDetails, openDetails)} />
+        <Table  locale={{
+            emptyText:"一時データ"
+        }} loading={loading} dataSource={dataSource} columns={AllColumns(toDetails, openDetails)} />
           <UserSubDetailModal userId={userIdRef.current!} open={openDetailsModal} setOpen={setOpenDetailsModal}></UserSubDetailModal>
         <SizeBox h={50}></SizeBox>
         <div className={styles.end_wrap}>
-            <DatePicker.RangePicker onChange={(dates:any)=>{
+            <DatePicker.RangePicker locale={locale.DatePicker} onChange={(dates:any)=>{
                 if (dates) {
                     const startDate = dates[0].format('YYYY-MM-DD HH:mm:ss');
                     const endDate = dates[1].format('YYYY-MM-DD HH:mm:ss');
@@ -575,7 +578,9 @@ export const TablePageAll = () =>{
             <img onClick={downloadBottom}  src={downloadIcon}/>
         </div>
         <SizeBox h={10}></SizeBox>
-        <Table loading={loading} dataSource={normalDataSource} columns={NoActionColumns(openDetails)} />
+        <Table  locale={{
+            emptyText:"一時データ"
+        }} loading={loading} dataSource={normalDataSource} columns={NoActionColumns(openDetails)} />
       </div> : <TablePage cancel={()=>{setDetails(false)}} code={referCode.current}></TablePage>
     }
   </AppLayout>;

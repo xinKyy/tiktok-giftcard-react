@@ -9,6 +9,7 @@ import backIcon from "../../assets/images/home/back-icon.svg";
 import downloadIcon from "../../assets/images/home/downloadIcon.svg";
 import SizeBox from "../../components/SizeBox";
 import UserSubDetailModal from "./componments/UserSubDetailModal";
+import locale from "antd/locale/ja_JP";
 
 
 const getSubColumn = (getDetailModal:(userId:string)=>void ) =>{
@@ -221,7 +222,7 @@ const SecondUserTablePageAll = () =>{
             </div>
             <div className={styles.section_title}>予約リスト</div>
             <div className={styles.end_wrap}>
-                <DatePicker.RangePicker onChange={(dates:any)=>{
+                <DatePicker.RangePicker locale={locale.DatePicker} onChange={(dates:any)=>{
                     if (dates) {
                         const startDate = dates[0].format('YYYY-MM-DD HH:mm:ss');
                         const endDate = dates[1].format('YYYY-MM-DD HH:mm:ss');
@@ -235,7 +236,9 @@ const SecondUserTablePageAll = () =>{
                 <img onClick={downloadTop} src={downloadIcon}/>
             </div>
             <SizeBox h={10}></SizeBox>
-            <Table loading={loading} dataSource={dataSource} columns={AllColumns(toDetails, openDetails)} />
+            <Table locale={{
+                emptyText:"一時データ"
+            }} loading={loading} dataSource={dataSource} columns={AllColumns(toDetails, openDetails)} />
             <UserSubDetailModal userId={userIdRef.current!} open={openDetailsModal} setOpen={setOpenDetailsModal}></UserSubDetailModal>
             <SizeBox h={50}></SizeBox>
             {/*<div className={styles.end_wrap}>*/}
