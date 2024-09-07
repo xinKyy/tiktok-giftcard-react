@@ -29,7 +29,13 @@ axiosInstance.interceptors.request.use(
 
 const languageMap: Map<string, string> = new Map([
     [
-        "Invitaion code error.", "招待コードエラー"
+        "Invitation code error.", "招待コードエラー",
+    ],
+    [
+        "The referral code is error", "招待コードエラー",
+    ],
+    [
+        "Please check your email for verification code.", "認証コードを取得するためにEメールをチェックしてください。",
     ],
 ])
 
