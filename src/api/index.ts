@@ -142,7 +142,9 @@ export const APIStaticsDownloadByUid = (params:{
 
 // 普通用户查询
 export const APIDetailBySku = (params:{
-    userId?:string | null
+    userId?:string | null,
+    start?:string,
+    end?:string
 }) =>{
     params.userId = localStorage.getItem("id")
     return axiosInstance.get("/api/v1/gcUserBooking/statistics/detailBySku", {params})

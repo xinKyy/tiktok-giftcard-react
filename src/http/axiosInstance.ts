@@ -37,6 +37,9 @@ const languageMap: Map<string, string> = new Map([
     [
         "Please check your email for verification code.", "認証コードを取得するためにEメールをチェックしてください。",
     ],
+    [
+        "The verification code is incorrect", "認証コードが正しくありません",
+    ],
 ])
 
 const getRiyu = (str:string):string =>{

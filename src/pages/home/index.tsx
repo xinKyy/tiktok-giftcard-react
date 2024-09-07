@@ -442,6 +442,7 @@ export const TablePageAll = () =>{
   const [normalLoading, setNormalLoading] = useState(false)
   const navigate = useNavigate();
   const time1Ref = useRef<[string, string] | null>(null);
+  const time2Ref = useRef<[string, string] | null>(null);
     const userIdRef = useRef<string>();
   const getData = (startTime?:string, endTime?:string) =>{
     setLoading(true)
@@ -477,7 +478,7 @@ export const TablePageAll = () =>{
 
   const getNormalData = (startTime?:string, endTime?:string) =>{
       setNormalLoading(true)
-      APIDetailBySku({}).then(resp=>{
+      APIDetailBySku({start:startTime, end:endTime}).then(resp=>{
             if(resp.data.data){
                 const list = resp.data.data;
                 const tmp = list.map((item:any)=>{
@@ -530,12 +531,16 @@ export const TablePageAll = () =>{
       a.click();
   }
 
-  const downloadBottom = () =>{
-      const userId = localStorage.getItem("id");
-      const a = document.createElement("a");
-      a.href = `${baseHost}/api/v1/gcUserBooking/download?userId=${userId}`;
-      a.click();
-  }
+    const downloadBottom = () =>{
+        const userId = localStorage.getItem("id");
+        const a = document.createElement("a");
+        if(time2Ref.current){
+            a.href = `${baseHost}/api/v1/gcUserBooking/downloadUserDetail?userId=${userId}&start=${time2Ref.current[0]}&end=${time2Ref.current[1]}`;
+        } else {
+            a.href = `${baseHost}/api/v1/gcUserBooking/downloadUserDetail?userId=${userId}`;
+        }
+        a.click();
+    }
 
 
   return <AppLayout>
@@ -554,15 +559,13 @@ export const TablePageAll = () =>{
                     getData(startDate, endDate)
                 } else {
                     time1Ref.current = null
-                    console.log("No date selected");
+                    getData()
                 }
            }}></DatePicker.RangePicker>
             <img onClick={downloadTop} src={downloadIcon}/>
         </div>
         <SizeBox h={10}></SizeBox>
-        <Table  locale={{
-            emptyText:"一時データ"
-        }} loading={loading} dataSource={dataSource} columns={AllColumns(toDetails, openDetails)} />
+        <Table locale={locale.Table}loading={loading} dataSource={dataSource} columns={AllColumns(toDetails, openDetails)} />
           <UserSubDetailModal userId={userIdRef.current!} open={openDetailsModal} setOpen={setOpenDetailsModal}></UserSubDetailModal>
         <SizeBox h={50}></SizeBox>
         <div className={styles.end_wrap}>
@@ -570,17 +573,17 @@ export const TablePageAll = () =>{
                 if (dates) {
                     const startDate = dates[0].format('YYYY-MM-DD HH:mm:ss');
                     const endDate = dates[1].format('YYYY-MM-DD HH:mm:ss');
-                    getData(startDate, endDate)
+                    time2Ref.current = [startDate, endDate]
+                    getNormalData(startDate, endDate)
                 } else {
-                    console.log("No date selected");
+                    time2Ref.current = null
+                    getNormalData()
                 }
             }}></DatePicker.RangePicker>
             <img onClick={downloadBottom}  src={downloadIcon}/>
         </div>
         <SizeBox h={10}></SizeBox>
-        <Table  locale={{
-            emptyText:"一時データ"
-        }} loading={loading} dataSource={normalDataSource} columns={NoActionColumns(openDetails)} />
+        <Table  locale={locale.Table} loading={normalLoading} dataSource={normalDataSource} columns={NoActionColumns(openDetails)} />
       </div> : <TablePage cancel={()=>{setDetails(false)}} code={referCode.current}></TablePage>
     }
   </AppLayout>;
