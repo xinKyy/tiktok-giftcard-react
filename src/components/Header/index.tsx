@@ -1,5 +1,5 @@
 // src/components/Header/Header.tsx
-import React, {useEffect} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import styles from './index.module.scss';
 import {useLogin} from "../../provider/loginContext";
 import {Popover} from "antd";
@@ -13,11 +13,11 @@ const Header: React.FC = () => {
       navigate('/referCode');
   }
 
-  const buildLevelContent = () =>{
-     if(userInfo?.userGrade === 1 || userInfo?.userGrade === 2){
-         return <div onClick={toReferCode}>紹介コード</div>
-     }
-  }
+  const buildLevelContent = useMemo(()=>() =>{
+      if(userInfo?.userGrade === 1 || userInfo?.userGrade === 2){
+          return <div onClick={toReferCode}>紹介コード</div>
+      }
+  }, [userInfo?.userGrade])
 
   const buildAdminContent = () =>{
       if(userInfo?.role === "admin"){

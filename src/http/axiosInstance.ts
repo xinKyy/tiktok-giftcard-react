@@ -27,12 +27,26 @@ axiosInstance.interceptors.request.use(
   }
 );
 
+const languageMap: Map<string, string> = new Map([
+    [
+        "Invitaion code error.", "招待コードエラー"
+    ],
+])
+
+const getRiyu = (str:string):string =>{
+    if(languageMap.has(str)){
+        return languageMap.get(str)!
+    }
+    return str
+}
+
+
 // 响应拦截器
 axiosInstance.interceptors.response.use(
   response => {
     // 对响应数据做点什么
       if(response.data.code !== "1" && response.data.message){
-          message.warning(response.data.message)
+          message.warning(getRiyu(response.data.message))
       }
     return response.data;
   },
