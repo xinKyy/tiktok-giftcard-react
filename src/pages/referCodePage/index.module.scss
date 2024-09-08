@@ -72,6 +72,11 @@
       text-decoration: line-through;
       color: var(--primary-color);
       border: 1px solid rgba(222, 222, 222, 0.7);
+      &:hover{
+        background: var(--primary-color);
+        border: 1px solid #000000;
+        color: #ffffff;
+      }
     }
   }
 
@@ -274,6 +279,11 @@
         text-decoration: line-through;
         color: var(--primary-color);
         border: 1px solid rgba(222, 222, 222, 0.7);
+        &:hover{
+          background: var(--primary-color);
+          border: 1px solid #000000;
+          color: #ffffff;
+        }
       }
     }
 
