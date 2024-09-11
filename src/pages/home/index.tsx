@@ -107,7 +107,9 @@ const Home = () =>{
 
     let code = localStorage.getItem("referralCode")
 
-    if(!code || code === "null") {
+    if(userInfo.userGrade === 1){
+        code = "SKIP"
+    } else if(!code || code === "null") {
       setOpenReferralCodeModal(true)
       return;
     }
