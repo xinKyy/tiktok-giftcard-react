@@ -45,10 +45,6 @@ export const LoginProvider: React.FC<LoginProviderProps> = ({ children }) => {
     const user = localStorage.getItem("userInfo")
     if(user){
       const tempUser = JSON.parse(user);
-      const code = localStorage.getItem("referralCode")
-      if(code && code !== "SKIP"){
-        tempUser.referralCode = code
-      }
       setUserInfo({
         email:tempUser.email,
         referralCode:tempUser.referralCode,
