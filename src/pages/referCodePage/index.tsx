@@ -202,7 +202,8 @@ const SecondUserReferCodeWrap = () =>{
     useEffect(()=>{
         setReferCodeValue(userInfo?.referralCode)
         getInvietCode().then();
-    }, [])
+        getUserInfo();
+    }, [userInfo])
 
     const getInvietCode = async () =>{
         const [data, err] = await getUserInfoAsync();

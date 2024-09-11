@@ -65,7 +65,7 @@ const Header: React.FC = () => {
       </div>
       <div className={styles.userInfo}>
         {
-          userInfo ?
+          userInfo?.email ?
           <Popover trigger={"click"} placement={"bottom"} content={content}>
             <span>{userInfo.email}</span>
           </Popover> :   <button onClick={()=>setOpenLoginModal(true)} className={styles.bookAllButton}>ログイン</button>

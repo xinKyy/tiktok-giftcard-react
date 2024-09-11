@@ -2,7 +2,7 @@
 import React, {useRef, useState} from 'react';
 import styles from './index.module.scss';
 import {Button, Form, Input, message, Modal} from "antd";
-import {useLogin} from "../../provider/loginContext";
+import {useLogin, UserInfo} from "../../provider/loginContext";
 import {APIGetCode, APILogin} from "../../api";
 import TipsModal from "../TipsModal";
 
@@ -33,13 +33,11 @@ const LoginForm = () => {
           const user = resp.data.data.user
           localStorage.setItem("token", user.token)
           localStorage.setItem("id", user.id)
-          localStorage.setItem("referralCode", resp.data.data.fullReferralCode)
           const user1 = {
             email: v.email,
             role:resp.data.data.role,
-            referralCode: resp.data.data.fullReferralCode,
             userGrade:resp.data.data.userGrade
-          }
+          } as UserInfo
           localStorage.setItem("userInfo", JSON.stringify(user1))
           setUserInfo(user1)
           setOpenLoginModal(false);

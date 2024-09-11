@@ -1,6 +1,6 @@
 import React, {createContext, useContext, useState, ReactNode, useEffect} from 'react';
 import {APIGetUserInfo} from "../../api";
-interface UserInfo{
+export interface UserInfo{
   email:string,
   referralCode:string,
   role?:string | null,
