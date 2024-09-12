@@ -32,7 +32,7 @@ const TipsModal = (props:Props) => {
                   </div>
                   <div className={styles.des_item}>
                       2. 予約
-                      <div>紹介コードを入力して予約！（必須ではありません</div>
+                      <div>紹介コードを入力して予約！</div>
                   </div>
                   <div className={styles.des_item}>
                       3.購入完了！
