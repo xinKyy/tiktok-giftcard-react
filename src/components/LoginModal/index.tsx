@@ -102,7 +102,7 @@ const LoginForm = () => {
           <div className={styles.logo}>
           </div>
           <h2>ようこそ！</h2>
-          <p>予約情報を送信するためにいくつかの情報が必要です</p>
+          <p>予約をする前に、ユーザー登録をお願いします</p>
           <Form autoComplete={"off"} form={form} onFinish={onSubmit}>
             <div className={styles.inputGroup}>
               <label>メール</label>
@@ -158,7 +158,7 @@ const LoginForm = () => {
             {/*<div className={styles.forgotPassword}>*/}
             {/*  <a href="/forgot-password">Forgot password</a>*/}
             {/*</div>*/}
-            <Button loading={loading} htmlType={"submit"} className={styles.loginButton}>ログイン</Button>
+            <Button loading={loading} htmlType={"submit"} className={styles.loginButton}>登録・ログイン</Button>
           </Form>
           {/*<div className={styles.signupLink}>*/}
           {/*  <p>Already have an account? <a onClick={()=>setIsRegis(!isRegis)}>{*/}

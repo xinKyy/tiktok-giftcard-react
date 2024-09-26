@@ -42,7 +42,7 @@ const Header: React.FC = () => {
         {
             buildLevelContent()
         }
-      <div onClick={()=>setOpenMessagesModal(true)}>メッセージ</div>
+      <div onClick={()=>setOpenMessagesModal(true)}>予約を確認</div>
         {
             buildAdminContent()
         }

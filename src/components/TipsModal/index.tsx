@@ -18,7 +18,7 @@ const TipsModal = (props:Props) => {
         <div className={styles.header}>
           {/*<img src={tikTokIcon} className={styles.icon} />*/}
           <div>
-              TikTok ギフトカードの購入方法！
+              TikTok ギフトカードの購入方法
           </div>
         </div>
         <div className={styles.sub_header}><span>3</span>ステップで完結！</div>
@@ -32,11 +32,13 @@ const TipsModal = (props:Props) => {
                   </div>
                   <div className={styles.des_item}>
                       2. 予約
-                      <div>紹介コードを入力して予約！</div>
+                      <div>紹介コードを入力<br/>
+                          して予約</div>
                   </div>
                   <div className={styles.des_item}>
                       3.購入完了！
-                      <div>右上のメニューで注文を確認可能</div>
+                      <div>右上の「予約の確認」で <br/>
+                          注文を確認</div>
                   </div>
               </div>
           </div>

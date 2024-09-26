@@ -33,7 +33,7 @@ const ReferralCodeModal = ({callback, openReferralCodeModal, setOpenReferralCode
         getUserInfo();
         return;
       }
-      return message.error("推奨コードエラー、チェックして再試行してください")
+      return message.error("コードが間違っていないか、再確認してください")
     }).catch(()=>{
       return message.error("異常が発生しました。再試行してください")
     }).finally(()=>{
