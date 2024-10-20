@@ -13,15 +13,17 @@ interface CardProps {
   imgSrc: string;
   zoom?:number
   createTime:string
+  realEmail?:string
 }
 
-const MessageCard: React.FC<CardProps> = ({price, imgSrc, zoom= 1, createTime}) => {
+const MessageCard: React.FC<CardProps> = ({price, imgSrc, zoom= 1, createTime, realEmail}) => {
   return (
     <div className={styles.card}>
       <div>
         <img src={imgSrc} alt="Product" />
         <div className={styles.price}>{price}</div>
       </div>
+      {realEmail && <div>{realEmail}</div>}
       <div className={styles.card_amount}>
         <div>{createTime}</div>
       </div>
