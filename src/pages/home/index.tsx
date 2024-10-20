@@ -408,6 +408,11 @@ const NoActionColumns = (openDetails:(userId:string)=>void)=>{
             key: 'email',
         },
         {
+          title: '受信箱',
+          dataIndex: 'realEmail',
+          key: 'realEmail',
+        },
+        {
             title: 'ギフトカードの種類と枚数',
             dataIndex: 'statistics',
             key: 'statistics',
@@ -450,6 +455,7 @@ class AllDataItem{
   userId:string = ""
   referCode:string = ""
   referCount:number = 0
+  realEmail:string = ""
 }
 
 class StatisticsItem{
@@ -520,7 +526,8 @@ export const TablePageAll = () =>{
                         time:item.time,
                         userId:item.userId,
                         referCode:item.code,
-                        referCount:item.num
+                        referCount:item.num,
+                        realEmail:item.realEmail
                     } as AllDataItem
                 })
                 setNormalDataSource(tmp)
