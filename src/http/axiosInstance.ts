@@ -3,7 +3,8 @@
 import axios from 'axios';
 import {message} from "antd";
 
-export const baseHost = "http://myjx2erv5kcq.ngrok.xiaomiqiu123.top/anystarr-new"
+// export const baseHost = "http://myjx2erv5kcq.ngrok.xiaomiqiu123.top/anystarr-new"
+export const baseHost = "https://ttgiftcard.com/anystarr-new"
 
 // 创建一个 axios 实例
 const axiosInstance = axios.create({
