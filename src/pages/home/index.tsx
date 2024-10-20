@@ -220,7 +220,7 @@ const ConfirmOrder = ({cancel, bookList, code, onSuccess}:{
 
     if(type === 2 ){
       if(!emailRegex.test(otherEmail)){
-        return message.info("请输入正确的邮箱");
+        return message.info("正しいメールアドレスを入力してください!");
       }
     }
 
@@ -249,15 +249,15 @@ const ConfirmOrder = ({cancel, bookList, code, onSuccess}:{
     </div>
 
     <div className={styles.check_wrap}>
-      <div onClick={()=>setType(1)} className={ type === 1 ? styles.act_item : styles.item}>给自己买</div>
+      <div onClick={()=>setType(1)} className={ type === 1 ? styles.act_item : styles.item}>自分用に買う</div>
       <SizeBox w={20}></SizeBox>
-      <div onClick={()=>setType(2)} className={ type === 2 ? styles.act_item : styles.item}>赠送别人</div>
+      <div onClick={()=>setType(2)} className={ type === 2 ? styles.act_item : styles.item}>人に贈る</div>
     </div>
 
     {
       type === 2 && <div>
-        <div className={styles.section_title}>邮箱地址</div>
-        <Input placeholder={"请输入邮箱！"} className={styles.input_wrap}  value={otherEmail}  onChange={(e)=>setOtherEmail(e.target.value)}></Input>
+        <div className={styles.section_title}>受信箱</div>
+        <Input placeholder={"入力してください受信箱！"} className={styles.input_wrap}  value={otherEmail}  onChange={(e)=>setOtherEmail(e.target.value)}></Input>
       </div>
     }
 
@@ -408,7 +408,7 @@ const NoActionColumns = (openDetails:(userId:string)=>void)=>{
             key: 'email',
         },
         {
-          title: '受信箱',
+          title: '受信者のEメール',
           dataIndex: 'realEmail',
           key: 'realEmail',
         },

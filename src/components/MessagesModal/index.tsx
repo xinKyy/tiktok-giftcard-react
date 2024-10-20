@@ -39,17 +39,17 @@ const MessagesModal = () => {
   const items: TabsProps['items'] = [
     {
       key: '1',
-      label: '自己买的',
+      label: '私の予約',
       children: <Card1 type={1}/>,
     },
     {
       key: '2',
-      label: '别人送的',
+      label: '私のプレゼント',
       children:  <Card1 type={2}/>,
     },
     {
       key: '3',
-      label: '我送别人的',
+      label: '贈呈記録',
       children:  <Card1 type={3}/>,
     },
   ];
