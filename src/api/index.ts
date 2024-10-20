@@ -22,7 +22,8 @@ export const APIBooking = (params:{
     num:number,
   }[],
   userId?:string | null
-  referralCode?:string | null | undefined
+  referralCode?:string | null | undefined,
+  email?:string,
 }) =>{
 
   params.userId = localStorage.getItem("id")
@@ -35,12 +36,14 @@ export class MyBookingParams{
   pageNum:number = 1
   pageSize?:number = 10
   userId?:string | null
+  type?:number
 
 
-  constructor(pageNum:number, pageSize:number = 10) {
+  constructor(pageNum:number, pageSize:number = 10, type = 1) {
     this.pageNum = pageNum;
     this.pageSize = pageSize;
     this.userId = localStorage.getItem("id")
+    this.type = type
   }
 }
 

@@ -40,7 +40,7 @@ const MessagesModal = () => {
 
   const getMyBooking = () =>{
     setLoading(true)
-    const params = new MyBookingParams(1, 1000)
+    const params = new MyBookingParams(1, 1000, 3)
     APIMyBooking(params).then(resp=>{
       console.log(resp, "Resp")
       if(resp.data.data.records && resp.data.data.records.length >= 1){

@@ -16,7 +16,7 @@ import {
     APIStatisticsItem
 } from "../../api";
 import {useLogin} from "../../provider/loginContext";
-import {Button, DatePicker, message, Table, Tag} from "antd";
+import {Button, DatePicker, Input, message, Table, Tag} from "antd";
 import ReferralCodeModal from "../../components/ReferralCodeModal";
 import SuccessModal from "../../components/SuccessModal";
 import AppLayout from "../../components/Layout";
@@ -210,14 +210,25 @@ const ConfirmOrder = ({cancel, bookList, code, onSuccess}:{
   onSuccess:()=>void
 }) =>{
   const [time, setTime] = useState(new Date().toLocaleString())
+  const [otherEmail, setOtherEmail] = useState<string>("")
+  const [type, setType] = useState(1) // 1 me 2 friend
   const [loading, setLoading] = useState(false);
   const [openSuccess, setOpenSuccess] = useState(false);
 
   const confirm = () =>{
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if(type === 2 ){
+      if(!emailRegex.test(otherEmail)){
+        return message.info("请输入正确的邮箱");
+      }
+    }
+
     setLoading(true)
     APIBooking({
       bookingItemList: bookList,
-      referralCode:code
+      referralCode:code,
+      email: type === 2 ? otherEmail : ""
     }).then((resp:any)=>{
       setLoading(false)
       if(resp.code === "1" && resp.data){
@@ -236,6 +247,19 @@ const ConfirmOrder = ({cancel, bookList, code, onSuccess}:{
     <div onClick={cancel} className={styles.back}>
       <img src={backIcon}></img> 戻る
     </div>
+
+    <div className={styles.check_wrap}>
+      <div onClick={()=>setType(1)} className={ type === 1 ? styles.act_item : styles.item}>给自己买</div>
+      <SizeBox w={20}></SizeBox>
+      <div onClick={()=>setType(2)} className={ type === 2 ? styles.act_item : styles.item}>赠送别人</div>
+    </div>
+
+    {
+      type === 2 && <div>
+        <div className={styles.section_title}>邮箱地址</div>
+        <Input placeholder={"请输入邮箱！"} className={styles.input_wrap}  value={otherEmail}  onChange={(e)=>setOtherEmail(e.target.value)}></Input>
+      </div>
+    }
 
     <div className={styles.section_title}>確認してください</div>
 

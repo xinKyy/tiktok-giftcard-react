@@ -73,6 +73,43 @@
     color: #ffffff;
   }
 
+  .check_wrap{
+    display: flex;
+    align-items: center;
+    color: #fff;
+    font-size: 16px;
+    text-align: center;
+    .item{
+      height: 40px;
+      border: 1px solid #666;
+      line-height: 40px;
+      padding: 0 20px;
+      border-radius: 10px;
+    }
+    .act_item{
+      height: 40px;
+      border: 1px solid var(--primary-color-80);
+      line-height: 40px;
+      padding: 0 20px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+  }
+
+  .input_wrap{
+    width: 300px;
+    height: 45px;
+    font-size: 21px;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    line-height: 45px;
+    background: #00000000;
+    color: #fff;
+    input::placeholder{
+      color: #666 !important;
+    }
+  }
+
   .end_wrap{
     display: flex;
     justify-content: flex-end;
