@@ -49,7 +49,7 @@ const MessagesModal = () => {
     },
     {
       key: '3',
-      label: '贈呈記録',
+      label: '私の寄付記録',
       children:  <Card1 type={3}/>,
     },
   ];
