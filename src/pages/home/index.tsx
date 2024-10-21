@@ -16,13 +16,14 @@ import {
     APIStatisticsItem
 } from "../../api";
 import {useLogin} from "../../provider/loginContext";
-import {Button, DatePicker, Input, message, Table, Tag} from "antd";
+import {Button, DatePicker, Input, message, Table, Tag, Tooltip} from "antd";
 import ReferralCodeModal from "../../components/ReferralCodeModal";
 import SuccessModal from "../../components/SuccessModal";
 import AppLayout from "../../components/Layout";
 import {useNavigate} from "react-router-dom";
 import UserSubDetailModal from "./componments/UserSubDetailModal";
 import axiosInstance, {baseHost} from "../../http/axiosInstance";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 
 const Home = () =>{
   const [cardList, setCardList] = useState([
@@ -251,12 +252,17 @@ const ConfirmOrder = ({cancel, bookList, code, onSuccess}:{
     <div className={styles.check_wrap}>
       <div onClick={()=>setType(1)} className={ type === 1 ? styles.act_item : styles.item}>自分用に買う</div>
       <SizeBox w={20}></SizeBox>
-      <div onClick={()=>setType(2)} className={ type === 2 ? styles.act_item : styles.item}>人に贈る</div>
+      <div id={"toolTip"} className={styles.pop_tips}>
+        <Tooltip getTooltipContainer={()=>document.getElementById("toolTip")!} placement="bottomLeft" title={"ギフトカードを贈るには、以下に受取人のEメールアドレスを入力してください"}>
+          <QuestionCircleOutlined />
+        </Tooltip>
+      </div>
+      <div onClick={()=>setType(2)} className={ type === 2 ? styles.act_item : styles.item}>プレゼント</div>
     </div>
 
     {
       type === 2 && <div>
-        <div className={styles.section_title}>受信箱</div>
+        <div className={styles.section_title}>受信者のEメール</div>
         <Input placeholder={"入力してください受信箱！"} className={styles.input_wrap}  value={otherEmail}  onChange={(e)=>setOtherEmail(e.target.value)}></Input>
       </div>
     }
