@@ -60,6 +60,11 @@ const AllColumns = (toDetails:(code:string)=>void, openDetails:(userId:string)=>
             key: 'email',
         },
         {
+          title: '招待コード',
+          dataIndex: 'referCode',
+          key: 'referCode',
+        },
+        {
             title: 'ギフトカードの種類と枚数',
             dataIndex: 'statistics',
             key: 'statistics',

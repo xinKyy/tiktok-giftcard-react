@@ -19,12 +19,13 @@ const ReferCodePage = () =>{
     }
 
     const buildReferCodeWrap = () =>{
-        if(userInfo?.userGrade === 1){
-            return <FirstUserReferCodeWrap></FirstUserReferCodeWrap>
-        }
-        if(userInfo?.userGrade === 2){
-            return <SecondUserReferCodeWrap></SecondUserReferCodeWrap>
-        }
+        // if(userInfo?.userGrade === 1){
+        //     return <FirstUserReferCodeWrap></FirstUserReferCodeWrap>
+        // }
+        // if(userInfo?.userGrade === 2){
+        //     return <SecondUserReferCodeWrap></SecondUserReferCodeWrap>
+        // }
+        return <FirstUserReferCodeWrap></FirstUserReferCodeWrap>
     }
 
     return <AppLayout>
