@@ -19,12 +19,16 @@ const ReferCodePage = () =>{
     }
 
     const buildReferCodeWrap = () =>{
-        // if(userInfo?.userGrade === 1){
-        //     return <FirstUserReferCodeWrap></FirstUserReferCodeWrap>
-        // }
-        // if(userInfo?.userGrade === 2){
-        //     return <SecondUserReferCodeWrap></SecondUserReferCodeWrap>
-        // }
+        if(userInfo?.userGrade === 1){
+            return <FirstUserReferCodeWrap></FirstUserReferCodeWrap>
+        }
+        if(userInfo?.userGrade === 2){
+            return <div>
+              <SecondUserReferCodeWrap></SecondUserReferCodeWrap>
+              <SizeBox h={40}></SizeBox>
+              <FirstUserReferCodeWrap></FirstUserReferCodeWrap>
+            </div>
+        }
         return <FirstUserReferCodeWrap></FirstUserReferCodeWrap>
     }
 
@@ -256,18 +260,18 @@ const SecondUserReferCodeWrap = () =>{
                 }
             </div>
         </div>
-        <SizeBox h={50}></SizeBox>
-        <div>
-            <div className={styles.refer_code_title_wrap}>
-                専用招待コードを生成してください
-            </div>
-            <div className={styles.refresh_wrap}>
-                <div onClick={onCopy} className={`${styles.refer_input_wrap} ${styles.hover_text}`}> { generateCode} </div>
-                {
-                   !generateCode &&  <img className={loading ? styles.rotate_x : styles.rotate_x_stop} onClick={generateCodeByNum} src={refreshIcon}></img>
-                }
-            </div>
-        </div>
+        {/* <SizeBox h={50}></SizeBox>*/}
+        {/*<div>*/}
+        {/*    <div className={styles.refer_code_title_wrap}>*/}
+        {/*        専用招待コードを生成してください*/}
+        {/*    </div>*/}
+        {/*    <div className={styles.refresh_wrap}>*/}
+        {/*        <div onClick={onCopy} className={`${styles.refer_input_wrap} ${styles.hover_text}`}> { generateCode} </div>*/}
+        {/*        {*/}
+        {/*           !generateCode &&  <img className={loading ? styles.rotate_x : styles.rotate_x_stop} onClick={generateCodeByNum} src={refreshIcon}></img>*/}
+        {/*        }*/}
+        {/*    </div>*/}
+        {/* </div>*/}
     </div>
 }
 
