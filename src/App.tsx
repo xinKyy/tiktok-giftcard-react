@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ReferCodePage from "./pages/referCodePage";
 import SecondUserTablePageAll from "./pages/home/secondeUserAdmin";
 import Footer from "./components/Footer";
+import About from "./pages/about";
 
 function App() {
   return (
@@ -21,12 +22,13 @@ function App() {
                     <Route path="/referCode" element={<ReferCodePage />} />
                     <Route path="/admin" element={<TablePageAll />} />
                     <Route path="/subAdmin" element={<SecondUserTablePageAll />} />
+                    <Route path="/about" element={<About />} />
                 </Routes>
             </Router>
             <LoginForm></LoginForm>
             <MessagesModal></MessagesModal>
         </div>
-        <Footer></Footer>
+      <Footer></Footer>
     </LoginProvider>
   );
 }
