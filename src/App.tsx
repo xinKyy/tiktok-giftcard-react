@@ -9,6 +9,7 @@ import ReferralCodeModal from "./components/ReferralCodeModal";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ReferCodePage from "./pages/referCodePage";
 import SecondUserTablePageAll from "./pages/home/secondeUserAdmin";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <LoginForm></LoginForm>
             <MessagesModal></MessagesModal>
         </div>
+        <Footer></Footer>
     </LoginProvider>
   );
 }
