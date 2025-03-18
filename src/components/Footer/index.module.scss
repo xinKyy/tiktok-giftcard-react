@@ -10,20 +10,24 @@
   .footer_icon_wrap{
     width: 100%;
     max-width: 1200px;
-    flex-wrap: wrap;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    color: #FFFFFF;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); // 创建三列，列宽相等
+    color: #FFFFFF!important;
     font-size: 20px;
-    gap: 20px;
+    gap: 30px 0;
     margin-bottom: 50px;
+    text-decoration: none !important;
+    a{
+      text-decoration: none !important;
+    }
     img{
       width: 24px;
       height: 24px;
       object-fit: contain;
     }
     .item{
+      color: #FFFFFF!important;
+      text-decoration: none !important;
       width: 300px;
       cursor: pointer;
       transition: all .3s;
@@ -35,12 +39,16 @@
     @media screen and (max-width: 650px){
       font-size: 14px;
       padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); // 创建三列，列宽相等
       img{
         width: 18px;
         height: 18px;
         object-fit: contain;
       }
       .item{
+        color: #FFFFFF!important;
+        text-decoration: none !important;
         width: 150px;
         cursor: pointer;
         transition: all .3s;
