@@ -11,37 +11,37 @@ const Footer = () =>{
 
   return <div className={styles.footer_wrap}>
     <div className={styles.footer_icon_wrap}>
-      <a href={"/about/#1"}>
+      <a href={"/about?id=1"}>
         <div className={"flex items-center flex-1"}>
           <img src={personIcon}></img>
           <div className={styles.item}>会社概要</div>
         </div>
       </a>
-      <a  href={"/about/#2"}>
+      <a  href={"/about?id=2"}>
         <div className={"flex items-center flex-1"}>
           <img src={emailIcon}></img>
           <div className={styles.item}>お問い合わせ</div>
         </div>
       </a>
-      <a  href={"/about/#3"}>
+      <a  href={"/about?id=3"}>
         <div className={"flex items-center flex-1"}>
           <img src={weizIcon}></img>
           <div className={styles.item}>返品・返金ポリシー</div>
         </div>
       </a>
-      <a  href={"/about/#4"}>
+      <a  href={"/about?id=4"}>
         <div className={"flex items-center flex-1"}>
           <img src={copyIcon}></img>
           <div className={styles.item}>特定商取引法に基づく表示</div>
         </div>
       </a>
-      <a href={"/about/#5"}>
+      <a href={"/about?id=5"}>
         <div className={"flex items-center flex-1"}>
           <img src={bookIcon}></img>
           <div className={styles.item}>利用規約</div>
         </div>
       </a>
-      <a href={"/about/#6"}>
+      <a href={"/about?id=6"}>
         <div className={"flex items-center flex-1"}>
           <img src={ruleIcon}></img>
           <div className={styles.item}>プライバシーポリシー</div>

@@ -1,8 +1,27 @@
 import Header from "../../components/Header";
-import React from "react";
+import React, {useEffect} from "react";
 import styles from "./index.module.scss"
 
 const About = () =>{
+
+  const getIdFromURL = () => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("id"); // 获取 ?id=2 中的 2
+  };
+
+  const scrollToSection = () => {
+    const id = getIdFromURL();
+    if (id) {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block:"center" });
+      }
+    }
+  };
+
+  useEffect(()=>{
+    scrollToSection()
+  }, [])
 
   return <div>
     <Header></Header>
