@@ -48,9 +48,9 @@ const Footer = () =>{
         </div>
       </a>
     </div>
-    <div className={`${styles.bottom_text} flex items-center justify-center`}>
-      abComo ecommerce pte ltd.2021 All rights reserved
-    </div>
+    {/*<div className={`${styles.bottom_text} flex items-center justify-center`}>*/}
+    {/*  abComo ecommerce pte ltd.2021 All rights reserved*/}
+    {/*</div>*/}
   </div>
 }
 
