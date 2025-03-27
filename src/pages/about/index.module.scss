@@ -30,3 +30,25 @@
     }
   }
 }
+
+
+.ques_wrap{
+  display: flex;
+  align-items: center;
+  font-size: 21px;
+  .left{
+    width: 150px;
+  }
+  .right{
+
+  }
+
+  @media screen and (max-width: 650px) {
+    font-size: 14px;
+    margin-bottom: 10px;
+    align-items: flex-start;
+    .left{
+      min-width: 150px;
+    };
+  }
+}
