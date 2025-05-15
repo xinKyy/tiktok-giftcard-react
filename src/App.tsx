@@ -11,7 +11,8 @@ import ReferCodePage from "./pages/referCodePage";
 import SecondUserTablePageAll from "./pages/home/secondeUserAdmin";
 import Footer from "./components/Footer";
 import About from "./pages/about";
-
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 function App() {
   return (
     <LoginProvider>
