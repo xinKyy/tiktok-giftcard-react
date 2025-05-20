@@ -13,6 +13,8 @@ import Footer from "./components/Footer";
 import About from "./pages/about";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import RecordPage from './pages/record';
+import PaymentComponent from "./pages/pay";
 function App() {
   return (
     <LoginProvider>
@@ -24,6 +26,8 @@ function App() {
                     <Route path="/admin" element={<TablePageAll />} />
                     <Route path="/subAdmin" element={<SecondUserTablePageAll />} />
                     <Route path="/about" element={<About />} />
+                    <Route path="/records" element={<RecordPage />} />
+                    <Route path="/pay/:id" element={<PaymentComponent />} />
                 </Routes>
             </Router>
             <LoginForm></LoginForm>

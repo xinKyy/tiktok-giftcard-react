@@ -102,7 +102,7 @@ const LoginForm = () => {
           <div className={styles.logo}>
           </div>
           <h2>ようこそ！</h2>
-          <p>予約をする前に、ユーザー登録をお願いします</p>
+          <p>カードを購入するにはログインしてください。</p>
           <Form autoComplete={"off"} form={form} onFinish={onSubmit}>
             <div className={styles.inputGroup}>
               <label>メール</label>

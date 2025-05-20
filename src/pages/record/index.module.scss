@@ -1,0 +1,194 @@
+.bg {
+  min-height: 100vh;
+  background: #181818;
+}
+.header {
+  width: 100%;
+  height: 48px;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  .logo {
+    height: 32px;
+    width: 100px;
+    object-fit: contain;
+  }
+  .email {
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+  }
+}
+.main {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+.sidebar {
+  min-width: 180px;
+  background: #191919;
+  border-radius: 12px 0 0 12px;
+  padding: 32px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .menuBtn {
+    background: #ff2c55;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 32px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+}
+.content {
+  width: 1200px;
+  background: #232323;
+  border-radius: 0 12px 12px 0;
+  padding: 32px;
+  min-height: 600px;
+  .back {
+    color: #fff;
+    font-size: 18px;
+    margin-bottom: 16px;
+    cursor: pointer;
+  }
+  .title {
+    color: #ff2c55;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 24px;
+  }
+  .tabs {
+    display: flex;
+    margin-bottom: 24px;
+    .tab {
+      color: #fff;
+      font-size: 18px;
+      padding: 8px 32px;
+      border-radius: 8px 8px 0 0;
+      background: #232323;
+      cursor: pointer;
+      margin-right: 8px;
+      &.active {
+        background: #191919;
+        color: #ff2c55;
+        border-bottom: 2px solid #ff2c55;
+      }
+    }
+  }
+  .cardList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .card {
+    background: #3a3939;
+    border-radius: 12px;
+    display: flex;
+    padding: 24px;
+    align-items: center;
+    .cardLeft {
+      width: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      img {
+        width: 48px;
+        height: 48px;
+        object-fit: contain;
+      }
+    }
+    .cardRight {
+      flex: 1;
+      margin-left: 24px;
+      .row {
+        display: flex;
+        justify-content: space-between;
+        color: #fff;
+        font-size: 16px;
+        margin-bottom: 8px;
+        > div, > span {
+          flex: 1;
+          text-align: left;
+        }
+      }
+    }
+  }
+  .empty {
+    color: #fff;
+    text-align: center;
+    margin-top: 48px;
+    font-size: 18px;
+  }
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+  .header {
+    padding: 0 12px;
+    .logo {
+      height: 24px;
+    }
+    .email {
+      font-size: 14px;
+      max-width: 100px;
+    }
+  }
+  .main {
+    flex-direction: column;
+    margin-top: 0;
+  }
+  .sidebar {
+    min-width: 100%;
+    border-radius: 0;
+    padding: 12px 0;
+    .menuBtn {
+      width: 100%;
+      font-size: 16px;
+      padding: 10px 0;
+    }
+  }
+  .content {
+    width: 100vw;
+    min-width: 0;
+    border-radius: 0;
+    padding: 12px;
+    .title {
+      font-size: 18px;
+      margin-bottom: 16px;
+    }
+    .tabs {
+      .tab {
+        font-size: 16px;
+        padding: 6px 12px;
+      }
+    }
+    .card {
+      flex-direction: column;
+      padding: 12px;
+      .cardLeft {
+        width: 100%;
+        justify-content: flex-start;
+        img {
+          width: 32px;
+          height: 32px;
+        }
+      }
+      .cardRight {
+        margin-left: 0;
+        .row {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}
