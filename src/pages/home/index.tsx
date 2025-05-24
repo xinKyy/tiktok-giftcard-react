@@ -71,6 +71,7 @@ const Home = () =>{
 
   const { userInfo, setOpenLoginModal} = useLogin()
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const {inConfirm, setInConfirm} = useLogin();
   const codeRef = useRef<string | null>(null);
@@ -159,46 +160,12 @@ const Home = () =>{
     submit(bookList)
   }
 
+  const toOrder = () =>{
+    navigate("/order/123")
+  }
+
   const renderPage = () =>{
     if(inConfirm === "home") return  <div className={styles.container}>
-      <div className={styles.carouselWrapper}>
-        <Slider
-          dots
-          infinite
-          speed={500}
-          slidesToShow={3}
-          slidesToScroll={1}
-          autoplay
-          autoplaySpeed={3000}
-          responsive={[
-            {
-              breakpoint: 1200,
-              settings: {
-                slidesToShow: 3,
-                arrow:false
-              },
-            },
-            {
-              breakpoint: 768,
-              settings: {
-                slidesToShow: 1,
-                arrow:false
-              },
-            },
-          ]}
-          className={styles.carousel}
-        >
-          <div>
-            <img src="https://anystarr-web-image.oss-ap-southeast-1.aliyuncs.com/967006da452e4c42bec504f645932c46%7Etplv-dx0w9n1ysr-resize-jpeg%3A800%3A800.jpeg%3Ffrom%3D1826719393" alt="banner1" className={styles.carouselImg} />
-          </div>
-          <div>
-            <img src="https://anystarr-web-image.oss-ap-southeast-1.aliyuncs.com/967006da452e4c42bec504f645932c46%7Etplv-dx0w9n1ysr-resize-jpeg%3A800%3A800.jpeg%3Ffrom%3D1826719393" alt="banner2" className={styles.carouselImg} />
-          </div>
-          <div>
-            <img src="https://anystarr-web-image.oss-ap-southeast-1.aliyuncs.com/967006da452e4c42bec504f645932c46%7Etplv-dx0w9n1ysr-resize-jpeg%3A800%3A800.jpeg%3Ffrom%3D1826719393" alt="banner3" className={styles.carouselImg} />
-          </div>
-        </Slider>
-      </div>
       <div className={styles.cardList}>
         {
           cardList.map(item=>{
@@ -211,6 +178,7 @@ const Home = () =>{
         alignItems:"center"
       }}>
         <Button onClick={submitBook} loading={loading} className={styles.bookAllButton}>カートに追加</Button>
+        <Button onClick={toOrder} loading={loading} className={styles.bookAllButton}>购买</Button>
         {
           // userInfo?.role === "admin" &&
           // <Button onClick={()=>{

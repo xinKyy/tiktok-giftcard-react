@@ -15,6 +15,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import RecordPage from './pages/record';
 import PaymentComponent from "./pages/pay";
+import ConfirmOrder from "./pages/order";
 function App() {
   return (
     <LoginProvider>
@@ -28,6 +29,7 @@ function App() {
                     <Route path="/about" element={<About />} />
                     <Route path="/records" element={<RecordPage />} />
                     <Route path="/pay/:id" element={<PaymentComponent />} />
+                    <Route path="/order/:id" element={<ConfirmOrder />} />
                 </Routes>
             </Router>
             <LoginForm></LoginForm>
