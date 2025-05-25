@@ -31,6 +31,7 @@ const Home = () =>{
   const [cardList, setCardList] = useState<GiftCard[]>([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { userInfo, setOpenLoginModal, setUserInfo, setOpenMessagesModal} = useLogin()
 
 
   const onCheck = (id:number) =>{
@@ -54,6 +55,12 @@ const Home = () =>{
   }
 
     const toOrder = async () =>{
+
+      if (!userInfo){
+          setOpenLoginModal(true)
+          return
+      }
+
       const bookList = cardList.filter(item=>item.amount >= 1).map(item=>{
         return {
             giftCardId:item.id,

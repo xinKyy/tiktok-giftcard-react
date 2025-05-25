@@ -140,18 +140,56 @@ export interface OrderDetailResponse {
 export const createOrder = (data: CreateOrderParams[]) => post<Order>('/order/create', data);
 
 // 订单列表
-export interface OrderListResult {
-  total: number;
-  list: Order[];
+export interface OrderItem {
+    id: number
+    orderId: number
+    giftCardId: number
+    giftCardName: string
+    giftCardImage: string | null
+    quantity: number
+    price: number
+    subtotal: number
+    createTime: string
+    updateTime: string
 }
-export const getOrderList = (params?: {
+
+export interface OrderRecord {
+    id: number
+    orderNo: string
+    userId: number
+    userName: string
+    userEmail: string
+    giftCardId: number | null
+    quantity: number
+    unitPrice: number | null
+    totalAmount: number
+    status: number
+    paymentMethod: string | null
+    tradeNo: string | null
+    failReason: string | null
+    payTime: string | null
+    createTime: string
+    updateTime: string
+    deleted: number
+}
+
+export interface OrderResponse {
+    total: number
+    current: number
+    pages: number
+    size: number
+    records: OrderRecord[]
+    orderItems: Record<number, OrderItem[]>
+}
+
+export const getOrderList = (data?: {
   page?: number;
-  size?: number;
+  pageSize?: number;
   status?: number;
   paymentMethod?: string;
   startDate?: string;
   endDate?: string;
-}) => get<OrderListResult>('/order/list', params);
+}) => post<OrderResponse>('/order/list', data);
 
 // 订单详情
 export const getOrderDetail = (id: string) => get<OrderDetailResponse>(`/order/query/${id}`);

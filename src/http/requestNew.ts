@@ -1,6 +1,7 @@
 import axios from 'axios';
 import qs from 'qs';
 import {message} from "antd";
+import eventSub, {EventName} from "../util/EventSub";
 
 export const baseHost = 'http://8.222.228.63:8099/api';
 
@@ -40,6 +41,9 @@ export const get = async <T = any>(
 ): Promise<ApiResponse<T>> => {
   try {
     const res = await instance.get<ApiResponse<T>>(url, { params });
+    if (res?.data?.code === 401){
+        eventSub.publish(EventName.NoAuth)
+    }
     return res.data;
   } catch (err) {
     return handleError<T>(err);
@@ -59,6 +63,9 @@ export const post = async <T = any>(
 
   try {
     const res = await instance.post<ApiResponse<T>>(url, payload, { headers });
+      if (res?.data?.code === 401){
+          eventSub.publish(EventName.NoAuth)
+      }
     return res.data;
   } catch (err) {
     return handleError<T>(err);

@@ -2,8 +2,9 @@
 import React, {useEffect, useMemo} from 'react';
 import styles from './index.module.scss';
 import {useLogin} from "../../provider/loginContext";
-import {Popover} from "antd";
+import {message, Popover} from "antd";
 import {useNavigate} from "react-router-dom";
+import eventSub, {EventName} from "../../util/EventSub";
 
 const Header: React.FC = () => {
 
@@ -13,17 +14,39 @@ const Header: React.FC = () => {
       navigate('/referCode');
   }
 
+  const logout = () =>{
+      localStorage.removeItem("userInfo")
+      localStorage.removeItem("token")
+      localStorage.removeItem("referralCode")
+      localStorage.removeItem("id")
+      setUserInfo(null)
+      window.location.href = "/"
+  }
+
+  const listenLogout =  ()=>{
+      message.info("Login is expired, please try again!")
+      logout()
+  }
+
+  const initNc = () =>{
+      eventSub.subscribe(EventName.NoAuth, listenLogout)
+  }
+    useEffect(() => {
+        initNc()
+        return ()=>{
+            eventSub.unsubscribe(EventName.NoAuth, listenLogout)
+        }
+    }, []);
+
 
   const content = (
     <div className={styles.pop_content}>
       <div onClick={()=>{
-        localStorage.removeItem("userInfo")
-        localStorage.removeItem("token")
-        localStorage.removeItem("referralCode")
-        localStorage.removeItem("id")
-        setUserInfo(null)
-        window.location.href = "/"
+          logout()
       }}>ログアウト</div>
+        <div onClick={()=>{
+            navigate("/records")
+        }}>购买记录</div>
     </div>
   );
 
