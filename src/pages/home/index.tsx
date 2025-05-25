@@ -67,7 +67,6 @@ const Home = () =>{
             quantity:item.amount
         }
       })
-        console.log(bookList, "898787")
       setLoading(true)
       const res = await createOrder(bookList);
       setLoading(false)

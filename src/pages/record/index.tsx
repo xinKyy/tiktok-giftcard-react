@@ -111,7 +111,9 @@ export default function RecordPage() {
                                         </div>
                                         <div>{order.order.paymentMethod ?? "--"}</div>
                                         <div>{order.order.createTime}</div>
-                                        <div>{order.order.status}</div>
+                                        <div>
+                                            <StatusTag status={(order.order.status as any)}></StatusTag>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -127,3 +129,42 @@ export default function RecordPage() {
     </>
   );
 }
+
+// 状态映射
+const STATUS_MAP = {
+    0: { text: '待支付', bgColor: '#333', color: '#ffb300' },
+    1: { text: '已支付', bgColor: '#233323', color: '#4fff4f' },
+    2: { text: '支付失败', bgColor: '#331a1a', color: '#fe2c55' },
+    3: { text: '已取消', bgColor: '#444', color: '#bbb' },
+    4: { text: '审核中', bgColor: '#1a2a44', color: '#4faaff' },
+    5: { text: '已拒绝', bgColor: '#442222', color: '#fe2c55' },
+    6: { text: '已获取卡密', bgColor: '#223344', color: '#4faaff' },
+    7: { text: '已关闭', bgColor: '#222', color: '#888' },
+};
+
+const StatusTag = ({ status }:{
+    status: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7
+}) => {
+    const { text, bgColor, color } = STATUS_MAP[status] || {
+        text: '未知',
+        bgColor: '#222',
+        color: '#fff',
+    };
+
+    return (
+      <span
+        style={{
+            background: bgColor,
+            color,
+            borderRadius: '8px',
+            padding: '4px 16px',
+            fontSize: '16px',
+            display: 'inline-block',
+            fontWeight: 'bold',
+            letterSpacing: '2px',
+        }}
+      >
+      {text}
+    </span>
+    );
+};
