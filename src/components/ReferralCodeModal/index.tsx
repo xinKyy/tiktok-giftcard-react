@@ -25,8 +25,7 @@ const ReferralCodeModal = ({callback, openReferralCodeModal, setOpenReferralCode
       if(resp.data.data){
         localStorage.setItem("referralCode", code)
         setUserInfo({
-          email:userInfo?.email!,
-          referralCode:code
+          email:userInfo?.email!
         })
         callback()
         setOpenReferralCodeModal(false)

@@ -25,56 +25,13 @@ import UserSubDetailModal from "./componments/UserSubDetailModal";
 import axiosInstance, {baseHost} from "../../http/axiosInstance";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import Slider from "react-slick";
+import {createOrder, getGiftCardList, GiftCard} from "../../api/newApi";
 
 const Home = () =>{
-  const [cardList, setCardList] = useState([
-    {
-      id:2500,
-      price:2500,
-      check:false,
-      amount:0,
-      value:5,
-    },
-    {
-      id:5000,
-      price:5000,
-      check:false,
-      amount:0,
-      value:5,
-    },
-    {
-      id:10000,
-      price:10000,
-      check:false,
-      amount:0,
-      value:5,
-    },
-  ]);
-
-  const resetCardList = () =>{
-    cardList.forEach(item=>{
-      item.check = false;
-      item.amount = 1;
-    })
-    setCardList(cardList.slice())
-  }
-
-  const [ openReferralCodeModal, setOpenReferralCodeModal]= useState(false);
-  const [ isAdmin, setIsAdmin]= useState(false);
-
-  const [confirmList, setConfirmList] = useState([
-    {
-      id:2500,
-      num:1
-    },
-  ])
-
-  const { userInfo, setOpenLoginModal} = useLogin()
+  const [cardList, setCardList] = useState<GiftCard[]>([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const {inConfirm, setInConfirm} = useLogin();
-  const codeRef = useRef<string | null>(null);
 
   const onCheck = (id:number) =>{
     const cardIndex = cardList.findIndex(item=>id === item.id)
@@ -96,237 +53,54 @@ const Home = () =>{
     setCardList(cardList.slice());
   }
 
-  const submit = (bookingItemList:{
-    id:number,
-    num:number
-  }[]) =>{
-    if(!userInfo){
-      setOpenLoginModal(true)
-      return;
-    }
-    if(bookingItemList.length <= 0){
-      return message.info("予約したいギフトカードを選択してください！")
-    }
-
-    let code = localStorage.getItem("referralCode")
-
-    if(userInfo.userGrade === 1){
-        code = "SKIP"
-    } else if(!code || code === "null") {
-      setOpenReferralCodeModal(true)
-      return;
-    }
-
-    codeRef.current = code
-
-    if(code === "SKIP"){
-      codeRef.current = null
-    }
-
-    toConfirm(bookingItemList)
-  }
-
-  const toConfirm = (bookingItemList:{
-    id:number,
-    num:number
-  }[]) =>{
-    setConfirmList(bookingItemList)
-    setInConfirm("confirm")
-  }
-
-  const getAfterCheck = () =>{
-    APIAfterCheck().then(resp=>{
-      if(resp.data.success && resp.data.success){
-        const list = resp.data.success;
-        cardList.forEach(item=>{
-          item.value = list[item.id]
-        })
-        setCardList(cardList.slice());
-      }
-    });
-  }
-
-  useEffect(()=>{
-    getAfterCheck();
-  }, [inConfirm])
-
-  const submitBook = () =>{
-    const bookList = cardList.filter(item=>item.amount >= 1).map(item=>{
-      return {
-        id:item.id,
-        num:item.amount
-      }
-    })
-    submit(bookList)
-  }
-
-  const toOrder = () =>{
-    navigate("/order/123")
-  }
-
-  const renderPage = () =>{
-    if(inConfirm === "home") return  <div className={styles.container}>
-      <div className={styles.cardList}>
-        {
-          cardList.map(item=>{
-            return <Card value={item.value} submit={submit} id={item.id} amount={item.amount} setAmount={setAmountById} onCheck={onCheck} price={item.price} imgSrc={giftCard} check={item.check}/>
-          })
+    const toOrder = async () =>{
+      const bookList = cardList.filter(item=>item.amount >= 1).map(item=>{
+        return {
+            giftCardId:item.id,
+            quantity:item.amount
         }
-      </div>
-      <div style={{
-        display:"flex",
-        alignItems:"center"
-      }}>
-        <Button onClick={submitBook} loading={loading} className={styles.bookAllButton}>カートに追加</Button>
-        <Button onClick={toOrder} loading={loading} className={styles.bookAllButton}>购买</Button>
-        {
-          // userInfo?.role === "admin" &&
-          // <Button onClick={()=>{
-          //   setInConfirm("table")
-          // }} className={styles.bookAllButton} type={"primary"} style={{
-          //   marginBottom:"10px",
-          //   marginLeft:"auto"
-          // }}>Admin</Button>
-        }
-      </div>
-    </div>
-    if(inConfirm === "confirm") return <ConfirmOrder onSuccess={()=>{
-      resetCardList()
-      setInConfirm("home")
-    }} code={codeRef.current} cancel={()=>{
-      setInConfirm("home")
-    }} bookList={confirmList}></ConfirmOrder>
-  }
+      })
+        console.log(bookList, "898787")
+      setLoading(true)
+      const res = await createOrder(bookList);
+      setLoading(false)
+      if (res.code == 200){
+        navigate(`/order/${res.data.id}`)
+      }
+    }
+
+    const getCardList = async () =>{
+      const localList = localStorage.getItem("giftCardList");
+      setCardList(localList ? JSON.parse(localList) : [])
+      const res = await getGiftCardList({page:1, size:100})
+      setCardList(res.data)
+      localStorage.setItem("giftCardList", JSON.stringify(res.data))
+    }
+
+    useEffect(() => {
+        getCardList()
+    }, []);
 
     return  <AppLayout>
         <div className={`animated fadeIn animate__fadeInUp ${styles.app}`}>
-            {
-                renderPage()
-            }
-            <ReferralCodeModal openReferralCodeModal={openReferralCodeModal} setOpenReferralCodeModal={setOpenReferralCodeModal} callback={submitBook}></ReferralCodeModal>
+          <div className={styles.container}>
+            <div className={styles.cardList}>
+              {
+                cardList.map(item=>{
+                  return <Card value={item.value} submit={toOrder} id={item.id} amount={item.amount} setAmount={setAmountById} onCheck={onCheck} price={item.price} imgSrc={giftCard} check={item.check}/>
+                })
+              }
+            </div>
+            <div style={{
+              display:"flex",
+              alignItems:"center"
+            }}>
+              <Button onClick={toOrder} loading={loading} className={styles.bookAllButton}>购买</Button>
+            </div>
+          </div>
         </div>
     </AppLayout>
 }
-
-const ConfirmOrder = ({cancel, bookList, code, onSuccess}:{
-  cancel:()=>void,
-  bookList:{
-    id:number,
-    num:number,
-  }[],
-  code:string | null | undefined,
-  onSuccess:()=>void
-}) =>{
-  const [time, setTime] = useState(new Date().toLocaleString())
-  const [otherEmail, setOtherEmail] = useState<string>("")
-  const [type, setType] = useState(1) // 1 me 2 friend
-  const [loading, setLoading] = useState(false);
-  const [openSuccess, setOpenSuccess] = useState(false);
-
-  const confirm = () =>{
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-    if(type === 2 ){
-      if(!emailRegex.test(otherEmail)){
-        return message.info("正しいメールアドレスを入力してください!");
-      }
-    }
-
-    setLoading(true)
-    APIBooking({
-      bookingItemList: bookList,
-      referralCode:code,
-      email: type === 2 ? otherEmail : ""
-    }).then((resp:any)=>{
-      setLoading(false)
-      if(resp.code === "1" && resp.data){
-        setLoading(false)
-        setOpenSuccess(true)
-        return ;
-      }
-    }).finally(()=>{
-      setLoading(false)
-    }).catch(e=>{
-      return message.error("Appointment failed, please try again")
-    })
-  }
-
-  return  <div className={styles.confirmPage}>
-    <div onClick={cancel} className={styles.back}>
-      <img src={backIcon}></img> 戻る
-    </div>
-
-    <div className={styles.check_wrap}>
-      <div onClick={()=>setType(1)} className={ type === 1 ? styles.act_item : styles.item}>自分のために</div>
-      <SizeBox w={20}></SizeBox>
-      <div id={"toolTip"} className={styles.pop_tips}>
-        <Tooltip getTooltipContainer={()=>document.getElementById("toolTip")!} placement="bottomLeft" title={"ギフトカードを贈るには、以下に受取人のEメールアドレスを入力してください"}>
-          <QuestionCircleOutlined />
-        </Tooltip>
-      </div>
-      <div onClick={()=>setType(2)} className={ type === 2 ? styles.act_item : styles.item}>プレゼント</div>
-    </div>
-
-    {
-      type === 2 && <div>
-        <div className={styles.section_title}>受信者のEメール</div>
-        <div>
-          <Input placeholder={"入力してください受信箱！"} className={styles.input_wrap}  value={otherEmail}  onChange={(e)=>setOtherEmail(e.target.value)}></Input>
-          <span style={{
-            color:"red",
-            fontSize:"20px",
-            marginLeft:"5px"
-          }}>*</span>
-        </div>
-      </div>
-    }
-
-    <div className={styles.section_title}>確認してください</div>
-
-    <div className={styles.confirmationBox}>
-      <div className={styles.image}>
-        <img src={giftCard} alt="Item" />
-      </div>
-      <div className={styles.details}>
-        <div>
-          {
-            bookList.map(item=>{
-              return <div className={styles.item}>
-                <div>
-                  <span className={styles.label}>タイプ:</span>
-                  <span className={styles.value}>{item.id}</span>
-                </div>
-                <div>
-                  <span className={styles.label}>数量:</span>
-                  <span className={styles.value}>{item.num}</span>
-                </div>
-              </div>
-            })
-          }
-        </div>
-        <div>
-          <div className={styles.item}>
-            <span className={styles.label}>時間:</span>
-            <span style={{color:"#fff"}} className={styles.value}>{time}</span>
-          </div>
-          <div className={styles.buttons}>
-            <button onClick={cancel} className={styles.cancelButton}>編集</button>
-            <Button loading={loading} onClick={confirm} className={styles.confirmButton}>確認</Button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div className={styles.buttons_mobile}>
-      <button onClick={cancel} className={styles.cancelButton}>編集</button>
-      <Button loading={loading} onClick={confirm} className={styles.confirmButton}>確認</Button>
-    </div>
-
-
-    <SuccessModal open={openSuccess} cancelHome={onSuccess} cancel={()=>setOpenSuccess(false)}></SuccessModal>
-  </div>
-}
-
 
 
 const getSubColumn = (getDetailModal:(userId:string)=>void ) =>{

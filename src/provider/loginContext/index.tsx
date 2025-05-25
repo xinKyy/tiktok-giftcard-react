@@ -1,11 +1,6 @@
 import React, {createContext, useContext, useState, ReactNode, useEffect} from 'react';
 import {APIGetUserInfo} from "../../api";
-export interface UserInfo{
-  email:string,
-  referralCode:string,
-  role?:string | null,
-  userGrade?:number
-}
+import {getUserInfoNewAPI, UserInfo} from "../../api/newApi";
 
 // 定义共享状态和更新函数的类型
 interface LoginContextType {
@@ -47,9 +42,6 @@ export const LoginProvider: React.FC<LoginProviderProps> = ({ children }) => {
       const tempUser = JSON.parse(user);
       setUserInfo({
         email:tempUser.email,
-        referralCode:tempUser.referralCode,
-        role:tempUser.role,
-        userGrade:tempUser.userGrade
       })
       localStorage.setItem("userInfo", JSON.stringify(tempUser));
       getUserInfo()
@@ -57,30 +49,17 @@ export const LoginProvider: React.FC<LoginProviderProps> = ({ children }) => {
   }, [])
 
   const getUserInfo = () =>{
-      APIGetUserInfo({}).then(resp=>{
-          if(resp.data.data){
-              console.log(resp.data.data, "resp.data")
-              const data = resp.data.data;
-              const tempUser = {
-                  userGrade:data.userGrade,
-                  referralCode:data.bindCode,
-                  email:data.email
-              } as UserInfo
-
-              const user = {
-                  ...userInfo,
-                  ...tempUser
-              }
-              setUserInfo(user);
-              localStorage.setItem("userInfo", JSON.stringify(user));
+      getUserInfoNewAPI().then(resp =>{
+          console.log(resp, "getUserInfoNewAPI")
+          if (resp.code === 200 && resp.data){
+              setUserInfo(resp.data);
           }
       })
   }
-
-    const getUserInfoAsync = async ():Promise<[any, Error | null | unknown]> =>{
+  const getUserInfoAsync = async ():Promise<[any, Error | null | unknown]> =>{
        try{
-           const resp = await APIGetUserInfo({})
-           const data = resp.data.data;
+           const resp = await getUserInfoNewAPI()
+           const data = resp.data;
            return [data, null]
        } catch (e){
            return [null, e]

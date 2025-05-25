@@ -1,18 +1,18 @@
 import axios from 'axios';
+import qs from 'qs';
+import {message} from "antd";
 
 export const baseHost = 'http://8.222.228.63:8099/api';
 
 const instance = axios.create({
   baseURL: baseHost,
   timeout: 30000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
 });
 
 instance.interceptors.request.use(config => {
   const token = localStorage.getItem('token');
   if (token) {
+    config.headers = config.headers || {};
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
@@ -24,9 +24,43 @@ export interface ApiResponse<T = any> {
   data: T;
 }
 
-export const get = <T>(url: string, params?: any) =>
-  instance.get<ApiResponse<T>>(url, { params }).then(res => res.data);
+const handleError = <T = any>(error: any): ApiResponse<T> => {
+  const msg = error?.response?.data?.message || error?.message || '请求失败';
+  message.error(msg)
+  return {
+    code: -1,
+    message: error?.response?.data?.message || error?.message || '请求失败',
+    data: null as any,
+  };
+};
 
-export const post = <T>(url: string, data?: any) =>
-  instance.post<ApiResponse<T>>(url, data).then(res => res.data);
+export const get = async <T = any>(
+  url: string,
+  params?: Record<string, any>
+): Promise<ApiResponse<T>> => {
+  try {
+    const res = await instance.get<ApiResponse<T>>(url, { params });
+    return res.data;
+  } catch (err) {
+    return handleError<T>(err);
+  }
+};
 
+export const post = async <T = any>(
+  url: string,
+  data?: Record<string, any>,
+  options?: { form?: boolean }
+): Promise<ApiResponse<T>> => {
+  const headers = options?.form
+    ? { 'Content-Type': 'application/x-www-form-urlencoded' }
+    : { 'Content-Type': 'application/json' };
+
+  const payload = options?.form ? qs.stringify(data) : data;
+
+  try {
+    const res = await instance.post<ApiResponse<T>>(url, payload, { headers });
+    return res.data;
+  } catch (err) {
+    return handleError<T>(err);
+  }
+};

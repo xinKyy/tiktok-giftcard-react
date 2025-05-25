@@ -19,11 +19,11 @@ export interface RegisterParams {
   verificationCode: string;
 }
 export interface UserInfo {
-  id: number;
-  username: string;
-  email: string;
-  status: number;
-  createTime: string;
+  id?: number;
+  username?: string;
+  email?: string;
+  status?: number;
+  createTime?: string;
 }
 export const register = (data: RegisterParams) => post<UserInfo>('/auth/register', data);
 
@@ -54,7 +54,7 @@ export interface ChangePasswordParams {
 export const changePassword = (data: ChangePasswordParams) => post<null>('/auth/changePassword', data);
 
 // 获取用户信息
-export const getUserInfo = () => get<UserInfo>('/user/info');
+export const getUserInfoNewAPI = () => get<UserInfo>('/user/info');
 
 // 礼品卡列表
 export interface GiftCard {
@@ -65,13 +65,12 @@ export interface GiftCard {
   imageUrl: string;
   stock: number;
   status: number;
-}
-export interface GiftCardListResult {
-  total: number;
-  list: GiftCard[];
+  amount: number;
+  value: number;
+  check: boolean;
 }
 export const getGiftCardList = (params?: { page?: number; size?: number; category?: number; keyword?: string }) =>
-  get<GiftCardListResult>('/gift-cards', params);
+  get<GiftCard[]>('/giftCard/list', params);
 
 // 礼品卡详情
 export const getGiftCardDetail = (id: number) => get<GiftCard>(`/gift-cards/${id}`);
@@ -92,7 +91,53 @@ export interface Order {
   payTime?: string;
   giftCard?: Pick<GiftCard, 'id' | 'name' | 'price'>;
 }
-export const createOrder = (data: CreateOrderParams) => post<Order>('/order/create', data);
+
+export interface OrderItem {
+    id: number;
+    orderId: number;
+    giftCardId: number;
+    giftCardName: string;
+    giftCardImage: string | null;
+    quantity: number;
+    price: number;
+    subtotal: number;
+    createTime: string;  // ISO 字符串
+    updateTime: string;
+}
+
+export interface OrderDetails {
+    id: number;
+    orderNo: string;
+    userId: number;
+    userName: string;
+    userEmail: string;
+    giftCardId: number | null;
+    quantity: number;
+    unitPrice: number | null;
+    totalAmount: number;
+    status: number;
+    paymentMethod: string | null;
+    tradeNo: string | null;
+    failReason: string | null;
+    payTime: string | null;
+    createTime: string;
+    updateTime: string;
+    deleted: number;
+}
+
+export interface OrderStatistics {
+    totalAmount: number;
+    totalItems: number;
+    totalQuantity: number;
+}
+
+export interface OrderDetailResponse {
+    items: OrderItem[];
+    order: Order;
+    statistics: OrderStatistics;
+}
+
+export const createOrder = (data: CreateOrderParams[]) => post<Order>('/order/create', data);
 
 // 订单列表
 export interface OrderListResult {
@@ -109,14 +154,14 @@ export const getOrderList = (params?: {
 }) => get<OrderListResult>('/order/list', params);
 
 // 订单详情
-export const getOrderDetail = (id: number) => get<Order>(`/order/${id}`);
+export const getOrderDetail = (id: string) => get<OrderDetailResponse>(`/order/query/${id}`);
 
 // 取消订单
 export const cancelOrder = (id: number) => post<null>(`/order/${id}/cancel`);
 
 // 创建支付
-export const createPayment = (id: number, data: { paymentMethodId: string }) =>
-  post<{ paymentUrl: string }>(`/order/${id}/pay`, data);
+export const createPayment = (data: { paymentMethodId: number, orderId: number }) =>
+  post<string>(`/order/pay`, data);
 
 // 支付回调 & 通知 (通常不直接调用，后台接收)
 export const paymentCallback = (data: any) => post<string>('/payment/callback', data);

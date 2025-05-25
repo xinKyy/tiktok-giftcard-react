@@ -2,9 +2,9 @@
 import React, {useRef, useState} from 'react';
 import styles from './index.module.scss';
 import {Button, Form, Input, message, Modal} from "antd";
-import {useLogin, UserInfo} from "../../provider/loginContext";
-import {APIGetCode, APILogin} from "../../api";
+import {useLogin} from "../../provider/loginContext";
 import TipsModal from "../TipsModal";
+import {login, sendVerificationCode, UserInfo} from "../../api/newApi";
 
 const LoginForm = () => {
   const {openLoginModal, setOpenLoginModal, setUserInfo} = useLogin()
@@ -22,40 +22,26 @@ const LoginForm = () => {
   const onSubmit = () =>{
     const v = form.getFieldsValue();
     setLoading(true);
-    APILogin({
-      email: v.email,
-      verifyCode: v.verifyCode,
-      password:"111111"
-    }).then(resp =>{
-      console.log(resp, "loginResp")
-      if(resp.data.data){
-        if(resp.data.data.user){
-          const user = resp.data.data.user
-          localStorage.setItem("token", user.token)
-          localStorage.setItem("id", user.id)
-          const user1 = {
-            email: v.email,
-            role:resp.data.data.role,
-            userGrade:resp.data.data.userGrade
-          } as UserInfo
-          localStorage.setItem("userInfo", JSON.stringify(user1))
-          setUserInfo(user1)
-          setOpenLoginModal(false);
-          message.success("ログイン成功")
-          form.resetFields();
-
-          const localLogin = localStorage.getItem("localLogin")
-
-          if(resp.data.data.newUser === "1" || localLogin !== "1"){
-            setOpenTipsModal(true)
-            localStorage.setItem("localLogin", "1")
-          }
-        }
+    login({
+      username: v.email,
+      verificationCode:v.verifyCode,
+    }).then(resp=>{
+      if (resp.code === 200){
+        const token = resp.data.token
+        const refreshToken = resp.data.refreshToken
+        localStorage.setItem("token", token)
+        localStorage.setItem("refreshToken", refreshToken)
+        const user1 = {
+          email: v.email,
+        } as UserInfo
+        localStorage.setItem("userInfo", JSON.stringify(user1))
+        setUserInfo(user1)
+        setOpenLoginModal(false);
+        form.resetFields();
+        message.success("ログイン成功")
       }
-    }).finally(()=>{
+    }).finally(() => {
       setLoading(false);
-    }).catch(e=>{
-      message.error("ログインエラー")
     })
   }
 
@@ -64,10 +50,11 @@ const LoginForm = () => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if(!emailRegex.test(v.email)) return;
     setSendCodeLoading(true)
-    APIGetCode({
-      email:v.email
-    }).then(resp=>{
-      if(resp.data.data){
+    sendVerificationCode({
+      email:v.email,
+      type: 2
+    }).then(resp =>{
+      if (resp.code === 200) {
         message.success("認証コードの送信に成功")
         openTimer();
         setSendCodeLoading(false)

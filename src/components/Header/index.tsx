@@ -13,39 +13,9 @@ const Header: React.FC = () => {
       navigate('/referCode');
   }
 
-  const buildLevelContent = useMemo(()=>() =>{
-      if(userInfo?.userGrade === 1 || userInfo?.userGrade === 2){
-          return <div onClick={toReferCode}>紹介コード</div>
-      }
-  }, [userInfo?.userGrade])
-
-  const buildAdminContent = () =>{
-      if(userInfo?.role === "admin"){
-          return  <div onClick={()=>{
-              navigate("/admin")
-          }}>管理者</div>
-      }
-      if(userInfo?.userGrade === 2){
-          return  <div onClick={()=>{
-              navigate("/subAdmin")
-          }}>管理者</div>
-      }
-      if(userInfo?.userGrade === 1){
-          return  <div onClick={()=>{
-              navigate("/admin")
-          }}>管理者</div>
-      }
-  }
 
   const content = (
     <div className={styles.pop_content}>
-        {
-            buildLevelContent()
-        }
-      <div onClick={()=>setOpenMessagesModal(true)}>予約を確認</div>
-        {
-            buildAdminContent()
-        }
       <div onClick={()=>{
         localStorage.removeItem("userInfo")
         localStorage.removeItem("token")
