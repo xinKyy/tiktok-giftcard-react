@@ -92,7 +92,7 @@ const Home = () =>{
           <div className={styles.container}>
             <div className={styles.cardList}>
               {
-                cardList.map(item=>{
+                cardList?.map(item=>{
                   return <Card value={item.value} submit={toOrder} id={item.id} amount={item.amount} setAmount={setAmountById} onCheck={onCheck} price={item.price} imgSrc={giftCard} check={item.check}/>
                 })
               }
