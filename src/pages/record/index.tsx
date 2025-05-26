@@ -1,9 +1,12 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import styles from "./index.module.scss";
 import tiktokLogo from "../../assets/images/records/tikrecords.png"; // 你可以换成自己的logo
 import { Tabs } from "antd";
 import Header from "../../components/Header";
 import {getOrderList, OrderItem, OrderRecord} from "../../api/newApi";
+import {useNavigate} from "react-router-dom";
+import backIcon from "../../assets/images/home/back-icon.svg";
+import emptyIcon from "../../assets/images/records/empty-icon.png";
 
 const { TabPane } = Tabs;
 
@@ -32,20 +35,30 @@ const orderList = [
 
 export default function RecordPage() {
   const [tab, setTab] = useState("mine");
+  const navigate = useNavigate()
   const [orderList, setOrderList] = useState<{
       order: OrderRecord;
       items: OrderItem[];
   }[]>([]);
 
 
+  const orders = useMemo(()=>{
+      const tab1Orders = orderList.filter(item => [0, 1, 4].includes(item.order.status));
+      const tab2Orders = orderList.filter(item => ![0, 1, 4].includes(item.order.status));
+      return {
+            tab1Orders,
+            tab2Orders
+      }
+  }, [orderList])
+
+
   const getRecords = async () =>{
       const res = await getOrderList({
-          status: 0,
           paymentMethod: "",
           startDate: "2025-01-01",
           endDate: "2025-12-31",
           page: 1,
-          pageSize: 10
+          pageSize: 1000
       })
       if (res.code === 200){
           const orders = res.data.records.map(item=>{
@@ -71,7 +84,9 @@ export default function RecordPage() {
                     <button className={styles.menuBtn}>購入記録</button>
                 </div>
                 <div className={styles.content}>
-                    <div className={styles.back}>&lt; かえる</div>
+                    <div onClick={()=>navigate(-1)} className={styles.back}>
+                        <img src={backIcon}></img> 戻る
+                    </div>
                     <div className={styles.title}>購入記録</div>
                     <div className={styles.tabs}>
                         <div
@@ -88,40 +103,90 @@ export default function RecordPage() {
                         </div>
                     </div>
                     {tab === "mine" && (
-                      <div className={styles.cardList}>
-                          {orderList.map((order) => (
-                            <div className={styles.card} key={order.order.id}>
-                                <div className={styles.cardLeft}>
-                                    <img src={tiktokLogo} alt="tiktok" />
-                                </div>
-                                <div className={styles.cardRight}>
-                                    <div className={styles.row}>
-                                        <span>種類</span>
-                                        <span>支払方法</span>
-                                        <span>時間</span>
-                                        <span>状況</span>
-                                    </div>
-                                    <div className={styles.row}>
-                                        <div>
-                                            {order.items.map((item) => (
-                                              <div key={item.id}>
-                                                  {item.price} × {item.quantity}
-                                              </div>
-                                            ))}
+                      <>
+                          {
+                              orders.tab1Orders.length > 0 ?   <div className={styles.cardList}>
+                                  {orders.tab1Orders.map((order) => (
+                                    <div className={styles.card} key={order.order.id}>
+                                        <div className={styles.cardLeft}>
+                                            <img src={tiktokLogo} alt="tiktok" />
                                         </div>
-                                        <div>{order.order.paymentMethod ?? "--"}</div>
-                                        <div>{order.order.createTime}</div>
-                                        <div>
-                                            <StatusTag status={(order.order.status as any)}></StatusTag>
+                                        <div className={styles.cardRight}>
+                                            <div className={styles.row}>
+                                                <span>種類</span>
+                                                <span>支払方法</span>
+                                                <span>時間</span>
+                                                <span>状況</span>
+                                            </div>
+                                            <div className={styles.row}>
+                                                <div>
+                                                    {order.items.map((item) => (
+                                                      <div key={item.id}>
+                                                          {item.price} × {item.quantity}
+                                                      </div>
+                                                    ))}
+                                                </div>
+                                                <div>{order.order.paymentMethod ?? "--"}</div>
+                                                <div>{order.order.createTime}</div>
+                                                <div>
+                                                    <StatusTag status={(order.order.status as any)}></StatusTag>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                          ))}
-                      </div>
+                                  ))}
+                              </div> : <div style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                              }}>
+                                  <EmptyIcon></EmptyIcon>
+                              </div>
+                          }
+                      </>
                     )}
                     {tab === "other" && (
-                      <div className={styles.empty}>暂无数据</div>
+                      <>
+                          {
+                              orders.tab2Orders.length > 0 ?   <div className={styles.cardList}>
+                                  {orders.tab2Orders.map((order) => (
+                                    <div className={styles.card} key={order.order.id}>
+                                        <div className={styles.cardLeft}>
+                                            <img src={tiktokLogo} alt="tiktok" />
+                                        </div>
+                                        <div className={styles.cardRight}>
+                                            <div className={styles.row}>
+                                                <span>種類</span>
+                                                <span>支払方法</span>
+                                                <span>時間</span>
+                                                <span>状況</span>
+                                            </div>
+                                            <div className={styles.row}>
+                                                <div>
+                                                    {order.items.map((item) => (
+                                                      <div key={item.id}>
+                                                          {item.price} × {item.quantity}
+                                                      </div>
+                                                    ))}
+                                                </div>
+                                                <div>{order.order.paymentMethod ?? "--"}</div>
+                                                <div>{order.order.createTime}</div>
+                                                <div>
+                                                    <StatusTag status={(order.order.status as any)}></StatusTag>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  ))}
+                              </div> : <div style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                              }}>
+                                  <EmptyIcon></EmptyIcon>
+                              </div>
+                          }
+                      </>
                     )}
                 </div>
             </div>
@@ -158,7 +223,7 @@ const StatusTag = ({ status }:{
             color,
             borderRadius: '8px',
             padding: '4px 16px',
-            fontSize: '16px',
+            fontSize: '10px',
             display: 'inline-block',
             fontWeight: 'bold',
             letterSpacing: '2px',
@@ -168,3 +233,10 @@ const StatusTag = ({ status }:{
     </span>
     );
 };
+
+
+export const EmptyIcon = () =>{
+    return <div>
+        <img src={emptyIcon} className={"empty_icon"} />
+    </div>
+}

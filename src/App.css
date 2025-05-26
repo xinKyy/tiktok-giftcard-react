@@ -126,3 +126,92 @@ body{
         font-size: 30px;
     }
 }
+
+
+.empty_icon{
+  width: 200px;
+  margin: 0 auto;
+}
+
+
+.pay_wrap{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pay-item{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 10px;
+  border: 1px solid #FFFFFF90;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #FFFFFF;
+  cursor: pointer;
+  width: 200px;
+  transition: all .3s;
+}
+.pay-item:hover{
+  background: #FFFFFF30;
+}
+
+.checked{
+  border-color: #ff2c55;
+  background:  #ff2c5520 !important;
+}
+
+.pay-item img{
+  width: 35px;
+  height: 35px;
+  object-fit: contain;
+}
+
+
+.confirmButton {
+  width: 130px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  transition: all .3s;
+  font-weight: bold;
+  font-size: 20px;
+  height: 45px;
+  &.cancelButton {
+    background-color: #00000000;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+
+    &:hover {
+      background-color: var(--primary-color);
+      color: #ffffff;
+    }
+  }
+
+  &.confirmButton {
+    background-color: var(--primary-color) !important;
+    &:hover {
+      color: #ffffff !important;
+      background-color: var(--primary-color-80) !important;
+    }
+  }
+}
+
+
+.order_confirm{
+  display: flex;
+  gap: 20px;
+}
+
+
+@media screen and  (max-width: 640px) {
+  .order_confirm{
+    flex-direction: column;
+  }
+
+  .pay-item{
+    width: 150px;
+  }
+}

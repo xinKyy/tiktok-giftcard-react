@@ -41,12 +41,12 @@ const Header: React.FC = () => {
 
   const content = (
     <div className={styles.pop_content}>
-      <div onClick={()=>{
-          logout()
-      }}>ログアウト</div>
         <div onClick={()=>{
             navigate("/records")
         }}>购买记录</div>
+      <div onClick={()=>{
+          logout()
+      }}>ログアウト</div>
     </div>
   );
 

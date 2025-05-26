@@ -42,7 +42,6 @@
   padding: 20px;
   font-family: Arial, sans-serif;
   padding-bottom: 30px;
-  padding-right: 50px;
 
   .back {
     display: flex;
@@ -189,6 +188,7 @@
         font-weight: bold;
         color: var(--primary-color);
         font-size: 18px;
+        flex: 1;
       }
 
       .buttons {

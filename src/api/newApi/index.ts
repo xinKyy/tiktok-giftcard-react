@@ -194,6 +194,23 @@ export const getOrderList = (data?: {
 // 订单详情
 export const getOrderDetail = (id: string) => get<OrderDetailResponse>(`/order/query/${id}`);
 
+
+export interface PaymentMethod {
+    id: number
+    countryCode: string
+    countryName: string
+    paymentType: string
+    paymentName: string
+    paymentIcon: string
+    sort: number
+    status: number
+    createTime: string
+    updateTime: string
+}
+
+
+export const getPaymentList = () => get<PaymentMethod[]>(`/payment/method/country/JPY`);
+
 // 取消订单
 export const cancelOrder = (id: number) => post<null>(`/order/${id}/cancel`);
 
