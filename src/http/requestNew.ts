@@ -3,7 +3,7 @@ import qs from 'qs';
 import {message} from "antd";
 import eventSub, {EventName} from "../util/EventSub";
 
-export const baseHost = 'http://8.222.228.63:8099/api';
+export const baseHost = 'http://ttiks.shop/tk/api';
 
 const instance = axios.create({
   baseURL: baseHost,
