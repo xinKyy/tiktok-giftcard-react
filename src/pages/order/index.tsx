@@ -14,6 +14,7 @@ import {
     OrderItem,
     PaymentMethod
 } from "../../api/newApi";
+import AppLayout from "../../components/Layout";
 
 const ConfirmOrder = () =>{
   const { id } = useParams()
@@ -66,11 +67,9 @@ const ConfirmOrder = () =>{
   }
 
 
-  return  <>
-    <Header></Header>
+  return  <AppLayout>
     <div style={{
       maxWidth: "1200px",
-      margin:"100px auto",
     }} className={styles.confirmPage}>
       <div onClick={cancel} className={styles.back}>
         <img src={backIcon}></img> 戻る
@@ -132,7 +131,7 @@ const ConfirmOrder = () =>{
             }} loading={loading} onClick={confirm} className={"confirmButton"}>確認</Button>
         </div>
     </div>
-  </>
+      </AppLayout>
 }
 
 export default ConfirmOrder

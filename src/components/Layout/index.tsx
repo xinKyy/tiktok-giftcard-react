@@ -5,7 +5,7 @@ import styles from "./index.module.scss"
 const { Sider, Content } = Layout;
 
 const layoutStyle = {
-  height: "100vh",
+  minHeight: "100vh",
   backgroundColor:"#000"
 };
 
@@ -17,7 +17,7 @@ const AppLayout = (props:{
     <Layout style={{
       paddingTop:"60px",
       display:"flex",
-      backgroundColor:"#000"
+      backgroundColor:"#111010"
     }}>
       <Sider className={"mobile_none"} style={{
         backgroundColor:"#111010",

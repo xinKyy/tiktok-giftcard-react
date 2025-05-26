@@ -107,7 +107,11 @@ export default function RecordPage() {
                           {
                               orders.tab1Orders.length > 0 ?   <div className={styles.cardList}>
                                   {orders.tab1Orders.map((order) => (
-                                    <div className={styles.card} key={order.order.id}>
+                                    <div onClick={()=>{
+                                        if (order.order.status === 0){
+                                            navigate(`/order/${order.order.id}`)
+                                        }
+                                    }} className={styles.card} key={order.order.id}>
                                         <div className={styles.cardLeft}>
                                             <img src={tiktokLogo} alt="tiktok" />
                                         </div>
