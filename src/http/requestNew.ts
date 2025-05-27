@@ -3,7 +3,7 @@ import qs from 'qs';
 import {message} from "antd";
 import eventSub, {EventName} from "../util/EventSub";
 
-export const baseHost = '/tk/api';
+export const baseHost = '/api';
 
 const instance = axios.create({
   baseURL: baseHost,
