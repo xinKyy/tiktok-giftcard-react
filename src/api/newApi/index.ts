@@ -156,6 +156,7 @@ export interface OrderItem {
 export interface OrderRecord {
     id: number
     orderNo: string
+    token: string
     userId: number
     userName: string
     userEmail: string

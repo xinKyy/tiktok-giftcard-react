@@ -109,7 +109,11 @@ export default function RecordPage() {
                                   {orders.tab1Orders.map((order) => (
                                     <div onClick={()=>{
                                         if (order.order.status === 0){
-                                            navigate(`/order/${order.order.id}`)
+                                            if (order.order.token){
+                                                navigate(`/pay/${order.order.token}`)
+                                            } else{
+                                                navigate(`/order/${order.order.id}`)
+                                            }
                                         }
                                     }} className={styles.card} key={order.order.id}>
                                         <div className={styles.cardLeft}>

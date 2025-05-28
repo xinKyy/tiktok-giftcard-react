@@ -64,15 +64,12 @@ const Home = () =>{
       const bookList = cardList.filter(item=>item.amount >= 1).map(item=>{
         return {
             giftCardId:item.id,
-            quantity:item.amount
+            quantity:item.amount,
+            price: item.price
         }
       })
-      setLoading(true)
-      const res = await createOrder(bookList);
-      setLoading(false)
-      if (res.code == 200){
-        navigate(`/order/${res.data.id}`)
-      }
+     const queryJson = JSON.stringify(bookList)
+        navigate(`/confirm/${encodeURIComponent(queryJson)}`)
     }
 
     const getCardList = async () =>{
