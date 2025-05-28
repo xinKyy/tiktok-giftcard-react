@@ -68,9 +68,7 @@ const ConfirmOrder = () =>{
 
 
   return  <AppLayout>
-    <div style={{
-      maxWidth: "1200px",
-    }} className={styles.confirmPage}>
+    <div className={styles.confirmPage}>
       <div onClick={cancel} className={styles.back}>
         <img src={backIcon}></img> 戻る
       </div>

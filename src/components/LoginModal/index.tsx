@@ -39,6 +39,8 @@ const LoginForm = () => {
         setOpenLoginModal(false);
         form.resetFields();
         message.success("ログイン成功")
+      } else {
+          message.info("認証コードが正しくありません")
       }
     }).finally(() => {
       setLoading(false);

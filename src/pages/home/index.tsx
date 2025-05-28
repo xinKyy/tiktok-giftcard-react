@@ -101,7 +101,7 @@ const Home = () =>{
               display:"flex",
               alignItems:"center"
             }}>
-              <Button onClick={toOrder} loading={loading} className={styles.bookAllButton}>购买</Button>
+              <Button onClick={toOrder} loading={loading} className={styles.bookAllButton}>認識する</Button>
             </div>
           </div>
         </div>
