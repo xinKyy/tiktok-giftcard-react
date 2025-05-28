@@ -36,6 +36,7 @@ export const EventName = {
   InterfaceError:"InterfaceError",
   NoAuth:"NoAth",
   KLineData:"KLineData",
+  LoginSuccess:"LoginSuccess",
 };
 
 

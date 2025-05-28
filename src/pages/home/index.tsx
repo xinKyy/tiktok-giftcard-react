@@ -22,6 +22,7 @@ import {useNavigate} from "react-router-dom";
 import UserSubDetailModal from "./componments/UserSubDetailModal";
 import axiosInstance, {baseHost} from "../../http/axiosInstance";
 import {createOrder, getGiftCardList, GiftCard} from "../../api/newApi";
+import eventSub, {EventName} from "../../util/EventSub";
 
 
 export const toOrderConfirmMap = (items: OrderConfirmItem[]): Map<number, OrderConfirmItem> => {
@@ -64,10 +65,20 @@ const Home = () =>{
     }))
   }
 
-    const toOrder = async () =>{
+  const listenOrder = () =>{
+      toOrder(true)
+      eventSub.unsubscribe(EventName.LoginSuccess, listenOrder)
+  }
 
-      if (!userInfo){
+  const initNc  = () =>{
+      eventSub.subscribe(EventName.LoginSuccess, listenOrder)
+  }
+
+    const toOrder = async (skip?:boolean) =>{
+
+      if (!userInfo && !skip){
           setOpenLoginModal(true)
+          initNc()
           return
       }
 
@@ -78,6 +89,13 @@ const Home = () =>{
             price: item.price
         }
       })
+
+        if (bookList.length <=  0){
+            message.info("Please check gift card")
+            return
+        }
+
+
      const queryJson = JSON.stringify(bookList)
         navigate(`/confirm/${encodeURIComponent(queryJson)}`)
     }
@@ -113,7 +131,7 @@ const Home = () =>{
             <div className={styles.cardList}>
               {
                 cardList?.map(item=>{
-                  return <Card value={item.value} submit={toOrder} id={item.id} amount={item.amount} setAmount={setAmountById} onCheck={onCheck} price={item.price} imgSrc={giftCard} check={item.check}/>
+                  return <Card value={item.value} submit={()=>toOrder()} id={item.id} amount={item.amount} setAmount={setAmountById} onCheck={onCheck} price={item.price} imgSrc={giftCard} check={item.check}/>
                 })
               }
             </div>
@@ -122,7 +140,9 @@ const Home = () =>{
               alignItems:"center",
                 marginBottom:"50px"
             }}>
-              <Button onClick={toOrder} loading={loading} className={styles.bookAllButton}>認識する</Button>
+              <Button onClick={ async ()=>{
+                  await toOrder()
+              }} loading={loading} className={styles.bookAllButton}>認識する</Button>
             </div>
           </div>
         </div>

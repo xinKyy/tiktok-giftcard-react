@@ -5,6 +5,7 @@ import {Button, Form, Input, message, Modal} from "antd";
 import {useLogin} from "../../provider/loginContext";
 import TipsModal from "../TipsModal";
 import {login, sendVerificationCode, UserInfo} from "../../api/newApi";
+import eventSub, {EventName} from "../../util/EventSub";
 
 const LoginForm = () => {
   const {openLoginModal, setOpenLoginModal, setUserInfo} = useLogin()
@@ -39,6 +40,9 @@ const LoginForm = () => {
         setOpenLoginModal(false);
         form.resetFields();
         message.success("ログイン成功")
+        setTimeout(() => {
+            eventSub.publish(EventName.LoginSuccess)
+        }, 300)
       } else {
           message.info("認証コードが正しくありません")
       }
