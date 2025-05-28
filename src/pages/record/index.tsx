@@ -33,13 +33,15 @@ const orderList = [
   },
 ];
 
+interface IV1OrderRecordObj{
+    order: OrderRecord;
+    items: OrderItem[];
+}
+
 export default function RecordPage() {
   const [tab, setTab] = useState("mine");
   const navigate = useNavigate()
-  const [orderList, setOrderList] = useState<{
-      order: OrderRecord;
-      items: OrderItem[];
-  }[]>([]);
+  const [orderList, setOrderList] = useState<IV1OrderRecordObj[]>([]);
 
 
   const orders = useMemo(()=>{
@@ -80,9 +82,6 @@ export default function RecordPage() {
         <Header></Header>
         <div className={styles.bg}>
             <div className={styles.main}>
-                <div className={styles.sidebar}>
-                    <button className={styles.menuBtn}>購入記録</button>
-                </div>
                 <div className={styles.content}>
                     <div onClick={()=>navigate(-1)} className={styles.back}>
                         <img src={backIcon}></img> 戻る
@@ -107,41 +106,7 @@ export default function RecordPage() {
                           {
                               orders.tab1Orders.length > 0 ?   <div className={styles.cardList}>
                                   {orders.tab1Orders.map((order) => (
-                                    <div onClick={()=>{
-                                        if (order.order.status === 0){
-                                            if (order.order.token){
-                                                navigate(`/pay/${order.order.token}`)
-                                            } else{
-                                                navigate(`/order/${order.order.id}`)
-                                            }
-                                        }
-                                    }} className={styles.card} key={order.order.id}>
-                                        <div className={styles.cardLeft}>
-                                            <img src={tiktokLogo} alt="tiktok" />
-                                        </div>
-                                        <div className={styles.cardRight}>
-                                            <div className={styles.row}>
-                                                <span>種類</span>
-                                                <span>支払方法</span>
-                                                <span>時間</span>
-                                                <span>状況</span>
-                                            </div>
-                                            <div className={styles.row}>
-                                                <div>
-                                                    {order.items.map((item) => (
-                                                      <div key={item.id}>
-                                                          {item.price} × {item.quantity}
-                                                      </div>
-                                                    ))}
-                                                </div>
-                                                <div>{order.order.paymentMethod ?? "--"}</div>
-                                                <div>{order.order.createTime}</div>
-                                                <div>
-                                                    <StatusTag status={(order.order.status as any)}></StatusTag>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <OrderRecordsItem order={order} key={order.order.orderNo}></OrderRecordsItem>
                                   ))}
                               </div> : <div style={{
                                   display: "flex",
@@ -158,33 +123,7 @@ export default function RecordPage() {
                           {
                               orders.tab2Orders.length > 0 ?   <div className={styles.cardList}>
                                   {orders.tab2Orders.map((order) => (
-                                    <div className={styles.card} key={order.order.id}>
-                                        <div className={styles.cardLeft}>
-                                            <img src={tiktokLogo} alt="tiktok" />
-                                        </div>
-                                        <div className={styles.cardRight}>
-                                            <div className={styles.row}>
-                                                <span>種類</span>
-                                                <span>支払方法</span>
-                                                <span>時間</span>
-                                                <span>状況</span>
-                                            </div>
-                                            <div className={styles.row}>
-                                                <div>
-                                                    {order.items.map((item) => (
-                                                      <div key={item.id}>
-                                                          {item.price} × {item.quantity}
-                                                      </div>
-                                                    ))}
-                                                </div>
-                                                <div>{order.order.paymentMethod ?? "--"}</div>
-                                                <div>{order.order.createTime}</div>
-                                                <div>
-                                                    <StatusTag status={(order.order.status as any)}></StatusTag>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <OrderRecordsItem order={order} key={order.order.orderNo}></OrderRecordsItem>
                                   ))}
                               </div> : <div style={{
                                   display: "flex",
@@ -203,10 +142,52 @@ export default function RecordPage() {
   );
 }
 
+
+const OrderRecordsItem = ({order}:{
+    order:IV1OrderRecordObj
+}) =>{
+    const navigate = useNavigate()
+    return <div onClick={()=>{
+        if (order.order.status === 0){
+            if (order.order.token){
+                navigate(`/pay/${order.order.token}`)
+            } else{
+                navigate(`/order/${order.order.id}`)
+            }
+        }
+    }} className={styles.card} key={order.order.id}>
+        <div className={styles.cardLeft}>
+            <img src={tiktokLogo} alt="tiktok" />
+        </div>
+        <div className={styles.cardRight}>
+            <div className={styles.row}>
+                <span>種類</span>
+                <span>支払方法</span>
+                <span>時間</span>
+                <span>状況</span>
+            </div>
+            <div className={styles.row}>
+                <div>
+                    {order.items.map((item) => (
+                      <div key={item.id} className={"font-bold"}>
+                          {item.price} × {item.quantity}
+                      </div>
+                    ))}
+                </div>
+                <div className={"font-bold"}>{order.order.paymentMethod ?? "--"}</div>
+                <div>{order.order.createTime}</div>
+                <div>
+                    <StatusTag status={(order.order.status as any)}></StatusTag>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
 // 状态映射
 const STATUS_MAP = {
     0: { text: '待支付', bgColor: '#333', color: '#ffb300' },
-    1: { text: '已支付', bgColor: '#233323', color: '#4fff4f' },
+    1: { text: '已支付', bgColor: '#23BC3F1A', color: '#69FF4C' },
     2: { text: '支付失败', bgColor: '#331a1a', color: '#fe2c55' },
     3: { text: '已取消', bgColor: '#444', color: '#bbb' },
     4: { text: '审核中', bgColor: '#1a2a44', color: '#4faaff' },
@@ -229,7 +210,7 @@ const StatusTag = ({ status }:{
         style={{
             background: bgColor,
             color,
-            borderRadius: '8px',
+            borderRadius: '4px',
             padding: '4px 16px',
             fontSize: '10px',
             display: 'inline-block',

@@ -15,24 +15,27 @@ import {
     APIStatistics,
     APIStatisticsItem
 } from "../../api";
-import {useLogin} from "../../provider/loginContext";
+import {OrderConfirmItem, useLogin} from "../../provider/loginContext";
 import {Button, DatePicker, Input, message, Table, Tag, Tooltip, Carousel} from "antd";
-import ReferralCodeModal from "../../components/ReferralCodeModal";
-import SuccessModal from "../../components/SuccessModal";
 import AppLayout from "../../components/Layout";
 import {useNavigate} from "react-router-dom";
 import UserSubDetailModal from "./componments/UserSubDetailModal";
 import axiosInstance, {baseHost} from "../../http/axiosInstance";
-import { QuestionCircleOutlined } from "@ant-design/icons";
-import Slider from "react-slick";
 import {createOrder, getGiftCardList, GiftCard} from "../../api/newApi";
+
+
+export const toOrderConfirmMap = (items: OrderConfirmItem[]): Map<number, OrderConfirmItem> => {
+    return items.reduce((map, item) => {
+        map.set(item.giftCardId, item)
+        return map
+    }, new Map<number, OrderConfirmItem>())
+}
 
 const Home = () =>{
   const [cardList, setCardList] = useState<GiftCard[]>([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { userInfo, setOpenLoginModal, setUserInfo, setOpenMessagesModal} = useLogin()
-
+  const { userInfo, setOpenLoginModal, orderConfirm, setOrderConfirm} = useLogin()
 
   const onCheck = (id:number) =>{
     const cardIndex = cardList.findIndex(item=>id === item.id)
@@ -52,6 +55,13 @@ const Home = () =>{
       cardList[cardIndex].amount = amount
     }
     setCardList(cardList.slice());
+    setOrderConfirm(cardList.filter(item=>item.amount >= 1).map(item=>{
+        return {
+            giftCardId:item.id,
+            quantity:item.amount,
+            price: item.price
+        }
+    }))
   }
 
     const toOrder = async () =>{
@@ -74,10 +84,23 @@ const Home = () =>{
 
     const getCardList = async () =>{
       const localList = localStorage.getItem("giftCardList");
-      setCardList(localList ? JSON.parse(localList) : [])
+      if (localList){
+          const local:GiftCard[] = JSON.parse(localList);
+          setCardListFn(local)
+      }
       const res = await getGiftCardList({page:1, size:100})
-      setCardList(res.data)
+      setCardListFn(res.data)
       localStorage.setItem("giftCardList", JSON.stringify(res.data))
+    }
+
+    const setCardListFn = (v: GiftCard[]) =>{
+        const map = toOrderConfirmMap(orderConfirm)
+        v.forEach(item=>{
+            if (map.has(item.id)){
+                item.amount = map.get(item.id)?.quantity ?? 0
+            }
+        })
+        setCardList(v)
     }
 
     useEffect(() => {
@@ -96,7 +119,8 @@ const Home = () =>{
             </div>
             <div style={{
               display:"flex",
-              alignItems:"center"
+              alignItems:"center",
+                marginBottom:"50px"
             }}>
               <Button onClick={toOrder} loading={loading} className={styles.bookAllButton}>認識する</Button>
             </div>

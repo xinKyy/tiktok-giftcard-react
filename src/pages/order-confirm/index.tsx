@@ -22,7 +22,6 @@ const PreConfirmOrder = () =>{
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [cardList, setCardList] = useState<OrderItem[]>([])
-  const [orderDetails, setOrderDetails] = useState<OrderDetailResponse>()
   const [paymentList, setPaymentList] = useState<PaymentMethod[]>([]);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<number | null>(null);
   const cancel = () => {
@@ -30,8 +29,6 @@ const PreConfirmOrder = () =>{
   }
 
     useEffect(() => {
-
-        console.log(query, "query")
         if (query){
             setCardList(JSON.parse(query))
             getPaymentMethods();
@@ -121,8 +118,12 @@ const PreConfirmOrder = () =>{
           </div>
       </div>
         <div className={"flex justify-center"} style={{
-            marginTop:"50px"
+            marginTop:"50px",
+            gap:"20px"
         }}>
+            <Button style={{
+                width:"200px"
+            }} onClick={cancel} className={"confirmButton"}>编辑</Button>
             <Button style={{
                 width:"200px"
             }} loading={loading} onClick={confirm} className={"confirmButton"}>確認</Button>

@@ -2,10 +2,19 @@ import React, {createContext, useContext, useState, ReactNode, useEffect} from '
 import {APIGetUserInfo} from "../../api";
 import {getUserInfoNewAPI, UserInfo} from "../../api/newApi";
 
+
+export interface OrderConfirmItem{
+    giftCardId: number
+    quantity: number
+    price: number
+}
+
 // 定义共享状态和更新函数的类型
 interface LoginContextType {
   userInfo: UserInfo | null;
   setUserInfo: React.Dispatch<React.SetStateAction<UserInfo | null>>;
+  orderConfirm: OrderConfirmItem[];
+  setOrderConfirm: React.Dispatch<React.SetStateAction<OrderConfirmItem[]>>;
   openLoginModal:boolean;
   setOpenLoginModal: React.Dispatch<React.SetStateAction<boolean>>;
   openMessagesModal:boolean;
@@ -33,6 +42,7 @@ export const LoginProvider: React.FC<LoginProviderProps> = ({ children }) => {
   const [openMessagesModal, setOpenMessagesModal] = useState<boolean>(false);
   const [openReferralCodeModal, setOpenReferralCodeModal] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [orderConfirm, setOrderConfirm] = useState<OrderConfirmItem[]>([]);
 
   const [inConfirm, setInConfirm] = useState<"home" | "confirm" | "table">("home");
 
@@ -78,7 +88,8 @@ export const LoginProvider: React.FC<LoginProviderProps> = ({ children }) => {
       inConfirm,
       setInConfirm,
       getUserInfo,
-      getUserInfoAsync:getUserInfoAsync
+      getUserInfoAsync:getUserInfoAsync,
+      orderConfirm, setOrderConfirm
     }}>
       {children}
     </LoginContext.Provider>

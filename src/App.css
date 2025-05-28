@@ -215,3 +215,8 @@ body{
     width: 150px;
   }
 }
+
+
+.font-bold{
+  font-weight: bold;
+}

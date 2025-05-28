@@ -25,6 +25,7 @@ export interface UserInfo {
   status?: number;
   createTime?: string;
 }
+
 export const register = (data: RegisterParams) => post<UserInfo>('/auth/register', data);
 
 // 登录
