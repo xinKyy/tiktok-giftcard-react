@@ -153,17 +153,6 @@ const LoginForm = () => {
             {/*</div>*/}
             <Button loading={loading} htmlType={"submit"} className={styles.loginButton}>登録・ログイン</Button>
           </Form>
-            <div className={"flex items-center"} style={{
-                gap:"20px",
-                marginTop:"20px"
-            }}>
-                <a>
-                    <div>服务条款</div>
-                </a>
-                <a>
-                    <div>隐私协议</div>
-                </a>
-            </div>
         </div>
       </Modal>
       <TipsModal open={openTipsModal} cancel={()=>{
