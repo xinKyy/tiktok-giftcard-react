@@ -7,6 +7,7 @@
   background: #000000;
   height: 277px;
   padding-top: 20px;
+  width: 100%;
   .footer_icon_wrap{
     width: 100%;
     max-width: 1200px;
@@ -14,7 +15,8 @@
     grid-template-columns: repeat(3, 1fr); // 创建三列，列宽相等
     color: #FFFFFF!important;
     font-size: 20px;
-    gap: 30px 0;
+    gap: 50px 60px;
+    margin: 0 auto;
     margin-bottom: 50px;
     text-decoration: none !important;
     a{

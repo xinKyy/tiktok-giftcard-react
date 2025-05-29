@@ -220,3 +220,14 @@ body{
 .font-bold{
   font-weight: bold;
 }
+
+.min-w-1200{
+  min-width: 1200px;
+}
+
+
+@media screen and  (max-width: 640px) {
+  .min-w-1200{
+    min-width: unset;
+  }
+}

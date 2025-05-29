@@ -18,12 +18,11 @@ const AppLayout = (props:{
       paddingTop:"60px",
       display:"flex",
       justifyContent:"center",
-      backgroundColor:"#111010"
+      backgroundColor:"#111010",
     }}>
-      <Content style={{
+      <Content className={"min-w-1200"} style={{
         height:"100%",
         backgroundColor:"#111010",
-        overflow:"scroll",
       }}>
         {
           props.children
