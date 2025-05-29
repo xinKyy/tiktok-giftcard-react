@@ -83,8 +83,8 @@ const PreConfirmOrder = () =>{
                               cardList.map(item =>{
                                   return <div className={styles.item}>
                                       <div>
-                                          <span className={styles.label}>タイプ:</span>
-                                          <span className={styles.value}>{item.price}</span>
+                                          <span className={styles.label}>券種:</span>
+                                          <span className={styles.value}>{item.price}円</span>
                                       </div>
                                       <div>
                                           <span className={styles.label}>数量:</span>
@@ -96,7 +96,7 @@ const PreConfirmOrder = () =>{
                       </div>
                       <div>
                           <div className={styles.item}>
-                              <span className={styles.label}>時間:</span>
+                              <span className={styles.label}>購入日:</span>
                               <span style={{color:"#fff"}} className={styles.value}>{new Date().toLocaleDateString() ?? "--"}</span>
                           </div>
                       </div>

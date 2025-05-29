@@ -86,19 +86,19 @@ export default function RecordPage() {
                     <div onClick={()=>navigate(-1)} className={styles.back}>
                         <img src={backIcon}></img> 戻る
                     </div>
-                    <div className={styles.title}>購入記録</div>
+                    <div className={styles.title}>購入履歴</div>
                     <div className={styles.tabs}>
                         <div
                           className={`${styles.tab} ${tab === "mine" ? styles.active : ""}`}
                           onClick={() => setTab("mine")}
                         >
-                            私の購入品
+                            通常の注文
                         </div>
                         <div
                           className={`${styles.tab} ${tab === "other" ? styles.active : ""}`}
                           onClick={() => setTab("other")}
                         >
-                            例外注文
+                            未完了の注文
                         </div>
                     </div>
                     {tab === "mine" && (
@@ -161,7 +161,7 @@ const OrderRecordsItem = ({order}:{
         </div>
         <div className={styles.cardRight}>
             <div className={styles.row}>
-                <span>種類</span>
+                <span>券種</span>
                 <span>支払方法</span>
                 <span>時間</span>
                 <span>状況</span>
@@ -186,14 +186,14 @@ const OrderRecordsItem = ({order}:{
 
 // 状态映射
 const STATUS_MAP = {
-    0: { text: '待支付', bgColor: '#333', color: '#ffb300' },
-    1: { text: '已支付', bgColor: '#23BC3F1A', color: '#69FF4C' },
-    2: { text: '支付失败', bgColor: '#331a1a', color: '#fe2c55' },
-    3: { text: '已取消', bgColor: '#444', color: '#bbb' },
-    4: { text: '审核中', bgColor: '#1a2a44', color: '#4faaff' },
-    5: { text: '已拒绝', bgColor: '#442222', color: '#fe2c55' },
-    6: { text: '已获取卡密', bgColor: '#223344', color: '#4faaff' },
-    7: { text: '已关闭', bgColor: '#222', color: '#888' },
+    0: { text: '支払い待ち', bgColor: '#333', color: '#ffb300' },
+    1: { text: '支払い済み', bgColor: '#23BC3F1A', color: '#69FF4C' },
+    2: { text: '支払い失敗', bgColor: '#331a1a', color: '#fe2c55' },
+    3: { text: '支払いキャンセル済み', bgColor: '#444', color: '#bbb' },
+    4: { text: '審査中', bgColor: '#1a2a44', color: '#4faaff' },
+    5: { text: '支払い拒否', bgColor: '#442222', color: '#fe2c55' },
+    6: { text: 'コード発行済み', bgColor: '#223344', color: '#4faaff' },
+    7: { text: '支払い終了', bgColor: '#222', color: '#888' },
 };
 
 const StatusTag = ({ status }:{

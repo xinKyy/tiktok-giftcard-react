@@ -95,7 +95,7 @@ const LoginForm = () => {
           <div className={styles.logo}>
           </div>
           <h2>ようこそ！</h2>
-          <p>カードを購入するにはログインしてください。</p>
+          <p>カードを購入するには、ログインが必要です。</p>
           <Form autoComplete={"off"} form={form} onFinish={onSubmit}>
             <div className={styles.inputGroup}>
               <label>メール</label>

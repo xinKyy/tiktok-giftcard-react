@@ -27,15 +27,15 @@ const PayFail = () => {
     <div className={styles.container}>
       <div className={styles.centerBox}>
         <FailIcon />
-        <div className={styles.title}>支払い失敗！</div>
+        <div className={styles.title}>お支払いに失敗しました！</div>
         <div className={styles.desc}>ご注文内容を再度ご確認ください。</div>
         <div className={styles.actionRow}>
           <button className={styles.btn} onClick={() => navigate('/')}>トップに戻る</button>
-          <span className={styles.count}>{count}s</span>
+          <span className={styles.count}>{count}秒後に自動的に移動します</span>
         </div>
       </div>
     </div>
   );
 };
 
-export default PayFail; 
+export default PayFail;

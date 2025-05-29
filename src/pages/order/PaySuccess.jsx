@@ -20,15 +20,15 @@ const PaySuccess = () => {
     <div className={styles.container}>
       <div className={styles.centerBox}>
         <img src={checkedIcon} alt="success" className={styles.icon} />
-        <div className={styles.title}>支払い成功！</div>
+        <div className={styles.title}>お支払いが完了しました！</div>
         <div className={styles.desc}>購入記録ページでご注文内容を確認できます。</div>
         <div className={styles.actionRow}>
           <button className={styles.btn} onClick={() => navigate('/')}>トップに戻る</button>
-          <span className={styles.count}>{count}s</span>
+          <span className={styles.count}>{count} 秒後に自動的に移動します</span>
         </div>
       </div>
     </div>
   );
 };
 
-export default PaySuccess; 
+export default PaySuccess;

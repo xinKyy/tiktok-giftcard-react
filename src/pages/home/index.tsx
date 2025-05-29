@@ -151,7 +151,7 @@ const Home = () =>{
             }}>
               <Button onClick={ async ()=>{
                   await toOrder()
-              }} loading={loading} className={styles.bookAllButton}>認識する</Button>
+              }} loading={loading} className={styles.bookAllButton}>購入する</Button>
             </div>
           </div>
         </div>
