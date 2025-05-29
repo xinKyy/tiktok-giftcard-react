@@ -112,17 +112,26 @@ const Home = () =>{
     }
 
     const setCardListFn = (v: GiftCard[]) =>{
-        const map = toOrderConfirmMap(orderConfirm)
-        v.forEach(item=>{
-            if (map.has(item.id)){
-                item.amount = map.get(item.id)?.quantity ?? 0
-            }
-        })
-        setCardList(v)
+      if (v && v.length > 0){
+          const map = toOrderConfirmMap(orderConfirm)
+          v.forEach(item=>{
+              if (map.has(item.id)){
+                  item.amount = map.get(item.id)?.quantity ?? 0
+              }
+          })
+          setCardList(v)
+      }
     }
 
     useEffect(() => {
         getCardList()
+    }, []);
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token){
+           setOpenLoginModal(true)
+        }
     }, []);
 
     return  <AppLayout>

@@ -8,9 +8,11 @@
   padding: 20px;
   padding-top: 60px;
   width: 1200px;
+  min-width: 1200px;
   margin: 0 auto;
-  @media screen and  (max-width: 1200px) {
+  @media screen and  (max-width: 650px) {
     width: 100%;
+    min-width: 100%;
   }
 }
 
@@ -39,6 +41,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 30px;
+  justify-content: space-between;
 }
 
 
