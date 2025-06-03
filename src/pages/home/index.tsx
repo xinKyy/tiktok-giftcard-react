@@ -107,8 +107,10 @@ const Home = () =>{
           setCardListFn(local)
       }
       const res = await getGiftCardList({page:1, size:100})
-      setCardListFn(res.data)
-      localStorage.setItem("giftCardList", JSON.stringify(res.data))
+      if(res.code === 200 && res.data && res.data.length > 0){
+          setCardListFn(res.data)
+          localStorage.setItem("giftCardList", JSON.stringify(res.data))
+      }
     }
 
     const setCardListFn = (v: GiftCard[]) =>{
