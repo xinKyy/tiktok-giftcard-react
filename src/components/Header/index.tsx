@@ -5,6 +5,7 @@ import {useLogin} from "../../provider/loginContext";
 import {message, Popover} from "antd";
 import {useNavigate} from "react-router-dom";
 import eventSub, {EventName} from "../../util/EventSub";
+import logo from  "../../assets/images/header/logo.png"
 
 const Header: React.FC = () => {
 
@@ -54,7 +55,7 @@ const Header: React.FC = () => {
   return (
     <header className={styles.header}>
       <div onClick={()=>navigate("/")} className={styles.logo}>
-        <img src={"https://tiktokmaill.s3.ap-southeast-1.amazonaws.com/logo_tk.png"} alt="Tik Tok" />
+        <img src={logo} alt="Tik Tok" />
       </div>
       <div className={styles.userInfo}>
         {
