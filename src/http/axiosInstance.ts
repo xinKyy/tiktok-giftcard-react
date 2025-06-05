@@ -64,13 +64,13 @@ axiosInstance.interceptors.response.use(
     // 对响应错误做点什么
     if (error.response) {
       // 服务器返回了状态码，但状态码超出了 2xx 范围
-      message.error('Please try again!');
+      message.error('再度お試しください。');
     } else if (error.request) {
       // 请求已经发出，但没有收到响应
-      message.error('Time out, please try again!');
+      message.error('タイムアウトしました。再度お試しください。');
     } else {
       // 其他错误
-      message.error('Please try again!');
+      message.error('再度お試しください。');
     }
     return Promise.reject(error);
   }

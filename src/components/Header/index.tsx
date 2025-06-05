@@ -25,7 +25,7 @@ const Header: React.FC = () => {
   }
 
   const listenLogout =  ()=>{
-      message.info("Login is expired, please try again!")
+      message.info("ログインの有効期限が切れました。再度お試しください。")
       logout()
   }
 

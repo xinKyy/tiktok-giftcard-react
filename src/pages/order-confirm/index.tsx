@@ -37,7 +37,7 @@ const PreConfirmOrder = () =>{
 
   const confirm = async () =>{
       if (loading) return
-      if (!selectedPaymentMethod) return message.info("お支払い方法を選択してください");
+      if (!selectedPaymentMethod) return message.info("お支払い方法を選択してください。");
       setLoading(true);
 
       const orderRes = await createOrder(cardList);

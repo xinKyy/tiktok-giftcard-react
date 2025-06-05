@@ -91,7 +91,7 @@ const Home = () =>{
       })
 
         if (bookList.length <=  0){
-            message.info("Please check gift card")
+            message.info("ギフトカードをご確認ください。")
             return
         }
 

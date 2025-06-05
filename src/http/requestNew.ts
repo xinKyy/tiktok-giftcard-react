@@ -27,11 +27,11 @@ export interface ApiResponse<T = any> {
 }
 
 const handleError = <T = any>(error: any): ApiResponse<T> => {
-  const msg = error?.response?.data?.message || error?.message || '请求失败';
+  const msg = error?.response?.data?.message || error?.message || 'リクエストに失敗しました。';
   message.error(msg)
   return {
     code: -1,
-    message: error?.response?.data?.message || error?.message || '请求失败',
+    message: error?.response?.data?.message || error?.message || 'リクエストに失敗しました。',
     data: null as any,
   };
 };
